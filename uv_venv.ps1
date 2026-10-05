@@ -1,5 +1,5 @@
 uv python pin 3.10
 uv run python -m venv .venv
-source .venv/bin/activate
+.venv\Scripts\activate
 pip install -e .
 balrog-post-install
