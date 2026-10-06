@@ -1,0 +1,35 @@
+vllm serve Qwen/Qwen2.5-0.5B-Instruct --port 8080
+
+python eval.py \
+  agent.type=naive \
+  agent.max_image_history=0 \
+  agent.max_text_history=16 \
+  eval.num_workers=16 \
+  client.client_name=vllm \
+  client.model_id=Qwen/Qwen2.5-0.5B-Instruct \
+  client.base_url=http://0.0.0.0:8080/v1
+
+
+
+vllm serve Qwen/Qwen2.5-1.5B-Instruct --port 8080
+
+python eval.py \
+  agent.type=naive \
+  agent.max_image_history=0 \
+  agent.max_text_history=16 \
+  eval.num_workers=16 \
+  client.client_name=vllm \
+  client.model_id=Qwen/Qwen2.5-1.5B-Instruct \
+  client.base_url=http://0.0.0.0:8080/v1
+
+
+vllm serve openai/gpt-oss-20b --port 8080
+
+python eval.py \
+  agent.type=naive \
+  agent.max_image_history=0 \
+  agent.max_text_history=16 \
+  eval.num_workers=16 \
+  client.client_name=vllm \
+  client.model_id=openai/gpt-oss-20b \
+  client.base_url=http://0.0.0.0:8080/v1
