@@ -22,15 +22,17 @@ run_benchmark() {
 
 	echo "vLLM started. starting evaluation"
   
-  # change agent type to our custom agent in order to test our agent 
+  # changed: agent type to our custom agent in order to test our agent
+  # changed: removed nle test dataset
 	python eval.py \
 	agent.type=custom \
 	agent.max_image_history=0 \
 	agent.max_text_history=16 \
-	eval.num_workers=16 \
+	eval.num_workers=4 \
 	client.client_name=vllm \
 	client.model_id="$model_id" \
-	client.base_url=http://0.0.0.0:8080/v1
+	client.base_url=http://0.0.0.0:8080/v1 \
+	envs.names="babyai-babaisai-textworld-crafter-minihack"
 
 	# kill the vllm background process
 	kill $VLLM_process
