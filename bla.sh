@@ -14,6 +14,9 @@ echo "Running on host: $(hostname)"
 echo "GPU Verification:"
 nvidia-smi
 
+# make venv
+bash /local/s3692442/ALLMa2/uv_venv.sh
+
 # activate env
 source /local/s3692442/ALLMa2/.venv/bin/activate
 
