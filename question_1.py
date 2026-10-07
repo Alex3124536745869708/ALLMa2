@@ -27,11 +27,11 @@ out = r"""\begin{table}[t]
 \begin{tabular}{c|c|c|c|c|c}
 \hline
 """
-benchmarks = [key for key, _ in list(matrix.items())[0][1].items()]
-models = [key for key, _ in matrix.items()]
+benchmarks = ["BabyAI", "Crafter", "TextWorld", "BabaIsAI", "MiniHack", "nle"]
+models = ["Qwen2.5-0.5B-Instruct", "Qwen2.5-1.5B-Instruct", "Qwen2.5-3B-Instruct", "Qwen2.5-7B-Instruct", "Qwen2.5-14B-Instruct"]
 out += " & ".join(benchmarks) + r" \\" + "\n"
 for model in models:
-    results = [str(round(matrix[model][bench], 3)) for bench in benchmarks]
+    results = [str(round(matrix[model][bench.lower()], 3)) for bench in benchmarks]
     out += model + " & " + " & ".join(results) + r" \\" + "\n"
 out += r"""\hline
 \end{tabular}
