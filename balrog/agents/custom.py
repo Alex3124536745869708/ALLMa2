@@ -27,13 +27,33 @@ class CustomAgent(BaseAgent):
 
         plan_text = f"Current Plan:\n{self.plan}\n" if self.plan else "You have no plan yet.\n"
 
+#         planning_instructions = """
+# Review the current plan above if present. Decide whether to continue with it or make changes.
+# If you make changes, provide the updated plan. Then, provide the next action to take.
+# You must output an action at every step.
+# Format your answer in the following way:
+# PLAN: <your updated plan if changed, or "No changes to the plan." if the current plan is good>
+# ACTION: <your next action>
+#         """.strip()
+
         planning_instructions = """
-Review the current plan above if present. Decide whether to continue with it or make changes.
-If you make changes, provide the updated plan. Then, provide the next action to take.
-You must output an action at every step.
-Format your answer in the following way:
+You are an intelligent game-playing agent. Your goal is to select the best action for the current situation.
+
+For every step, follow this structured reasoning process:
+
+[STATE] Identify the current situation, relevant information, goals, and available actions.
+
+[ANALYSIS] Reason step-by-step about the possible actions and their consequences.
+
+[EVALUATION] Review the current plan above if present. Decide whether to continue with it or make changes. 
+Compare the possible actions using the available information and determine which is most suitable.
+If you make changes, provide the updated plan.
+
+[DECISION] Then select the action that best satisfies the objective.
+
+Finally, format your answer in the following way:
 PLAN: <your updated plan if changed, or "No changes to the plan." if the current plan is good>
-ACTION: <your next action>
+ACTION: <your next action>"
         """.strip()
 
         messages = self.prompt_builder.get_prompt()
