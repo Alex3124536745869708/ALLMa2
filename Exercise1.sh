@@ -23,13 +23,13 @@ run_benchmark() {
 	echo "vLLM started. starting evaluation"
 
 	python eval.py \
-	agent.type=naive \
-	agent.max_image_history=0 \
-	agent.max_text_history=16 \
-	eval.num_workers=16 \
-	client.client_name=vllm \
-	client.model_id="$model_id" \
-	client.base_url=http://0.0.0.0:8080/v1
+		agent.type=naive \
+		agent.max_image_history=0 \
+		agent.max_text_history=16 \
+		eval.num_workers=16 \
+		client.client_name=vllm \
+		client.model_id="$model_id" \
+		client.base_url=http://0.0.0.0:8080/v1
 
 	# kill the vllm background process
 	kill $VLLM_process
@@ -42,3 +42,21 @@ run_benchmark "Qwen/Qwen2.5-1.5B-Instruct"
 run_benchmark "Qwen/Qwen2.5-3B-Instruct"
 run_benchmark "Qwen/Qwen2.5-7B-Instruct"
 run_benchmark "Qwen/Qwen2.5-14B-Instruct" 2
+
+run_api_benchmark() {
+	local client_name="$1"
+	local model_id="$2"
+
+	python eval.py \
+		agent.type=naive \
+		agent.max_image_history=0 \
+		agent.max_text_history=16 \
+		eval.num_workers=16 \
+		client.client_name="$client_name" \
+		client.model_id="$model_id"
+}
+
+run_api_benchmark "gemini" "gemini-3.8-flash"
+run_api_benchmark "gemini" "gemma-4-31b-it"
+run_api_benchmark "gemini" "gemini-3.8-live"
+run_api_benchmark "gemini" "gemini-3.8-live-extended-thinking"
