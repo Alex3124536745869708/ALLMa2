@@ -14,11 +14,14 @@ echo "Running on host: $(hostname)"
 echo "GPU Verification:"
 nvidia-smi
 
+# go to our dir
+cd /local/s3692442/ALLMa2/
+
 # make venv
-bash /local/s3692442/ALLMa2/uv_venv.sh
+bash uv_venv.sh
 
 # activate env
-source /local/s3692442/ALLMa2/.venv/bin/activate
+source .venv/bin/activate
 
 # limit threads
 export OPENBLAS_NUM_THREADS=1
