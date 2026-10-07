@@ -39,7 +39,7 @@ run_benchmark() {
         client.client_name=vllm \
         client.model_id="$model_id" \
         client.base_url=http://0.0.0.0:"$port"/v1 \
-        envs.names="babyai-babaisai-crafter"
+        envs.names=babyai-babaisai-crafter
 
         # kill the vllm background process
         kill $VLLM_process
