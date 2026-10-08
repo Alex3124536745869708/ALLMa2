@@ -17,7 +17,7 @@ nvidia-smi
 # go to our dir
 cd /local/s3692442/ALLMa2/
 
-# make venv
+# (Uncomment this if there is not .venv) make venv
 bash uv_venv.sh
 
 # activate env
@@ -67,7 +67,10 @@ run_benchmark() {
         client.client_name=vllm \
         client.model_id="$model_id" \
         client.base_url=http://0.0.0.0:"$port"/v1 \
-        envs.names=babyai-babaisai-crafter
+        envs.names=babyai-babaisai-crafter \
+        eval.num_episodes.babyai=10 \
+        eval.num_episodes.babaisai=3 \
+        eval.num_episodes.crafter=10
 
         # kill the vllm background process
         kill $VLLM_process
