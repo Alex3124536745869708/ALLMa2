@@ -9,16 +9,19 @@
 #SBATCH --cpus-per-task=4
 #SBATCH --time=12:00:00
 #SBATCH --mem=32G
+#SBATCH --gres=gpu:1
 
 echo "Running on host: $(hostname)"
 echo "GPU Verification:"
 nvidia-smi
 
 # go to our dir
-cd /local/s3692442/ALLMa2/
+cd /local/s3683591/ALLMa2
 
-# (Uncomment this if there is not .venv) make venv
-bash uv_venv.sh
+# make venv if it does not exist yet
+if [ ! -d ".venv" ]; then
+	bash uv_venv.sh
+fi
 
 # activate env
 source .venv/bin/activate
@@ -63,14 +66,10 @@ run_benchmark() {
         agent.type=custom \
         agent.max_image_history=0 \
         agent.max_text_history=16 \
-        eval.num_workers=4 \
+        eval.num_workers=16 \
         client.client_name=vllm \
         client.model_id="$model_id" \
-        client.base_url=http://0.0.0.0:"$port"/v1 \
-        envs.names=babyai-babaisai-crafter \
-        eval.num_episodes.babyai=10 \
-        eval.num_episodes.babaisai=3 \
-        eval.num_episodes.crafter=10
+        client.base_url=http://0.0.0.0:"$port"/v1
 
         # kill the vllm background process
         kill $VLLM_process
