@@ -3,7 +3,6 @@
 #SBATCH --output=bla_%j.out
 #SBATCH --error=bla_%j.err
 #SBATCH --partition=L40s_students
-#SBATCH --nodelist=netherite
 #SBATCH --gres=gpu:1
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=4
