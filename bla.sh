@@ -63,7 +63,7 @@ run_benchmark() {
   # changed: agent type to our custom agent in order to test our agent
   # changed: removed nle, textworld and minihack test dataset
         python eval.py \
-        agent.type=custom \
+        agent.type=react \
         agent.max_image_history=0 \
         agent.max_text_history=16 \
         eval.num_workers=16 \
