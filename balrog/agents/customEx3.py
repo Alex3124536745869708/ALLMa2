@@ -60,6 +60,9 @@ ACTION: <your next action>"
         if messages and messages[-1].role == "user":
             messages[-1].content += "\n\n" + plan_text + "\n" + planning_instructions
 
+        with open("content.txt", "a") as f: #hier weghalen remove
+            f.write(f"Content written:\n{messages[-1].content}========================")
+
         response = self.client.generate(messages)
 
         # Extract the plan and action from the LLM's response
