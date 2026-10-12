@@ -39,7 +39,8 @@ run_benchmark() {
         client.client_name=vllm \
         client.model_id="$model_id" \
         client.base_url=http://0.0.0.0:"$port"/v1 \
-        envs.names=babyai-babaisai-crafter
+        envs.names=babyai-babaisai-crafter # normaly, the selection would be done like this but for these models it did not work. 
+                                           # We changed the configuration file itself to select this benchmark selection.
 
         # kill the vllm background process
         kill $VLLM_process
@@ -51,3 +52,23 @@ run_benchmark() {
 run_benchmark "Qwen/Qwen2.5-1.5B-Instruct"
 run_benchmark "Qwen/Qwen2.5-3B-Instruct"
 run_benchmark "Qwen/Qwen2.5-7B-Instruct"
+
+
+run_api_benchmark() {
+	local client_name="$1"
+	local model_id="$2"
+
+	python eval.py \
+		agent.type=custom \
+		agent.max_image_history=0 \
+		agent.max_text_history=16 \
+		eval.num_workers=16 \
+		client.client_name="$client_name" \
+		client.model_id="$model_id" \
+                envs.names=babyai-babaisai-crafter
+}
+
+run_api_benchmark "gemini" "gemini-3.8-flash"
+run_api_benchmark "gemini" "gemma-4-31b-it"
+run_api_benchmark "gemini" "gemini-3.8-live"
+run_api_benchmark "gemini" "gemini-3.8-live-extended-thinking"
