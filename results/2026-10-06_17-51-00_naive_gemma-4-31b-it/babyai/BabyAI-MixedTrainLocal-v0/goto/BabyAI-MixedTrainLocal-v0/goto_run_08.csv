@@ -1,0 +1,132 @@
+Step,Action,Reasoning,Observation,Reward,Done
+0,turn left,"*   Goal: Go to the green box.
+    *   Available actions: `turn left`, `turn right`, `go forward`, `pick up`, `drop`, `toggle`.
+    *   Current Observation:
+        *   Wall 6 steps forward.
+        *   Wall 2 steps right.
+        *   Green box 2 steps left and 2 steps forward.
+
+    *   The green box is 2 steps left and 2 steps forward.
+    *   To get there:
+        1.  Turn left.
+        2.  Go forward 2 steps.
+        3.  Turn right.
+        4.  Go forward 2 steps.
+    *   Alternatively:
+        1.  Go forward 2 steps.
+        2.  Turn left.
+        3.  Go forward 2 steps.
+
+    *   Let's go with: `turn left`.","a wall 5 steps forward
+a wall 1 step left
+a green box 2 steps right and 2 steps forward",0,False
+1,,,"
+
+Your previous output did not contain a valid action. Defaulted to action: go forward
+
+Observation:
+a wall 4 steps forward
+a wall 1 step left
+a green box 2 steps right and 1 step forward",0,False
+2,go forward,"*   Goal: Go to the green box.
+    *   Current Observation:
+        *   Wall 4 steps forward.
+        *   Wall 1 step left.
+        *   Green box 2 steps right and 1 step forward.
+    *   Previous State (context):
+        *   Initial: Wall 6 forward, wall 2 right, green box 2 left and 2 forward.
+        *   Action: `turn left`.
+        *   Observation (after turn left): Wall 5 forward, wall 1 left, green box 2 right and 2 forward.
+        *   Auto-action (default): `go forward`.
+        *   Observation (after go forward): Wall 4 forward, wall 1 left, green box 2 right and 1 forward.
+
+    *   Goal location: 2 steps right, 1 step forward.
+    *   Possible movements to reach (2R, 1F):
+        1.  Go forward 1 step, turn right, go forward 2 steps.
+        2.  Turn right, go forward 2 steps, turn left, go forward 1 step.
+
+    *   If I go forward 1 step:
+        *   Wall 3 forward.
+        *   Wall 1 left.
+        *   Green box 2 right, 0 forward (directly to the right).
+    *   If I turn right:
+        *   The green box (which was 2 right, 1 forward) will now be 1 forward, 2 right (Wait, no).
+        *   Rotation:
+            *   Current: Forward (F), Right (R), Left (L), Back (B).
+            *   Target: 2R, 1F.
+            *   Turn Right:
+                *   New Forward = Old Right.
+                *   New Right = Old Back.
+                *   New Left = Old Forward.
+                *   New Back = Old Left.
+                *   Target (2R, 1F) becomes: 2 (New Forward), 1 (New Left).
+
+    *   Action `go forward` puts me 1 step closer.
+    *   Action `turn right` puts me facing the general direction of the box.
+
+    Let's go forward first to get the box at the same ""depth"" (latitude).
+
+    Wait, let's re-evaluate:
+    Observation: Green box 2 steps right and 1 step forward.
+    To get there:
+    - Step 1: `go forward` (Box now 2 steps right, 0 forward)
+    - Step 2: `turn right` (Box now 2 steps forward)
+    - Step 3: `go forward`
+    - Step 4: `go forward`
+    - Step 5: `pick up` (or `toggle`)
+
+    Alternative:
+    - Step 1: `turn right` (Box now 1 step left, 2 steps forward)
+    - Step 2: `go forward`
+    - Step 3: `go forward`
+    - Step 4: `turn left` (Box now 1 step forward)
+    - Step 5: `go forward`
+
+    `go forward` seems efficient.
+
+    Observation:
+    a wall 4 steps forward
+    a wall 1 step left
+    a green box 2 steps right and 1 step forward
+
+    Action: go forward.","a wall 3 steps forward
+a wall 1 step left
+a green box 2 steps right",0,False
+3,turn right,"*   Goal: Go to the green box.
+    *   Current state:
+        *   Wall 3 steps forward.
+        *   Wall 1 step left.
+        *   Green box 2 steps right.
+    *   Possible actions: `turn left`, `turn right`, `go forward`, `pick up`, `drop`, `toggle`.
+
+    *   Green box is at ""2 steps right"".
+    *   The agent is currently facing forward.
+    *   To get to the box, the agent needs to face the direction of the box.
+
+    *   Action: `turn right`.
+    *   After `turn right`, the box should be 2 steps forward.","a wall 3 steps left
+a green box 2 steps forward",0,False
+4,go forward,"The user wants me to act as an agent in a navigation game.
+Goal: Go to the green box.
+Current Observation:
+- a wall 3 steps left
+- a green box 2 steps forward
+
+Available actions:
+- turn left
+- turn right
+- go forward
+- pick up
+- drop
+- toggle
+
+Plan:
+1. The green box is 2 steps forward.
+2. Action: go forward.
+3. Action: go forward.
+4. Once at the green box, I might need to pick it up or toggle it, but for now, I need to move towards it.
+
+Current step:
+Observation: a green box 2 steps forward.
+Action: go forward.","a wall 3 steps left
+a green box 1 step forward",0.9296875,True

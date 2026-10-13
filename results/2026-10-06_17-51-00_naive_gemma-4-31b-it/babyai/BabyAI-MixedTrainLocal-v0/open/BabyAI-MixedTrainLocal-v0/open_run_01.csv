@@ -1,0 +1,991 @@
+Step,Action,Reasoning,Observation,Reward,Done
+0,turn left,"*   Goal: Open the door.
+    *   Observation:
+        *   Wall: 2 steps right.
+        *   Purple key: 3 steps left, 1 step forward.
+        *   Locked purple door: 2 steps forward.
+    *   Available Actions: turn left, turn right, go forward, pick up, drop, toggle.
+
+    *   The door is locked and purple.
+    *   There is a purple key.
+    *   Plan:
+        1.  Get the purple key.
+        2.  Go to the purple door.
+        3.  Toggle the door.
+
+    *   Current position: (0, 0), facing forward.
+    *   Purple key position: (-3, 1) (3 steps left, 1 step forward).
+    *   Locked purple door position: (0, 2) (2 steps forward).
+
+    *   To get to (-3, 1):
+        *   Turn left.
+        *   Go forward (3 times).
+        *   Turn right.
+        *   Go forward (1 time).
+        *   Pick up.
+    *   Alternatively:
+        *   Go forward (1 time).
+        *   Turn left.
+        *   Go forward (3 times).
+        *   Pick up.
+
+    *   Let's choose the most efficient path to the key first.
+    *   Observation: ""a purple key 3 steps left and 1 step forward""
+    *   Action: turn left.","a wall 5 steps forward
+a purple key 1 step right and 3 steps forward
+a locked purple door 2 steps right",0,False
+1,,,"
+
+Your previous output did not contain a valid action. Defaulted to action: go forward
+
+Observation:
+a wall 4 steps forward
+a wall 2 steps right
+a purple key 1 step right and 2 steps forward",0,False
+2,,,"
+
+Your previous output did not contain a valid action. Defaulted to action: go forward
+
+Observation:
+a wall 3 steps forward
+a wall 2 steps right
+a purple key 1 step right and 1 step forward",0,False
+3,turn right,"*   Goal: Open the door.
+    *   Actions: `turn left`, `turn right`, `go forward`, `pick up`, `drop`, `toggle`.
+    *   Current Observation:
+        *   a wall 3 steps forward
+        *   a wall 2 steps right
+        *   a purple key 1 step right and 1 step forward
+
+    *   Goal is to open the purple door.
+    *   The door is locked, so I need the purple key.
+    *   The purple key is located at ""1 step right and 1 step forward"".
+
+    *   Current orientation: Facing forward.
+    *   Key position: 1 step right, 1 step forward.
+    *   To get to the key:
+        *   Option 1: Turn right, go forward 1 step, turn left, go forward 1 step.
+        *   Option 2: Go forward 1 step, turn right, go forward 1 step.
+
+    *   Wait, looking at the previous sequence of observations provided by the user:
+        *   Obs 1: a wall 2 steps right, a purple key 3 steps left and 1 step forward, a locked purple door 2 steps forward.
+        *   Agent action: `turn left`.
+        *   Obs 2: a wall 5 steps forward, a purple key 1 step right and 3 steps forward, a locked purple door 2 steps right.
+        *   (Defaulted action: `go forward`)
+        *   Obs 3: a wall 4 steps forward, a wall 2 steps right, a purple key 1 step right and 2 steps forward.
+        *   (Defaulted action: `go forward`)
+        *   Current Obs: a wall 3 steps forward, a wall 2 steps right, a purple key 1 step right and 1 step forward.
+
+    *   Key is at (1 right, 1 forward).
+    *   To reach it:
+        1.  Turn right.
+        2.  Go forward 1 step.
+        3.  Turn left.
+        4.  Go forward 1 step.
+        5.  Pick up.
+
+    *   Alternatively:
+        1.  Go forward 1 step.
+        2.  Turn right.
+        3.  Go forward 1 step.
+        4.  Pick up.
+
+    Let's try `turn right`.
+
+    Wait, if I turn right now:
+    Current Obs: Key is 1 right, 1 forward.
+    If I turn right:
+    The ""right"" becomes ""behind"", ""forward"" becomes ""right"", ""left"" becomes ""forward"", ""back"" becomes ""left"".
+    Wait, let's be precise.
+    Current state: Facing North.
+    Key is at (1, 1) relative to agent (East, North).
+    Turn Right -> Agent faces East.
+    Key is now at (1 North, 1 East) relative to North.
+    Relative to East:
+    East is now Forward.
+    North is now Left.
+    So the key is 1 step forward and 1 step left.
+
+    If I turn right, then go forward 1 step:
+    Agent is at (1, 0). Key is at (1, 1).
+    Now the key is 1 step left (relative to current facing East).
+    Turn left -> Agent faces North.
+    Go forward 1 step -> Agent is at (1, 1).
+    Pick up.
+
+    Alternatively:
+    Go forward 1 step -> Agent is at (0, 1). Key is at (1, 1).
+    Now the key is 1 step right.
+    Turn right -> Agent faces East.
+    Go forward 1 step -> Agent is at (1, 1).
+    Pick up.
+
+    Either path works. Let's go with `turn right`.
+
+    Wait, let me double-check the layout.
+    Observation: ""a purple key 1 step right and 1 step forward"".
+    If I turn right, the key will be 1 step forward and 1 step left.
+    If I go forward, the key will be 1 step right.
+
+    Let's try `turn right`.","a wall 2 steps forward
+a wall 3 steps left
+a purple key 1 step left and 1 step forward
+a locked purple door 2 steps right and 2 steps forward",0,False
+4,turn left,"*   Goal: Open the door.
+    *   State:
+        *   Wall: 2 steps forward.
+        *   Wall: 3 steps left.
+        *   Purple key: 1 step left and 1 step forward.
+        *   Locked purple door: 2 steps right and 2 steps forward.
+    *   Previous Action: `turn right` (from previous turn).
+    *   Current Orientation: Based on previous turn's ""turn right"" and current observation.
+    *   Target: I need the purple key to open the locked purple door.
+
+    *   Purple key is at: 1 step left and 1 step forward.
+    *   Door is at: 2 steps right and 2 steps forward.
+
+    *   To get the key (1 step left, 1 step forward):
+        *   Turn left.
+        *   Go forward.
+        *   Turn right.
+        *   Go forward.
+        *   Pick up.
+        *   (Alternatively: Go forward 1, turn left, go forward 1, pick up).
+
+    *   Wait, looking at the relative position:
+        *   Key: 1 left, 1 forward.
+        *   Door: 2 right, 2 forward.
+
+    *   Strategy to reach key:
+        1.  `turn left`
+        2.  `go forward` (now the key is in front? No, if it was
+*   Goal: Open the door.
+    *   State:
+        *   Wall: 2 steps forward.
+        *   Wall: 3 steps left.
+        *   Purple key: 1 step left and 1 step forward.
+        *   Locked purple door: 2 steps right and 2 steps forward.
+    *   Previous Action: `turn right` (from previous turn).
+    *   Current Orientation: Based on previous turn's ""turn right"" and current observation.
+    *   Target: I need the purple key to open the locked purple door.
+
+    *   Purple key is at: 1 step left and 1 step forward.
+    *   Door is at: 2 steps right and 2 steps forward.
+
+    *   To get the key (1 step left, 1 step forward):
+        *   Turn left.
+        *   Go forward.
+        *   Turn right.
+        *   Go forward.
+        *   Pick up.
+        *   (Alternatively: Go forward 1, turn left, go forward 1, pick up).
+
+    *   Wait, looking at the relative position:
+        *   Key: 1 left, 1 forward.
+        *   Door: 2 right, 2 forward.
+
+    *   Strategy to reach key:
+        1.  `turn left`
+        2.  `go forward` (now the key is in front? No, if it was 1 left 1 forward, and I turn left, it's 1 forward 1 right).
+        3.  Let's re-calculate.
+        *   Current pos: (0,0), facing North.
+        *   Key: (-1, 1).
+        *   Door: (2, 2).
+        *   Action `turn left`: facing West. Key is now at (1, 1) relative to facing. No.
+        *   Let's use simple steps:
+            *   Forward 1. (Pos 0,1). Key is at (-1, 0) relative.
+            *   Turn left. (Facing West). Key is at (0, 0) relative? No.
+            *   If I go forward 1 step, and the key was 1 left 1 forward, the key is now 1 left.
+            *   Then turn left. Key is now in front.
+            *   Go forward 1 step. Key is below.
+            *   Pick up.
+
+    *   Alternative:
+        *   Turn left. (Facing West).
+        *   Go forward 1 step. (Pos -1,0). Key is now 1 step forward.
+        *   Go forward 1 step. (Pos -1,1). Key is below.
+        *   Pick up.
+
+    *   Let's try: `turn left`.
+
+    *   Is there a faster way?
+        *   Key is at 1 left, 1 forward.
+        *   If I `turn left`, the key is at 1 forward, 1 right.
+        *   If I `go forward`, the key is at 1 left.
+        *   If I `turn left` first, then `go forward` 1, then `turn right` 1, then `go forward` 1.
+
+    *   Let's re-evaluate the ""1 step left and 1 step forward"" description.
+        *   This usually means: Move 1 step left, then 1 step forward.
+        *   To get there: `turn left`, `go forward`, `turn right`, `go forward`.
+
+    *   Let's try the first step: `turn left`.
+
+    *   Wait, looking at previous turns:
+        *   Observation 1: Purple key 3 left, 1 forward. Door 2 forward.
+        *   Agent: `turn left`.
+        *   Observation 2: Purple key 1 right, 3 forward. Door 2 right.
+        *   Agent: `go forward` (default).
+        *   Observation 3: Purple key 1 right, 2 forward.
+        *   Agent: `go forward` (default).
+        *   Observation 4: Purple key 1 right, 1 forward.
+        *   Agent: `turn right`.
+        *   Current Observation: Purple key 1 left, 1 forward. Door 2 right, 2 forward.
+
+    *   So now:
+        *   Purple key is 1 step left and 1 step forward.
+        *   To reach it:
+            *   Action 1: `turn left`.
+            *   Action 2: `go forward`.
+            *   Action 3: `turn right`.
+            *   Action 4: `go forward`.
+            *   Action 5: `pick up`.
+
+    *   Or:
+        *   Action 1: `go forward`.
+        *   Action 2: `turn left`.
+        *   Action 3: `go forward`.
+        *   Action 4: `pick up`.
+
+    *   Let's go with `turn left`.","a wall 3 steps forward
+a wall 2 steps right
+a purple key 1 step right and 1 step forward",0,False
+5,go forward,"*   Goal: Open the door.
+    *   Current Observation:
+        *   Wall: 3 steps forward.
+        *   Wall: 2 steps right.
+        *   Purple key: 1 step right and 1 step forward.
+    *   Target: Locked purple door (mentioned in previous observations, currently not in the *current* immediate observation, but likely still there).
+
+    *   Previously:
+        *   Observation 1: wall 2 steps right, purple key 3 left 1 forward, locked purple door 2 forward. Action: turn left.
+        *   Observation 2: wall 5 forward, purple key 1 right 3 forward, locked purple door 2 right. Action: go forward (defaulted).
+        *   Observation 3: wall 4 forward, wall 2 right, purple key 1 right 2 forward. Action: go forward (defaulted).
+        *   Observation 4: wall 3 forward, wall 2 right, purple key 1 right 1 forward. Action: turn right.
+        *   Observation 5: wall 2 forward, wall 3 left, purple key 1 left 1 forward, locked purple door 2 right 2 forward. Action: turn left.
+    *   Now: Wall 3 forward, wall 2 right, purple key 1 right 1 forward.
+
+    *   Need: Purple key to unlock purple door.
+    *   Position of key: 1 step right, 1 step forward.
+    *   To get to the key:
+        *   Option A: Go forward 1 step, then turn right, then go forward 1 step.
+        *   Option B: Turn right, go forward 1 step, then turn left, then go forward 1 step.
+    *   Current orientation:
+        *   Forward: Wall (3 steps).
+        *   Right: Wall (2 steps).
+        *   Key: (1 right, 1 forward).
+
+    *   If I ""go forward"", the key will be 1 step right.
+    *   If I ""turn right"", the key will be 1 step forward and 1 step left.
+
+    Let's try ""go forward"".
+
+    Wait, let's look at the coordinate system.
+    Current:
+    - Wall: (0, 3) [Forward]
+    - Wall: (2, 0) [Right]
+    - Key: (1, 1) [Right 1, Forward 1]
+
+    Action: `go forward`
+    New relative position of key: (1, 0) [Right 1].
+
+    Action: `turn right`
+    New orientation: Right is now Forward.
+    Old (1, 1) becomes (1, -1) ? No.
+    Let's map:
+    Current: North (F), East (R), South (B), West (L).
+    Key: (1 East, 1 North).
+    If I turn right: New North is East. New East is South.
+    Key is at (1 North_new, -1 East_new). (1 step forward, 1 step left).
+
+    Let's try `go forward` first to get closer. Or `turn right`?
+    Actually, the most direct way to a point (1,1) is:
+    `go forward` -> Key is at (1, 0) [1 right].
+    `turn right` -> Key is at (0, 0) [at my feet? no, wait].
+
+    Let's re-evaluate:
+    Observation: a purple key 1 step right and 1 step forward.
+    1. `go forward` -> key is 1 step right.
+    2. `turn right` -> key is below me.
+    3. `pick up`.
+
+    Wait, let's check the prompt's previous turns.
+    Previous: `turn left` -> ""a wall 3 steps forward, a wall 2 steps right, a purple key 1 step right and 1 step forward"".
+    Before that: ""a wall 2 steps forward, a wall 3 steps left, a purple key 1 step left and 1 step forward, a locked purple door 2 steps right and 2 steps forward"".
+    Turning left changed ""1 step left, 1 step forward"" to ""1 step right, 1 step forward"". Correct.
+
+    So, to get to the key at (1 right, 1 forward):
+    1. `go forward`
+    2. `turn right`
+    3. `pick up`
+
+    Let's start with `go forward`.
+
+    Wait, the prompt says ""You always have to output one of the above actions at a time"".
+
+    Let's try `go forward`.","a wall 2 steps forward
+a purple key 1 step right",0,False
+6,turn right,"*   Goal: Open the door.
+    *   Current Observation: `a wall 2 steps forward`, `a purple key 1 step right`.
+    *   Available Actions: `turn left`, `turn right`, `go forward`, `pick up`, `drop`, `toggle`.
+
+    *   Locked purple door is the target.
+    *   Purple key is needed to unlock it.
+    *   Current location: Key is 1 step to the right. Wall is 2 steps forward.
+
+    *   The key is 1 step to the right.
+    *   To pick it up, I need to be directly on top of it (based on ""pick up: pick up the object below you"").
+    *   To get to the key:
+        1.  Turn right.
+        2.  Go forward (1 step).
+        3.  Pick up.
+
+    *   Current: Key 1 step right.
+    *   Action: `turn right`.","a wall 2 steps left
+a purple key 1 step forward
+a locked purple door 3 steps right and 2 steps forward",0,False
+7,,,"
+
+Your previous output did not contain a valid action. Defaulted to action: go forward
+
+Observation:
+a wall 2 steps left
+a purple key 1 step forward
+a locked purple door 3 steps right and 2 steps forward",0,False
+8,go forward,"*   Goal: Open the door.
+    *   Current State:
+        *   Purple key: 1 step forward.
+        *   Locked purple door: 3 steps right, 2 steps forward.
+        *   Wall: 2 steps left.
+    *   Inventory: Not specified, but assumed empty.
+    *   Available Actions: turn left, turn right, go forward, pick up, drop, toggle.
+
+    *   The purple door is locked. I need the purple key to open it.
+    *   The purple key is 1 step forward.
+
+    *   Action 1: `go forward` to reach the purple key.
+    *   Action 2: `pick up` the purple key.
+    *   Action 3: Navigate to the purple door.
+    *   Action 4: `toggle` the purple door.
+
+    *   Current observation: ""a purple key 1 step forward"".
+    *   Action: `go forward`.","a wall 2 steps left
+a purple key 1 step forward
+a locked purple door 3 steps right and 2 steps forward",0,False
+9,go forward,"*   Goal: Open the door.
+    *   Current Observation:
+        *   Wall 2 steps left.
+        *   Purple key 1 step forward.
+        *   Locked purple door 3 steps right and 2 steps forward.
+    *   Previous action: `go forward` (which led to the current observation). *Correction*: Looking at the history, the agent previously said `go forward` and the observation remains ""a purple key 1 step forward"". Wait, the prompt says ""Current Observation"" and it's the same as the previous observation.
+    *   Wait, let me re-read the history:
+        *   Observation: `a wall 2 steps left, a purple key 1 step forward, a locked purple door 3 steps right and 2 steps forward`.
+        *   Action: `go forward`.
+        *   Observation: `a wall 2 steps left, a purple key 1 step forward, a locked purple door 3 steps right and 2 steps forward`.
+    *   This suggests the agent didn't move or the key is still 1 step forward. Let's look at the sequence again.
+    *   Actually, the most recent interaction was:
+        *   User: `Observation: a wall 2 steps left, a purple key 1 step forward, a locked purple door 3 steps right and 2 steps forward`
+        *   Agent: `go forward`
+        *   User: `Current Observation: a wall 2 steps left, a purple key 1 step forward, a locked purple door 3 steps right and 2 steps forward`
+    *   If I am at the position where the key is 1 step forward, and I `go forward`, I should be *on top* of the key or the key should now be ""below me"".
+    *   But the observation still says ""a purple key 1 step forward"". This implies the previous `go forward` didn't move me closer or I'm stuck. However, the prompt says ""pick up: pick up the object below you"".
+    *   If the key is 1 step forward, I need to `go forward` to be on it, then `pick up`.
+    *   Let's try `go forward` again. If it doesn't work, maybe I need to `pick up`? No, ""pick up"" is for objects *below* you. ""Toggle"" is for objects *in front* of you. A key is usually picked up.
+    *   Wait, looking at the previous turns:
+        *   Agent said `go forward`.
+        *   Observation: `a wall 2 steps left, a purple key 1 step forward, a locked purple door 3 steps right and 2 steps forward`.
+        *   It seems the action `go forward` happened, but the state didn't change? Or maybe I just arrived at this state?
+        *   Actually, let's look at the history provided by the user.
+        *   User: `Observation: a wall 2 steps left, a purple key 1 step forward, a locked purple door 3 steps right and 2 steps forward`
+        *   Agent: `go forward`
+        *   User: `Current Observation: a wall 2 steps left, a purple key 1 step forward, a locked purple door 3 steps right and 2 steps forward`
+        *   This is weird. If the key was 1 step forward and I went forward, the key should be below me. If it's still 1 step forward, maybe I hit a wall? (Observation says wall is 2 steps left).
+    *   Let's try `go forward` again. If the key is 1 step forward, that's the most logical move to reach it.
+
+    *   Goal: Get the purple key, then open the locked purple door.
+    *   Current state: Key is 1 step forward.
+    *   Action: `go forward`.
+    *   Expected result: Key is below me.
+    *   Next action: `pick up`.
+    *   Next: Navigate to the door.
+    *   Next: `toggle`.
+
+    Wait, let me double-check the observation history.
+    User: `Observation: a wall 2 steps left, a purple key 1 step forward, a locked purple door 3 steps right and 2 steps forward`
+    Agent: `go forward`
+    User: `Current Observation: a wall 2 steps left, a purple key 1 step forward, a locked purple door 3 steps right and 2 steps forward`
+    The observation is exactly the same. This suggests that the `go forward` command did not move the agent. Why? Is there a wall in front? The observation says ""a wall 2 steps left"", it doesn't mention a wall forward.
+    Maybe the previous `go forward` was the one that *resulted* in this observation?
+    Looking at the prompt:
+    `Observation: a wall 2 steps left, a purple key 1 step forward, a locked purple door 3 steps right and 2 steps forward`
+    `Agent: go forward`
+    `Current Observation: a wall 2 steps left, a purple key 1 step forward, a locked purple door 3 steps right and 2 steps forward`
+    If the agent is still 1 step away from the key after `go forward`, it means the move failed.
+    However, let's assume the game logic is consistent and the agent just needs to move forward.
+
+    Action: `go forward`
+
+    Wait, could the key be ""below me"" and the observation is just poorly worded? No, it says ""1 step forward"".
+    What if I try `pick up`? No, pick up is for objects ""below you"".
+    What if I try `toggle`? Toggle is for objects ""in front of you"".
+    Usually, keys are picked up. To pick it up, I must be on top of it.
+    If `go forward` didn't work, maybe I'm facing the wrong way? No, the key is ""1 step forward"".
+
+    Let's try `go forward` one more time. If the observation remains the same, there is a problem with the environment or my understanding. But based on the rules, `go forward` is the only way to get to an object 1 step forward.
+
+    Observation: `a purple key 1 step forward`
+    Action: `go forward`
+    If the result is `a purple key below you` (or just not mentioned as ""forward""), then I `pick up`.
+    If the result is still `a purple key 1 step forward`, I might be blocked.
+
+    Let's check the prompt history again.
+    Agent: `go forward`
+    Observation: `a wall 2 steps left, a purple key 1 step forward, a locked purple door 3 steps right and 2 steps forward`
+    Wait, the prompt shows this twice.
+    `Observation: a wall 2 steps left, a purple key 1 step forward, a locked purple door 3 steps right and 2 steps forward`
+    `Agent: go forward`
+    `Current Observation: a wall 2 steps left, a purple key 1 step forward, a locked purple door 3 steps right and 2 steps forward`
+    This is very strange. If I already did `go forward` and I'm still 1 step away, maybe I can't move forward?
+    But there's no wall mentioned in front.
+    Wait, look at the *very* first turn in the prompt history:
+    User: `Observation: a wall 2 steps right, a purple key 3 steps left and 1 step forward, a locked purple door 2 steps forward`
+    Agent: `turn left`
+    ... (several turns) ...
+    User: `Observation: a wall 2 steps left, a purple key 1 step forward, a locked purple door 3 steps right and 2 steps forward`
+    Agent: `go forward`
+    User: `Current Observation: a wall 2 steps left, a purple key 1 step forward, a locked purple door 3 steps right and 2 steps forward`
+
+    Maybe the agent needs to `go forward` and the observation provided is the state *before* the action? No, ""Current Observation"" usually means the state *after* the action.
+    If `go forward` resulted in the same state, I'm stuck. Let's try `go forward` again, as it's the only logical move to reach a key 1 step forward.
+
+    Wait! I see what happened. In the history:
+    `Observation: a wall 2 steps left, a purple key 1 step forward, a locked purple door 3 steps right and 2 steps forward`
+    `Agent: go forward`
+    `Observation: a wall 2 steps left, a purple key 1 step forward, a locked purple door 3 steps right and 2 steps forward`
+    The prompt says: ""Your previous output did not contain a valid action. Defaulted to action: go forward"".
+    That explains why the observation didn't change—the system *already* executed `go forward` as a default because the previous turn's output was invalid? No, that doesn't make sense.
+
+    Let's look at this block:
+    `Observation: a wall 2 steps left, a purple key 1 step forward, a locked purple door 3 steps right and 2 steps forward`
+    `Your previous output did not contain a valid action. Defaulted to action: go forward`
+    `Observation: a wall 2 steps left, a purple key 1 step forward, a locked purple door 3 steps right and 2 steps forward`
+    `Agent: go forward`
+    `Current Observation: a wall 2 steps left, a purple key 1 step forward, a locked purple door 3 steps right and 2 steps forward`
+
+    It seems the agent is stuck or `go forward` is not working. But if the key is 1 step forward, and there's no wall, `go forward` must be the action. If it failed twice, maybe I should `pick up`? But the key is 1 step forward, not below me.
+
+    Wait, let's try `pick up` just in case the observation ""1 step forward"" is a quirk and the agent is actually on the key? No, that's unlikely.
+    Let's try `go forward` again. If it fails again, I'll try `pick up`.
+
+    Actually, if `go forward` was executed and the state didn't change, maybe I'm already *on* the key?
+    Observation: `a purple key 1 step forward`.
+    If I am on the key, it would say ""a purple key below you"" or just not mention it as ""forward"".
+    Let's try `go forward` one more time.
+
+    Is there any other action?
+    `turn left`, `turn right`, `go forward`, `pick up`, `drop`, `toggle`.
+    If I can't move forward, I can't get the key.
+    Wait, I'll try `go forward` again. The prompt is very repetitive, maybe it's just a glitch in the provided history.
+
+    Final check:
+    Key: 1 step forward.
+    Action: `go forward`.
+    If the observation is the same, the agent is likely blocked by an invisible wall or there's a bug. But `go forward` is the only correct move here.
+
+    Wait! Let me look at the observation again.
+    `a wall 2 steps left`
+    `a purple key 1 step forward`
+    `a locked purple door 3 steps right and 2 steps forward`
+    Could the agent be facing the wrong way? No, the key is ""1 step forward"".
+    I will output `go forward`.","a wall 2 steps left
+a purple key 1 step forward
+a locked purple door 3 steps right and 2 steps forward",0,False
+10,pick up,"*   Goal: Open the door.
+    *   Current Observation:
+        *   Wall: 2 steps left.
+        *   Purple key: 1 step forward.
+        *   Locked purple door: 3 steps right and 2 steps forward.
+    *   Previous Actions:
+        *   The agent has been trying to reach the purple key.
+        *   Last few actions were ""go forward"", but the observation hasn't changed. Wait, let me re-read.
+        *   Previous Observation: ""a wall 2 steps left, a purple key 1 step forward, a locked purple door 3 steps right and 2 steps forward"".
+        *   Action taken: ""go forward"".
+        *   Current Observation: ""a wall 2 steps left, a purple key 1 step forward, a locked purple door 3 steps right and 2 steps forward"".
+        *   Wait, the observation *didn't* change after the last two ""go forward"" actions. This suggests something is blocking the path or the movement failed.
+        *   Actually, looking closer at the prompt:
+            *   Observation: ""a purple key 1 step forward""
+            *   Action: ""go forward""
+            *   Observation: ""a purple key 1 step forward"" (Observation didn't change).
+            *   Wait, if I go forward and the key is 1 step forward, I should now be *on* the key.
+            *   If the observation says ""a purple key 1 step forward"" *after* a ""go forward"", it means I haven't moved or the key moved with me (unlikely) or I'm stuck.
+            *   Let's look at the history again.
+            *   Observation: a wall 2 steps left, a purple key 1 step forward, a locked purple door 3 steps right and 2 steps forward.
+            *   Action: ""go forward"".
+            *   Observation: a wall 2 steps left, a purple key 1 step forward... (No change).
+            *   Wait, the prompt says: ""Observation: a wall 2 steps left, a purple key 1 step forward... [Action: go forward] Observation: a wall 2 steps left, a purple key 1 step forward... [Action: go forward] Observation: a wall 2 steps left, a purple key 1 step forward...""
+            *   This is strange. If I move forward and the key was 1 step forward, I should be *below* it.
+            *   If I am *below* the key, the observation should say something like ""a purple key below you"" or it might just disappear from the ""step"" list.
+            *   Wait, if the observation says ""a purple key 1 step forward"", and I ""go forward"", I should be *on* the key. If the observation still says ""a purple key 1 step forward"", I didn't move. Why? Maybe there's a wall? No, the wall is 2 steps left.
+            *   Let's re-read the observation carefully: ""a wall 2 steps left, a purple key 1 step forward, a locked purple door 3 steps right and 2 steps forward"".
+            *   If I ""go forward"" and I'm still seeing ""a purple key 1 step forward"", maybe I need to do something else? Or maybe the ""go forward"" failed because I'm already at the boundary?
+            *   Let's try ""pick up"" just in case I'm actually on it, but the observation is lagging? No, the observation says it's 1 step forward.
+            *   Let's look at the previous turns.
+            *   Obs: a wall 2 steps forward, a purple key 1 step forward (Wait, the user provided a messy prompt).
+            *   Let's trace the most recent state.
+            *   Observation: a wall 2 steps left, a purple key 1 step forward, a locked purple door 3 steps right and 2 steps forward.
+            *   Action: ""go forward"".
+            *   Observation: a wall 2 steps left, a purple key 1 step forward, a locked purple door 3 steps right and 2 steps forward.
+            *   Action: ""go forward"".
+            *   Observation: a wall 2 steps left, a purple key 1 step forward, a locked purple door 3 steps right and 2 steps forward.
+            *   Something is wrong. If ""go forward"" doesn't move me closer to the key (which is 1 step forward), maybe I can't move forward? But there's no wall forward.
+            *   Wait, is it possible that ""pick up"" is needed when the object is 1 step forward? No, usually ""pick up"" is for objects ""below you"".
+            *   Wait, let me look at the ""Tips"": ""Once the desired object you want to interact or pickup in front of you, you can use the 'toggle' action to interact with it.""
+            *   But the key needs to be picked up. The 'pick up' action is for ""the object below you"".
+            *   If I can't move forward, what else can I do?
+            *   Let me try ""pick up"" just in case the ""1 step forward"" is actually ""below"" or the ""go forward"" action actually worked but the observation is weird.
+            *   Wait, if I ""go forward"" and the key was ""1 step forward"", I am now *on* the key.
+            *   If I am on the key, I should ""pick up"".
+            *   Let's try ""pick up"".
+
+    *   Actually, let's reconsider the ""go forward"" failing.
+    *   If ""go forward"" resulted in the same observation (""purple key 1 step forward""), then I haven't moved.
+    *   Why wouldn't I move? Maybe there is an invisible wall?
+    *   Or maybe I am already *on* the key, and the observation ""a purple key 1 step forward"" is a mistake in the prompt's logic, and it actually means I'm adjacent?
+    *   Let's try ""pick up"". If that doesn't work, I'll try something else.
+    *   Wait, looking at the pattern of the prompt: the agent tried ""go forward"" twice and the observation didn't change. This is the ""repeat the same action over and over if the observation doesn't change"" tip.
+    *   If ""go forward"" isn't working, maybe I should try to move around?
+    *   But the key is right there (1 step forward).
+    *   Let's try ""pick up"". If the agent is actually on the key, ""pick up"" will work.
+
+    *   Wait, let me re-read the ""Tips"" again. ""Once the desired object... in front of you, you can use the 'toggle' action to interact with it.""
+    *   Is a key something you ""toggle"" or ""pick up""? Usually, keys are picked up. Doors are toggled.
+    *   Let's try ""pick up"".
+
+    *   Wait, let's look at the observation again.
+    *   ""a wall 2 steps left""
+    *   ""a purple key 1 step forward""
+    *   ""a locked purple door 3 steps right and 2 steps forward""
+    *   If ""go forward"" doesn't work, maybe the key is not ""below"" but ""in front""?
+    *   If it's ""in front"", can I ""pick up"" it? The action says ""pick up the object below you"".
+    *   If I can't move forward, I can't get the key below me.
+    *   This is a loop. Let's try ""pick up"" and see. If it fails, the observation will likely stay the same.
+
+    *   Another possibility: I am already holding the key? No, it's still in the observation.
+    *   Another possibility: I need to ""toggle"" the key? No, that doesn't make sense.
+
+    *   Let's think about the state.
+    *   Observation: key 1 step forward.
+    *   Action: go forward.
+    *   Observation: key 1 step forward.
+    *   This implies the ""go forward"" action failed.
+    *   Why would it fail?
+    *   Maybe there's something I'm missing?
+    *   ""a wall 2 steps left"" - nothing in front.
+    *   Maybe I'm facing the wrong way? No, the key is ""1 step forward"".
+    *   Could ""pick up"" work if the key is 1 step forward? The description says ""below you"".
+    *   Let's try ""pick up"". If it doesn't work, I'll try turning and moving.
+
+    *   Wait! Let me re-examine the observation history.
+    *   Obs 1: purple key 3 steps left and 1 step forward, door 2 steps forward.
+    *   Action: turn left.
+    *   Obs 2: wall 5 steps forward, key 1 step right and 3 steps forward, door 2 steps right.
+    *   Action: (default) go forward.
+    *   Obs 3: wall 4 steps forward, wall 2 steps right, key 1 step right and 2 steps forward.
+    *   Action: (default) go forward.
+    *   Obs 4: wall 3 steps forward, wall 2 steps right, key 1 step right and 1 step forward.
+    *   Action: turn right.
+    *   Obs 5: wall 2 steps forward, wall 3 steps left, key 1 step left and 1 step forward, door 2 steps right and 2 steps forward.
+    *   Action: turn left.
+    *   Obs 6: wall 3 steps forward, wall 2 steps right, key 1 step right and 1 step forward.
+    *   Action: go forward.
+    *   Obs 7: wall 2 steps forward, purple key 1 step right.
+    *   Action: turn right.
+    *   Obs 8: wall 2 steps left, purple key 1 step forward, door 3 steps right and 2 steps forward.
+    *   Action: (default) go forward.
+    *   Obs 9: wall 2 steps left, purple key 1 step forward, door 3 steps right and 2 steps forward.
+    *   Action: go forward.
+    *   Obs 10: wall 2 steps left, purple key 1 step forward, door 3 steps right and 2 steps forward.
+    *   Action: go forward.
+    *   Obs 11 (Current): wall 2 steps left, purple key 1 step forward, door 3 steps right and 2 steps forward.
+
+    *   Okay, it's definitely stuck. ""go forward"" is not working.
+    *   Why? Maybe there is an invisible obstacle?
+    *   What if I turn right, then turn left, then go forward? No, that's the same.
+    *   What if I try ""pick up"" just to see if the observation is wrong and I'm already on the key?
+    *   If the observation is ""a purple key 1 step forward"", and I'm on it, the observation *should* be ""a purple key below you"" or it should be gone.
+    *   If I'm not on it, ""pick up"" will fail.
+    *   Wait, what if I try ""toggle""? ""Once the desired object... in front of you, you can use the 'toggle' action to interact with it.""
+    *   Could ""toggle"" be used to pick up the key if it's in front of me? The description says ""manipulate the object in front of you"". Picking up is ""pick up the object below you"".
+    *   Usually, keys are picked up. Let's try ""pick up"" first. If that fails, maybe ""toggle""?
+    *   But wait, the most likely scenario in these games is that ""go forward"" *did* work, and the agent is now on the key, but the observation is just weirdly worded or I'm misinterpreting ""1 step forward"".
+    *   Wait! If I am *on* the key, the key is no longer ""1 step forward"". It's ""below me"".
+    *   If the observation still says ""1 step forward"", I am definitely *not* on it.
+    *   So why can't I move forward?
+    *   Let me try a different move. Turn right, go forward, turn left, go forward? No, that's too complex.
+    *   Let's try ""pick up"". If ""go forward"" isn't working and ""pick up"" doesn't work, then I'll try to move around the obstacle.
+
+    *   Actually, look at the observation: ""a wall 2 steps left, a purple key 1 step forward, a locked purple door 3 steps right and 2 steps forward"".
+    *   If I can't go forward, maybe I can go right?
+    *   Turn right, go forward, turn left, go forward?
+    *   Let's try ""pick up"". Most of these environments have a bug or a specific way to handle this. Let's assume ""pick up"" is the next logical step if ""go forward"" is failing to change the distance.
+    *   Wait, if ""go forward"" didn't work, maybe I'm already holding something? No.
+    *   Let's try ""pick up"".
+
+    *   *Self-Correction*: If ""go forward"" didn't change the observation, and the key is ""1 step forward"", and I'm not moving, there might be an invisible wall. Let's try to move around it.
+    *   Turn right, go forward, turn left, go forward, turn left, go forward?
+    *   Or, maybe I just need to ""pick up"" because I *did* move and the observation is just not updating the ""1 step forward"" to ""below you""?
+    *   Let's try ""pick up"".","You carry a purple key
+a wall 2 steps forward
+a wall 2 steps left
+a locked purple door 3 steps right and 2 steps forward",0,False
+11,turn right,"*   Goal: Open the door.
+    *   Current State: Carrying a purple key.
+    *   Observations:
+        *   Wall 2 steps forward.
+        *   Wall 2 steps left.
+        *   Locked purple door: 3 steps right and 2 steps forward.
+
+    *   The goal is to open the locked purple door.
+    *   The agent has the purple key.
+    *   The door is 3 steps right and 2 steps forward.
+
+    *   Turn right.
+    *   Move forward 3 steps.
+    *   Turn left.
+    *   Move forward 2 steps.
+    *   Toggle the door.
+
+    *   Wait, the door is at ""3 steps right and 2 steps forward"".
+    *   If I turn right, the door becomes ""2 steps forward and 3 steps left"" (or similar depending on the grid system). Let's re-evaluate the relative coordinates.
+    *   Current: Door is (Right 3, Forward 2).
+    *   Action: Turn right.
+    *   New orientation: Original Right is now Forward. Original Forward is now Right.
+    *   Door position relative to new orientation: (Forward 3, Right 2).
+
+    *   Current Observation: Locked purple door 3 steps right and 2 steps forward.
+    *   Action: Turn right.
+
+    *   Wait, looking at the previous history:
+        *   Agent was at ""a purple key 1 step forward"".
+        *   Agent performed ""go forward"" several times (some were defaulted).
+        *   Agent picked up the key.
+        *   Now: ""a locked purple door 3 steps right and 2 steps forward"".
+
+    *   Action: `turn right
+`","You carry a purple key
+a wall 5 steps forward
+a wall 2 steps left
+a locked purple door 2 steps left and 3 steps forward",0,False
+12,go forward,"*   Goal: Open the locked purple door.
+    *   Current state: Holding a purple key.
+    *   Observation:
+        *   Wall: 5 steps forward.
+        *   Wall: 2 steps left.
+        *   Locked purple door: 2 steps left and 3 steps forward.
+
+    *   Current Position: (0,0) facing North (relative).
+    *   Door Position: (-2, 3) [2 steps left, 3 steps forward].
+
+    *   To reach (-2, 3):
+        *   Option 1: Go forward 3 steps, then turn left, then go forward 2 steps.
+        *   Option 2: Turn left, go forward 2 steps, then turn right, then go forward 3 steps.
+
+    *   Action 1: `go forward` (move to (0, 1))
+    *   Action 2: `go forward` (move to (0, 2))
+    *   Action 3: `go forward` (move to (0, 3))
+    *   Action 4: `turn left`
+    *   Action 5: `go forward` (move to (-1, 3))
+    *   Action 6: `go forward` (move to (-2, 3))
+    *   Action 7: `toggle` (to open the door)
+
+    Wait, looking at the observation: ""a locked purple door 2 steps left and 3 steps forward"".
+    If I turn left now:
+    *   Wall at 2 steps left becomes wall at 2 steps behind.
+    *   Locked purple door at 2 steps left and 3 steps forward becomes 3 steps left and 2 steps forward? No.
+    *   Let's re-orient:
+        *   Forward: Y+
+        *   Left: X-
+        *   Door: (-2, 3)
+        *   Current: (0,0), facing North (Y+).
+    *   Action `turn left`: Now facing West (X-).
+        *   Door is now at (X=-2, Y=3). Relative to (0,0) facing West: 2 steps forward, 3 steps right.
+
+    Let's try the ""go forward"" approach first.
+    If I `go forward`:
+    Observation will likely be: Door is 2 steps left and 2 steps forward.
+
+    Alternatively, if I `turn left`:
+    Observation will likely be: Door is 2 steps forward and 3 steps right.
+
+    Wait, looking at the current observation again:
+    ""a wall 5 steps forward""
+    ""a wall 2 steps left""
+    ""a locked purple door 2 steps left and 3 steps forward""
+
+    If I `turn left`, I face the wall that was 2 steps left.
+    Let's stick to moving forward first to close the distance in the Y axis.
+
+    Wait, if I `turn left`, the door is ""2 steps left and 3 steps forward"".
+    If I turn left, I am facing the direction the door is shifted towards (left).
+    So, the door becomes ""2 steps forward and 3 steps right"".
+
+    Let's try `go forward`.
+
+    Action: `go forward
+`","You carry a purple key
+a wall 4 steps forward
+a wall 2 steps left
+a locked purple door 2 steps left and 2 steps forward",0,False
+13,go forward,"*
+*   Goal: Open the locked purple door.
+    *   Current Status: Carrying a purple key.
+    *   Current Observation:
+        *   Wall 4 steps forward.
+        *   Wall 2 steps left.
+        *   Locked purple door 2 steps left and 2 steps forward.
+
+    *   Need to get to the locked purple door.
+    *   Position relative to door: 2 steps left, 2 steps forward.
+
+    *   Move 2 steps forward, then 2 steps left.
+    *   OR Move 2 steps left, then 2 steps forward.
+
+    *   Observation:
+        *   Wall 4 steps forward.
+        *   Wall 2 steps left.
+        *   Door 2 steps left and 2 steps forward.
+    *   If I `go forward`, I'll be 2 steps left and 1 step forward from the door.
+    *   Wait, let's look at the spatial layout:
+        *   Forward: Wall (4 steps).
+        *   Left: Wall (2 steps).
+        *   Door: (X=-2, Y=2).
+    *   Current position (0,0).
+    *   Target: (-2, 2).
+    *   Possible moves:
+        *   `go forward` -> (0, 1). Target is now (-2, 1).
+        *   `turn left` -> facing -X. `go forward` -> (-1, 0). Target is now (-1, 2).
+
+    Let's try going forward first.
+
+    *   Action: `go forward`
+    *   Next expected obs: door 2 steps left and 1 step forward.
+
+    Wait, let's check if there's a wall in the way if I go forward.
+    Wall is 4 steps forward. No wall immediately in front.
+    Wall is 2 steps left. No wall immediately left.
+
+    Let's go forward.","You carry a purple key
+a wall 3 steps forward
+a wall 2 steps left
+a locked purple door 2 steps left and 1 step forward",0,False
+14,go forward,"*   Goal: Open the door.
+    *   Current State: Carrying a purple key.
+    *   Observation:
+        *   Wall 3 steps forward.
+        *   Wall 2 steps left.
+        *   Locked purple door: 2 steps left and 1 step forward.
+    *   Target: Locked purple door.
+    *   Current position relative to door: Door is at (-2, 1) where (x, y) is (left/right, forward).
+
+    *   Move to the purple door.
+    *   The door is 2 steps left and 1 step forward.
+    *   Action options: turn left, turn right, go forward, pick up, drop, toggle.
+
+    *   Current orientation: Facing forward (towards the wall 3 steps ahead).
+    *   Door position: 2 left, 1 forward.
+    *   Possible sequences to reach it:
+        1.  Turn left -> go forward (2 steps) -> turn right -> go forward (1 step) -> toggle.
+        2.  Go forward (1 step) -> turn left -> go forward (2 steps) -> toggle.
+
+    *   If I go forward 1 step:
+        *   New position relative to door: 2 steps left.
+        *   Observation should change to: Door 2 steps left.
+    *   If I turn left:
+        *   New orientation: facing left.
+        *   Door position becomes: 2 steps forward, 1 step right.
+
+    *   Let's try turning left first or going forward.
+    *   Let's try `go forward`.
+
+    *Wait*, looking at the observation: ""a locked purple door 2 steps left and 1 step forward"".
+    If I go forward 1 step, the door will be exactly 2 steps left.
+
+    Let's double check the path.
+    Target: (-2, 1)
+    Action: `go forward`
+    New Target: (-2, 0)
+
+    Action: `turn left`
+    New Target: (0, 1) relative to new facing? No, that's confusing.
+
+    Let's stick to the most direct way to align with the door.
+    Current: Door at (-2, 1).
+    Action: `go forward`.
+    Observation after `go forward`: Door 2 steps left.
+    Action: `turn left`.
+    Observation after `turn left`: Door 2 steps forward.
+    Action: `go forward` (1)
+    Action: `go forward` (2)
+    Action: `toggle`.
+
+    Alternatively:
+    Action: `turn left`.
+    Observation after `turn left`: Door 2 steps forward, 1 step right.
+    Action: `go forward` (1)
+    Action: `go forward` (2)
+    Action: `turn right`.
+    Observation after `turn right`: Door 1 step forward.
+    Action: `go forward`.
+    Action: `toggle`.
+
+    Let's use `go forward`.","You carry a purple key
+a wall 2 steps forward
+a locked purple door 2 steps left",0,False
+15,turn left,"*   Goal: Open the door.
+    *   Current State:
+        *   Carrying: purple key.
+        *   Observation:
+            *   Wall: 2 steps forward.
+            *   Locked purple door: 2 steps left.
+    *   Available Actions: turn left, turn right,
+*   Goal: Open the door.
+    *   Current State:
+        *   Carrying: purple key.
+        *   Observation:
+            *   Wall: 2 steps forward.
+            *   Locked purple door: 2 steps left.
+    *   Available Actions: turn left, turn right, go forward, pick up, drop, toggle.
+
+    *   The goal is to open the locked purple door.
+    *   I have the purple key.
+    *   The door is 2 steps to the left.
+
+    *   To get to the door, I need to face it and move towards it.
+    *   Current orientation: The door is 2 steps left.
+    *   Step 1: Turn left to face the direction of the door.
+    *   Step 2: Move forward 2 steps to reach the door.
+    *   Step 3: Use 'toggle' to open the door.
+
+    *   Action: `turn left
+`","You carry a purple key
+a wall 2 steps right
+a locked purple door 2 steps forward",0,False
+16,go forward,"*   Goal: Open the door.
+    *
+*   Goal: Open the door.
+    *   Current State:
+        *   Carrying: purple key.
+        *   Observations:
+            *   Wall: 2 steps right.
+            *   Locked purple door: 2 steps forward.
+    *   Possible Actions: `turn left`, `turn right`, `go forward`, `pick up`, `drop`, `toggle`.
+
+    *   I am carrying the purple key.
+    *   The locked purple door is 2 steps forward.
+    *   To unlock the door, I need to be right in front of it and use the `toggle` action.
+
+    *   Step 1: Go forward.
+    *   Step 2: Go forward.
+    *   Step 3: Toggle.
+
+    *   Current distance to door: 2 steps forward.
+    *   Action: `go forward`.","You carry a purple key
+a wall 2 steps right
+a locked purple door 1 step forward",0,False
+17,go forward,"*   Goal: Open the door.
+    *   Current Status: Carrying a purple key.
+    *   Current Observation:
+        *   Carrying a purple key.
+        *   Wall 2 steps right.
+        *   Locked purple door 1 step forward.
+
+    *   The goal is to open the door.
+    *   I have the purple key.
+    *   The locked purple door is 1 step forward.
+    *   To interact with the door, I need to be in front of it (0 steps forward, just in front).
+    *   Wait, the observation says ""a locked purple door 1 step forward"".
+    *   Usually, to use 'toggle' on an object, it should be ""in front"" (effectively 0 steps away if the distance is 1 step and I move 1 step forward, or it's already in front). Let's check the prompt: ""Once the desired object you want to interact or pickup in front of you, you can use the 'toggle' action to interact with it.""
+    *   If the door is 1 step forward, I first need to `go forward` to be right in front of it.
+
+    *   Action: `go forward`.
+
+    *   Current: Door 1 step forward.
+    *   Move: `go forward`.
+    *   Next Observation (predicted): Door is now in front of me (0 steps forward).
+    *   Then Action: `toggle`.
+
+    *   The agent is at the door. Action should be `go forward`.
+
+    *Wait*, looking at the history:
+    Observation: a locked purple door 2 steps forward
+    Action: go forward
+    Current Observation: a locked purple door 1 step forward.
+
+    To be ""in front of"" the door, I must move that final step.
+
+    Action: `go forward`.","You carry a purple key
+a wall 2 steps right
+a locked purple door 1 step forward",0,False
+18,toggle,"*   Goal: Open the door.
+    *   Current state: Carrying a purple key.
+    *   Current observation:
+        *   Carry a purple key.
+        *   Wall 2 steps right.
+        *   Locked purple door 1 step forward.
+    *   Previous action: `go forward`.
+    *   Current Observation: The locked purple door is now 1 step forward (though the prompt says the same as the previous observation, but the previous observation said it was 1 step forward and I moved forward. Wait, looking at the history:
+        *   Obs: `a locked purple door 2 steps forward` -> Action: `go forward`
+        *   Obs: `a locked purple door 1 step forward` ->
+*   Goal: Open the door.
+    *   Current state: Carrying a purple key.
+    *   Current observation:
+        *   Carry a purple key.
+        *   Wall 2 steps right.
+        *   Locked purple door 1 step forward.
+    *   Previous action: `go forward`.
+    *   Current Observation: The locked purple door is now 1 step forward (though the prompt says the same as the previous observation, but the previous observation said it was 1 step forward and I moved forward. Wait, looking at the history:
+        *   Obs: `a locked purple door 2 steps forward` -> Action: `go forward`
+        *   Obs: `a locked purple door 1 step forward` -> Action: `go forward`
+        *   Now Obs: `a locked purple door 1 step forward` (Wait, if I was 1 step away and went forward, I should be in front of it).
+
+    Let's re-examine:
+    - Obs: `a locked purple door 2 steps forward`
+    - Action: `go forward`
+    - Obs: `a locked purple door 1 step forward`
+    - Action: `go forward`
+    - Obs: `a locked purple door 1 step forward` (Hmm, maybe the ""1 step forward"" means I am standing right in front of it, or the movement didn't register? No, usually ""1 step forward"" means it's in the next cell. If I move forward again, I should be at 0 steps forward).
+
+    Actually, let's look at the prompt again.
+    Last Obs: `a locked purple door 1 step forward`
+    Action: `go forward`
+    Current Obs: `a locked purple door 1 step forward`
+
+    Wait, if I am 1 step away and I move forward, I should be in front of the door. If it still says ""1 step forward"", maybe I hit a wall or the door itself is the obstacle? Or maybe ""1 step forward"" implies I am now facing it and can interact.
+
+    Wait, the ""Tips"" say: ""Once the desired object you want to interact or pickup in front of you, you can use the 'toggle' action to interact with it.""
+
+    If the door is ""1 step forward"", I am not *on* it, but it is in front of me.
+    Usually, in these games:
+    - Distance 1 = In front of you.
+    - Distance 0 = You are on it (for pickup).
+
+    If the door is ""1 step forward"", I should be able to `toggle` it.
+
+    Let's check the previous sequence:
+    - Obs: `a locked purple door 2 steps forward`
+    - Action: `go forward`
+    - Obs: `a locked purple door 1 step forward`
+    - Action: `go forward`
+    - Obs: `a locked purple door 1 step forward`
+
+    This is strange. If I go forward when it's 1 step forward, I might be bumping into the door.
+    If the door is ""1 step forward"", I am directly facing it.
+    Action: `toggle`.
+
+    Wait, did I already try to `go forward` when it was 1 step forward?
+    Yes:
+    - Obs: `a locked purple door 1 step forward`
+    - Action: `go forward`
+    - New Obs: `a locked purple door 1 step forward`
+    This suggests that moving forward doesn't work because the door is blocking the path. Therefore, I am now in the position to `toggle` it.","You carry a purple key
+a wall 2 steps right
+a open purple door 1 step forward",0.86640625,True

@@ -1,0 +1,1106 @@
+Step,Action,Reasoning,Observation,Reward,Done
+0,go east,"*   Game: TextWorld (maze exploration to find a coin).
+    *   Current Location: Bathroom.
+    *   Goal: Find and take the coin.
+    *   Available Commands: `goal`, `go <dir>`, `take coin`.
+    *   Exits: East, North, West.
+    *   Constraints: Max 25 steps, no restarting.
+    *   Current Observation: Bathroom. No coin mentioned.
+
+    *   Available directions: East, North, West.
+    *   Since the goal is to find the coin and I'm in a maze, I need to explore. I'll start by going in one of the directions.
+
+    *   Try `go east`.","-= Sweaty Canteen =-
+You're now in a sweaty canteen.
+
+
+
+There is an exit to the west. Don't worry, it is unblocked.",0,False
+1,go west,"*   Current Location: Sweaty Canteen.
+    *   Goal: Find and take the coin.
+    *   Available Exits: West.
+    *   Previous Location: Bathroom (exits were East, North, West).
+    *   Action taken: `go east` (moved from Bathroom to Sweaty Canteen).
+    *   Observations in Sweaty Canteen: Only an exit to the west. No coin mentioned.
+
+    *   Go West: Returns to the Bathroom.
+    *   Since I just came from the Bathroom, going west is backtracking, but there are no other options in the current room.
+
+    *   From Bathroom, I could go North or West.
+    *   I already tried East.
+
+    *   `go west` (Back to Bathroom).","-= Bathroom =-
+You've entered a bathroom. I guess you better just go and list everything you see here.
+
+
+
+You need an unguarded exit? You should try going east. There is an exit to the north. Don't worry, it is unguarded. There is an exit to the west. Don't worry, it is unguarded.",0,False
+2,,,I beg your pardon?,0,False
+3,,,I beg your pardon?,0,False
+4,,,I beg your pardon?,0,False
+5,go north,"*   Game: TextWorld (maze, find coin).
+    *   Goal: Find and take the coin.
+    *   Commands: `goal`, `go <dir>`, `take coin`.
+    *   Limit: 25 steps.
+    *   Current state: In ""Bathroom"".
+    *   Exits from Bathroom: East, North, West.
+    *   Previous actions:
+        1.  Started in Bathroom -> `go east` -> Sweaty Canteen.
+        2.  In Sweaty Canteen -> `go west` -> Bathroom.
+    *   Current Observation: ""I beg your pardon?"" (This usually happens when the agent outputs something invalid or the game didn't register the previous move correctly, but the prompt says ""Current Observation: I beg your pardon?"" after a sequence of bathroom/canteen movements). Wait, looking closely at the history:
+        *   `Observation: -= Bathroom =-` ... `go east`
+        *   `Observation: -= Sweaty Canteen =-` ... `go west`
+        *   `Observation: -= Bathroom =-` ... then some errors ""I beg your pardon?"".
+
+    *   Location: Bathroom.
+    *   Exits: East (visited), North (unvisited), West (unvisited).
+    *   Target: Coin (not seen yet).
+
+    *   Since East was visited (Sweaty Canteen) and led back to the Bathroom, I should try North or West.
+    *   Let's try `go north`.","-= Salon =-
+You've seen better salons, but at least this one seems pretty typical. You begin to take stock of what's in the room.
+
+
+
+There is an unblocked exit to the east. There is an exit to the north. Don't worry, it is unblocked. There is an unguarded exit to the south. You don't like doors? Why not try going west, that entranceway is unguarded.",0,False
+6,,,I beg your pardon?,0,False
+7,,,I beg your pardon?,0,False
+8,,,I beg your pardon?,0,False
+9,,,I beg your pardon?,0,False
+10,,,I beg your pardon?,0,False
+11,go north,"*   Agent playing TextWorld.
+    *   Goal: Find and take the coin.
+    *   Available commands: `goal`, `go <dir>`, `take coin`.
+    *   Current location: Salon.
+    *   Exits from Salon: east, north, south, west.
+    *   Previous movements:
+        1.  Bathroom -> east -> Sweaty Canteen.
+        2.  Sweaty Canteen -> west -> Bathroom.
+        3.  Bathroom -> north -> Salon.
+    *   Current state: In the Salon.
+    *   Need to explore further to find the coin.
+
+    *   Bathroom (Start)
+    *   Sweaty Canteen (East of Bathroom)
+    *   Salon (North of Bathroom)
+    *   Available directions from Salon: North, East, South (returns to Bathroom), West.
+
+    *   I've already visited Bathroom and Sweaty Canteen.
+    *   I am in the Salon.
+    *   I should try one of the unexplored directions from the Salon: North, East, or West.
+
+    *   Try `go north`.","-= Workshop =-
+You are in a workshop. A standard kind of place. You decide to just list off a complete list of everything you see in the room, because hey, why not?
+
+
+
+There is an exit to the east. Don't worry, it is unblocked. You need an unguarded exit? You should try going north. There is an unblocked exit to the south. You need an unblocked exit? You should try going west.",0,False
+12,go north,"The user wants to find the coin in a TextWorld maze.
+Current position: Workshop.
+Exits: east, north, south, west.
+Previous path: Bathroom -> Sweaty Canteen -> Bathroom -> Salon -> Workshop.
+
+Visited:
+- Bathroom (Start)
+- Sweaty Canteen (East of Bathroom)
+- Salon (North of Bathroom)
+- Workshop (North of Salon)
+
+Current options from Workshop:
+- East
+- North
+- South (Back to Salon)
+- West
+
+I should explore new areas. I haven't gone North, East, or West from the Workshop yet.
+Let's try North.","-= Silent Office =-
+I am honoured to announce that you are now in the silent office.
+
+
+
+There is an unblocked exit to the south.",0,False
+13,,,I beg your pardon?,0,False
+14,go south,"*   Current Room: Silent Office.
+    *   Available Exits: South.
+    *   Goal: Find the coin.
+    *   Current State: Just entered Silent Office from the Workshop (going north).
+    *   Path taken: Bathroom -> Sweaty Canteen (east) -> Bathroom (west) -> Salon (north) -> Workshop (north) -> Silent Office (north).
+    *   Remaining options in Silent Office: only south.
+    *   Observation for Silent Office says ""There is an unblocked exit to the south.""
+    *   No coin mentioned in the current room.
+
+    *   Since the only exit is south, I must go south back to the Workshop.
+
+    *   Bathroom (Start)
+    *   East -> Sweaty Canteen (only west exit)
+    *   West -> Bathroom
+    *   North -> Salon (North, East, South, West exits)
+    *   North -> Workshop (North, South, East, West exits)
+    *   North -> Silent Office (only South exit)
+
+    *   From Workshop, I went North to Silent Office. Now I must go South back to Workshop to explore other paths (East or West).
+
+    *   Command: `go south
+`","-= Workshop =-
+You are in a workshop. A standard kind of place. You decide to just list off a complete list of everything you see in the room, because hey, why not?
+
+
+
+There is an exit to the east. Don't worry, it is unblocked. You need an unguarded exit? You should try going north. There is an unblocked exit to the south. You need an unblocked exit? You should try going west.",0,False
+15,go east,"*   Current location: Workshop.
+    *   Exits from Workshop: East, North, South, West.
+    *   Explored paths:
+        *   Bathroom (Start) -> East -> Sweaty Canteen -> West -> Bathroom.
+        *   Bathroom -> North -> Salon -> North -> Workshop -> North -> Silent Office -> South -> Workshop.
+    *   Remaining unexplored paths from Workshop: East, West. (South goes back to Salon).
+    *   Remaining unexplored paths from Salon: East, West. (North goes to Workshop, South goes to Bathroom).
+    *   Goal: Find and take the coin.
+
+    *   Current position: Workshop.
+    *   Tried North (Silent Office).
+    *   Next options: East, West, South.
+    *   South leads back to Salon.
+    *   Let's try East from Workshop.","-= Playroom =-
+You arrive in a playroom. You try to gain information on your surroundings by using a technique you call ""looking.""
+
+
+
+There is an unguarded exit to the east. There is an exit to the north. Don't worry, it is unguarded. You need an unguarded exit? You should try going south. You don't like doors? Why not try going west, that entranceway is unblocked.",0,False
+16,,,I beg your pardon?,0,False
+17,,,I beg your pardon?,0,False
+18,,,I beg your pardon?,0,False
+19,,,I beg your pardon?,0,False
+20,go north,"The user is playing a text-based adventure game (TextWorld).
+Goal: Find and take the coin.
+Current Location: Playroom.
+Available Exits in Playroom: East, North, South, West.
+The user is playing a text-based adventure game (TextWorld).
+Goal: Find and take the coin.
+Current Location: Playroom.
+Available Exits in Playroom: East, North, South, West.
+Previous Movement:
+1. (Initial) -> go east (no observation)
+2. -> go west (no observation)
+3. -> go north (no observation)
+4. -> go north -> Salon (Exits: N, E, S, W)
+5. -> go north -> Workshop (Exits: N, E, S, W)
+6. -> go north -> Silent Office (Exits: S)
+7. -> go south -> Workshop (Exits: N, E, S, W)
+8. -> go east -> Playroom (Exits: N, E, S, W)
+
+Current State: In the Playroom. No coin mentioned yet.
+Need to explore remaining areas.
+Exits from Playroom:
+- North: Unknown
+- East: Unknown
+- South: Leads back to Workshop
+- West: Leads back to Workshop
+
+I will try going North.","-= Fun Salon =-
+You are in a salon. A fun one.
+
+
+
+There is an unguarded exit to the south.",0,False
+21,,,I beg your pardon?,0,False
+22,,,I beg your pardon?,0,False
+23,go south,"*   Current Location: Fun Salon.
+    *   Available Exits: South.
+    *   Goal: Find and take the coin.
+    *   Past Path:
+        *   Workshop -> North -> Silent Office -> South -> Workshop -> East -> Playroom -> North -> Fun Salon.
+    *   Observation in Fun Salon: Only exit is south. No coin mentioned.
+
+    *   Exit south takes me back to the Playroom.
+    *   From Playroom, exits were East, North, South, West.
+    *   I already visited North (Fun Salon) and West (Workshop).
+    *   Need to explore East or South from Playroom.
+
+    *   Current location is Fun Salon.
+    *   The only move is `go south`.","-= Playroom =-
+You arrive in a playroom. You try to gain information on your surroundings by using a technique you call ""looking.""
+
+
+
+There is an unguarded exit to the east. There is an exit to the north. Don't worry, it is unguarded. You need an unguarded exit? You should try going south. You don't like doors? Why not try going west, that entranceway is unblocked.",0,False
+24,,,I beg your pardon?,0,False
+25,,,I beg your pardon?,0,False
+26,go east,"The player is in the ""Playroom"".
+    *   Exits: East, North, South, West.
+    *   Previous moves:
+        *   Workshop (Start/Center) -> North -> Silent Office -> South -> Workshop -> East -> Playroom -> North -> Fun Salon -> South -> Playroom.
+
+    *   Workshop: North (Silent Office), South (unknown), East (Playroom), West (unknown).
+    *   Silent Office: South (Workshop).
+    *   Playroom: North (Fun Salon), South (Workshop), East (unknown), West (Workshop).
+    *   Fun Salon: South (Playroom).
+
+    *   Remaining to explore from Playroom: East.
+    *   Remaining to explore from Workshop: South, West.
+
+    *   Action: `go east`.","-= Austere Workshop =-
+You've fallen into an austere room. Your mind races to think of what kind of room would be austere. And then it hits you. Of course. You're in the austere workshop.
+
+
+
+You need an unguarded exit? You should try going east. There is an exit to the north. Don't worry, it is unblocked. There is an exit to the south. Don't worry, it is unblocked. There is an unguarded exit to the west.",0,False
+27,,,I beg your pardon?,0,False
+28,,,I beg your pardon?,0,False
+29,,,I beg your pardon?,0,False
+30,go east,"*   Game: TextWorld (maze exploration).
+    *   Goal: Find and take the coin.
+    *   Commands: `go <dir>`, `take coin`, `goal`.
+    *   Constraints: 25 steps max, no restarting.
+    *   Current Location: Austere Workshop.
+    *   Exits from Austere Workshop: East, North, South, West.
+    *   Path taken so far:
+        1.  `go north` (Observation empty/unclear)
+        2.  `go north` (Observation empty/unclear)
+        3.  `go south` -> Workshop (Exits: East, North, South, West)
+        4.  `go east` -> Playroom (Exits: East, North, South, West)
+        5.  `go north` -> Fun Salon (Exits: South)
+        6.  `go south` -> Playroom (Exits: East, North, South, West)
+        7.  `go east` -> Austere Workshop (Exits: East, North, South, West)
+
+    *   Workshop (visited)
+    *   Playroom (visited)
+    *   Fun Salon (visited)
+    *   Austere Workshop (current)
+
+    *   From Austere Workshop, I can go East, North, South, or West.
+    *   West leads back to Playroom (already visited).
+    *   South leads back to Workshop (probably, given the layout). Let's check:
+        *   Workshop is west of Playroom.
+        *   Playroom is west of Austere Workshop.
+        *   So, Workshop (W) -> Playroom (E) -> Austere Workshop (E).
+        *   Austere Workshop South might lead to somewhere new or back to something.
+    *   Let's try East first.
+
+    *   Is the coin here? Observation doesn't mention a coin.
+    *   Available directions: East, North, South, West.
+
+    *   Let's try `go east`.","-= Silent Studio =-
+You find yourself in a studio. A silent one.
+
+
+
+You need an unguarded exit? You should try going east. There is an unblocked exit to the north. There is an exit to the south. Don't worry, it is unguarded. There is an exit to the west. Don't worry, it is unblocked.",0,False
+31,go east,"*   Game: TextWorld (text-based adventure).
+    *   Goal: Find and take the coin.
+    *   Commands: `goal`, `go <dir>`, `take coin`.
+    *   Constraint: 25 steps max, no restarting.
+    *   Current location: Silent Studio.
+    *   Exits from Silent Studio: East, North, South, West.
+    *   Previous path:
+        1. Go north (result unknown/observation missing)
+        2. Go north (result unknown/observation missing)
+        3. Go south (result unknown/observation missing)
+        4. Go east -> Playroom (Exits: E, N, S, W)
+        5. Go north -> Fun Salon (Exit: S)
+        6. Go south -> Playroom (Exits: E, N, S, W)
+        7. Go east -> Austere Workshop (Exits: E, N, S, W)
+        8. Go east -> Silent Studio (Exits: E, N, S, W)
+
+    *   Current location: Silent Studio.
+    *   Exits: East, North, South, West.
+    *   Visited rooms:
+        *   Playroom (Central hub)
+        *   Fun Salon (North of Playroom)
+        *   Austere Workshop (East of Playroom)
+        *   Silent Studio (East of Austere Workshop)
+
+    *   Need to find the coin. It hasn't appeared yet.
+    *   From Silent Studio, I can go:
+        *   West (back to Austere Workshop)
+        *   North (unexplored)
+        *   East (unexplored)
+        *   South (unexplored)
+
+    *   Let's try East first.","-= Cellar =-
+You find yourself in a cellar. An ordinary one.
+
+
+
+You need an unguarded exit? You should try going west.",0,False
+32,,,I beg your pardon?,0,False
+33,,,I beg your pardon?,0,False
+34,go west,"*   Current location: Cellar.
+    *   Available exits: West.
+    *   Goal: Find the coin and take it.
+    *   History:
+        *   Fun Salon (South) -> Playroom.
+        *   Playroom (East) -> Austere Workshop.
+        *   Austere Workshop (East) -> Silent Studio.
+        *   Silent Studio (East) -> Cellar.
+    *   Current observation: ""You find yourself in a cellar... You need an unguarded exit? You should try going west.""
+    *   The coin hasn't been spotted yet.
+    *   The only way out of the Cellar is West.
+
+    *   Action: `go west` (to return to Silent Studio and explore other paths).","-= Silent Studio =-
+You find yourself in a studio. A silent one.
+
+
+
+You need an unguarded exit? You should try going east. There is an unblocked exit to the north. There is an exit to the south. Don't worry, it is unguarded. There is an exit to the west. Don't worry, it is unblocked.",0,False
+35,,,I beg your pardon?,0,False
+36,go north,"*   Current Location: Silent Studio
+    *   Exits from Silent Studio: East, North, South, West.
+    *   Previous movement: Cellar (East from Silent Studio) -> Silent Studio (West from Cellar).
+    *   Goal: Find and take the coin.
+    *   Inventory: Empty.
+    *   Available moves: `go north`, `go south`, `go east`, `go west`, `take coin`.
+
+    *   Fun Salon (South) -> Playroom
+    *   Playroom (East) -> Austere Workshop
+    *   Austere Workshop (East) -> Silent Studio
+    *   Silent Studio (East) -> Cellar
+    *   Cellar (West) -> Silent Studio
+
+    *   Silent Studio is connected to:
+        *   East: Cellar (visited)
+        *   West: Austere Workshop (visited)
+        *   North: Unexplored
+        *   South: Unexplored
+
+    *   I've explored the East-West axis (Fun Salon -> Playroom -> Austere Workshop -> Silent Studio -> Cellar).
+    *   Now I need to check the North and South exits from the Silent Studio.
+
+    *   Option 1: `go north`
+    *   Option 2: `go south`
+
+    Let's try `go north`.","-= Pantry =-
+You are in a pantry. An usual one. You try to gain information on your surroundings by using a technique you call ""looking.""
+
+
+
+You don't like doors? Why not try going south, that entranceway is unblocked.",0,False
+37,,,I beg your pardon?,0,False
+38,,,I beg your pardon?,0,False
+39,,,I beg your pardon?,0,False
+40,,,I beg your pardon?,0,False
+41,,,I beg your pardon?,0,False
+42,go south,"*   Agent is playing TextWorld.
+    *   Goal: Find and take the coin.
+*   Agent is playing TextWorld.
+    *   Goal: Find and take the coin.
+    *   Commands: `goal`, `go <dir>`, `take coin`.
+    *   Constraints: 25 steps max, no restarting.
+    *   Current state:
+        *   Current Room: Pantry.
+        *   Exits: South.
+        *   Observation: ""You don't like doors? Why not try going south, that entranceway is unblocked.""
+        *   History:
+            *   Started (no room mentioned initially).
+            *   Go north (no response).
+            *   Go south (no response).
+            *   Go east -> Austere Workshop (Exits: N, S, E, W).
+            *   Go east -> Silent Studio (Exits: N, S, E, W).
+            *   Go east -> Cellar (Exits: W).
+            *   Go west -> Silent Studio.
+            *   Go north -> Pantry (Exits: S).
+
+    *   Current Room: Pantry.
+    *   Exits: South (leads back to Silent Studio).
+    *   Coin found? No.
+
+    *   The agent is currently in the Pantry. The only exit is South.
+    *   Going South leads back to the Silent Studio.
+    *   From the Silent Studio, available exits were: East (Cellar), North (Pantry), South (Austere Workshop), West (Austere Workshop - wait, let me check).
+
+    *   Looking back at ""Silent Studio"" description:
+        *   ""You need an unguarded exit? You should try going east [Cellar]. There is an unblocked exit to the north [Pantry]. There is an exit to the south. Don't worry, it is unguarded [Austere Workshop]. There is an exit to the west. Don't worry, it is unblocked [Austere Workshop].""
+
+    *   Wait, ""Austere Workshop"" description:
+        *   Exits: East (Silent Studio), North, South, West.
+
+    *   So far explored:
+        *   Austere Workshop
+        *   Silent Studio
+        *   Cellar
+        *   Pantry
+
+    *   Need to explore other paths.
+    *   From Pantry: go south (to Silent Studio).
+    *   From Silent Studio: maybe go south or west (to Austere Workshop).
+    *   From Austere Workshop: try north or south.
+
+    *   Action: `go south`.","-= Silent Studio =-
+You find yourself in a studio. A silent one.
+
+
+
+You need an unguarded exit? You should try going east. There is an unblocked exit to the north. There is an exit to the south. Don't worry, it is unguarded. There is an exit to the west. Don't worry, it is unblocked.",0,False
+43,go south,"*   Goal: Find and take the coin.
+    *   Current location: Silent Studio.
+    *   Exits from Silent Studio: East (Cellar), North (Pantry), South (?), West (?).
+    *   Visited locations:
+        *   Silent Studio (Start)
+        *   Cellar (East of Silent Studio) - No coin seen.
+        *   Pantry (North of Silent Studio) - No coin seen.
+    *   Remaining exits from Silent Studio to explore: South, West.
+
+    *   Went East -> Cellar -> West -> Silent Studio.
+    *   Went North -> Pantry -> South -> Silent Studio.
+    *   Still in Silent Studio.
+
+    *   The goal is to find the coin.
+    *   I haven't checked South or West from the Silent Studio yet.
+
+    *   Try ""go south"" or ""go west"". Let's try ""go south"".","-= Fun Recreation Zone =-
+You arrive in a recreation zone. A fun kind of place.
+
+
+
+You need an unblocked exit? You should try going east. There is an unblocked exit to the north. There is an unguarded exit to the south. You don't like doors? Why not try going west, that entranceway is unguarded.",0,False
+44,go east,"The user is playing a TextWorld game.
+The goal is to find and take the coin.
+The agent is currently in the ""Fun Recreation Zone"".
+Available exits from ""Fun Recreation Zone"": east, north, south, west.
+
+Previous path:
+1. (Start) -> go south (Unknown room)
+2. go east (Unknown room)
+3. go east (Silent Studio)
+4. go east (Cellar)
+5. go west (Silent Studio)
+6. go north (Pantry)
+7. go south (Silent Studio)
+8. go south (Fun Recreation Zone)
+
+Rooms visited:
+- Silent Studio (central hub: N, S, E, W)
+- Cellar (West of Cellar is Silent Studio)
+- Pantry (South of Pantry is Silent Studio)
+- Fun Recreation Zone (North of Fun Recreation Zone is Silent Studio)
+
+Exits from Fun Recreation Zone:
+- North: Silent Studio
+- East: ?
+- South: ?
+- West: ?
+
+Strategy: Explore unvisited directions.
+Directions from Silent Studio:
+- North: Pantry (visited)
+- South: Fun Recreation Zone (visited)
+- East: Cellar (visited)
+- West: ? (Not yet visited)
+
+Directions from Fun Recreation Zone:
+- North: Silent Studio (visited)
+- East: ?
+- South: ?
+- West: ?
+
+Let's try going east from the Fun Recreation Zone.","-= Super Hot Kitchenette =-
+You're now in a super hot kitchenette. Okay, just remember what you're here to do, and everything will go great.
+
+
+
+There is an unblocked exit to the west.",0,False
+45,go west,"The user wants me to play TextWorld.
+The goal is to find and take the coin.
+Current location: Super Hot Kitchenette.
+Observation: ""There is an unblocked exit to the west.""
+Previous locations:
+- Silent Studio (Start/Center) -> east -> Cellar (went west back to Studio)
+- Silent Studio -> north -> Pantry (went south back to Studio)
+- Silent Studio -> south -> Fun Recreation Zone -> east -> Super Hot Kitchenette.
+
+Current state:
+In Super Hot Kitchenette. Only exit is west (back to Fun Recreation Zone). No coin mentioned.
+
+Action history:
+1. go south (Error/Observation blank)
+2. go east (Error/Observation blank)
+3. go east (Studio)
+4. go east (Cellar)
+5. go west (Studio)
+6. go north (Pantry)
+7. go south (Studio)
+8. go south (Fun Recreation Zone)
+9. go east (Super Hot Kitchenette)
+
+Plan:
+Since I'm at a dead end in the Kitchenette, I must go west back to the Fun Recreation Zone. Then explore other directions from there (North, South) or go back to the Studio to explore West.
+
+Wait, looking at the observation for Fun Recreation Zone:
+""You need an unblocked exit? You should try going east. There is an unblocked exit to the north. There is an unguarded exit to the south. You don't like doors? Why not try going west, that entranceway is unguarded.""
+
+So from Fun Recreation Zone, I can go North, South, or West.
+
+Let's go west first from Kitchenette.","-= Fun Recreation Zone =-
+You arrive in a recreation zone. A fun kind of place.
+
+
+
+You need an unblocked exit? You should try going east. There is an unblocked exit to the north. There is an unguarded exit to the south. You don't like doors? Why not try going west, that entranceway is unguarded.",0,False
+46,go west,"*   Current Room: Fun Recreation Zone.
+    *   Exits: East, North, South, West.
+    *   Visited Rooms:
+        *   Silent Studio (Start/Center)
+        *   Cellar (East of Silent Studio)
+        *   Pantry (North of Silent Studio)
+        *   Fun Recreation Zone (South of Silent Studio)
+        *   Super Hot Kitchenette (East of Fun Recreation Zone)
+    *   Goal: Find the coin.
+    *   Action History:
+        1.  go east -> Cellar
+        2.  go west -> Silent Studio
+        3.  go north -> Pantry
+        4.  go south -> Silent Studio
+        5.  go south -> Fun Recreation Zone
+        6.  go east -> Super Hot Kitchenette
+        7.  go west -> Fun Recreation Zone
+
+    *   North of Silent Studio (Pantry) - Visited.
+    *   East of Silent Studio (Cellar) - Visited.
+    *   South of Silent Studio (Fun Recreation Zone) - Visited.
+    *   West of Silent Studio - Not visited.
+    *   North of Fun Recreation Zone - (Silent Studio) - Visited.
+    *   East of Fun Recreation Zone - (Super Hot Kitchenette) - Visited.
+    *   South of Fun Recreation Zone - Not visited.
+    *   West of Fun Recreation Zone - Not visited.
+    *   North of Pantry - Not mentioned.
+
+    *   Possible paths:
+        *   Go west from Fun Recreation Zone.
+        *   Go south from Fun Recreation Zone.
+        *   Go back north to Silent Studio, then west.
+
+    Let's try going west from the Fun Recreation Zone.
+
+    *   Goal: Find and take the coin.
+    *   Current state: Fun Recreation Zone.
+    *   Option 1: go west.
+    *   Option 2: go south.
+    *   Option 3: go north (returns to Silent Studio).","-= Upsettingly Hot Kitchen =-
+You're now in an upsettingly hot kitchen.
+
+
+
+There is an exit to the east. Don't worry, it is unguarded.",0,False
+47,go east,"*   Current Location: Upsettingly Hot Kitchen.
+    *   Available Exits: East.
+    *   Goal: Find the coin and take it.
+    *   Previous Path:
+        *   Start -> East -> East -> East -> Cellar
+*   Current Location: Upsettingly Hot Kitchen.
+    *   Available Exits: East.
+    *   Goal: Find the coin and take it.
+    *   Previous Path:
+        *   Start -> East -> East -> East -> Cellar (west exit) -> Silent Studio (north, south, west, east exits) -> Pantry (south exit) -> Silent Studio -> Fun Recreation Zone (east, north, south, west exits) -> Super Hot Kitchenette (west exit) -> Fun Recreation Zone -> Upsettingly Hot Kitchen.
+    *   Current Observation: ""There is an exit to the east. Don't worry, it is unguarded.""
+
+    *   The only option from the Upsettingly Hot Kitchen is to go east.
+
+    *   Action: `go east`.","-= Fun Recreation Zone =-
+You arrive in a recreation zone. A fun kind of place.
+
+
+
+You need an unblocked exit? You should try going east. There is an unblocked exit to the north. There is an unguarded exit to the south. You don't like doors? Why not try going west, that entranceway is unguarded.",0,False
+48,,,I beg your pardon?,0,False
+49,,,I beg your pardon?,0,False
+50,,,I beg your pardon?,0,False
+51,,,I beg your pardon?,0,False
+52,go south,"The user is playing a TextWorld game.
+Goal: Find and take the coin.
+Available commands: `goal`, `go <dir>`, `take coin`.
+Maximum steps: 25.
+
+Current state:
+- Current room: ""Fun Recreation Zone""
+- Exits: East, North, South, West.
+- History:
+    1. `go east` -> (unknown/error)
+    2. `go east` -> (unknown/error)
+    3. `go west` -> (unknown/error)
+    4. `go north` -> ""Pantry"" (Exit: South)
+    5. `go south` -> ""Silent Studio"" (Exits: East, North, South, West)
+    6. `go south` -> ""Fun Recreation Zone"" (Exits: East, North, South, West)
+    7. `go east` -> ""Super Hot Kitchenette"" (Exit: West)
+    8. `go west` -> ""Fun Recreation Zone"" (Exits: East, North, South, West)
+    9. `go west` -> ""Upsettingly Hot Kitchen"" (Exit: East)
+    10. `go east` -> ""Fun Recreation Zone"" (Exits: East, North, South, West)
+
+Rooms visited:
+- Pantry (North of Silent Studio)
+- Silent Studio (North of Fun Rec Zone)
+- Fun Recreation Zone (Central hub)
+- Super Hot Kitchenette (East of Fun Rec Zone)
+- Upsettingly Hot Kitchen (West of Fun Rec Zone)
+
+Remaining unexplored exits from ""Fun Recreation Zone"": South.
+
+Wait, let me check the ""Fun Recreation Zone"" description again:
+""You need an unblocked exit? You should try going east. There is an unblocked exit to the north. There is an unguarded exit to the south. You don't like doors? Why not try going west, that entranceway is unguarded.""
+
+I have tried:
+- North (Pantry)
+- East (Super Hot Kitchenette)
+- West (Upsettingly Hot Kitchen)
+- South (Not yet visited from here)
+
+Let's try going south from the Fun Recreation Zone.","-= Hot Kitchen =-
+You find yourself in a kitchen. A hot one. I guess you better just go and list everything you see here.
+
+
+
+You don't like doors? Why not try going east, that entranceway is unguarded. There is an exit to the north. Don't worry, it is unguarded. You don't like doors? Why not try going south, that entranceway is unguarded. There is an exit to the west. Don't worry, it is unguarded.",0,False
+53,,,I beg your pardon?,0,False
+54,,,I beg your pardon?,0,False
+55,,,I beg your pardon?,0,False
+56,go south,"*   Game: TextWorld.
+    *   Goal: Find and take the coin.
+    *   Current location: Hot Kitchen.
+    *   Available exits: East, North, South, West.
+    *   Commands: `goal`, `go <dir>`, `take coin`.
+    *   Constraint: 25 steps total. Restarting forbidden.
+
+    *   Step 1: `go west` (Failed/No obs)
+    *   Step 2: `go north` (Failed/No obs)
+    *   Step 3: `go south` -> Silent Studio (Exits: E, N, S, W)
+    *   Step 4: `go south` -> Fun Recreation Zone (Exits: E, N, S, W)
+    *   Step 5: `go east` -> Super Hot Kitchenette (Exits: W)
+    *   Step 6: `go west` -> Fun Recreation Zone (Exits: E, N, S, W)
+    *   Step 7: `go west` -> Upsettingly Hot Kitchen (Exits: E)
+    *   Step 8: `go east` -> Fun Recreation Zone (Exits: E, N, S, W)
+    *   Step 9: `go south` -> Hot Kitchen (Exits: E, N, S, W)
+
+    *   (S) Silent Studio
+    *   (S) | (N)
+    *   (FRZ) Fun Recreation Zone (Center)
+    *   (FRZ) --- (SHK) Super Hot Kitchenette (East)
+    *   (UHK) Upsettingly Hot Kitchen (West) --- (FRZ)
+    *   (FRZ) | (S)
+    *   (HK) Hot Kitchen (South)
+
+    *   Silent Studio: Visited.
+    *   Fun Recreation Zone: Visited.
+    *   Super Hot Kitchenette: Visited.
+    *   Upsettingly Hot Kitchen: Visited.
+    *   Hot Kitchen: Current.
+
+    *   I have explored the center and the east/west branches. I have not explored the south exit from Hot Kitchen or the north exit from Fun Recreation Zone.
+    *   Currently in ""Hot Kitchen"".
+    *   Exits: North (leads back to FRZ), South, East, West.
+    *   Since I've been to FRZ (North), let's try South or East/West.
+
+    *   Try `go south` from Hot Kitchen to see if there is anything there.
+
+    *   Go South.","-= Serious Workshop =-
+You've just sauntered into a serious workshop. Let's see what's in here.
+
+
+
+There is an unblocked exit to the north.",0,False
+57,go north,"The user wants me
+The user wants me to continue playing the TextWorld game.
+Current location: Serious Workshop.
+Exits: North.
+Goal: Find and take the coin.
+History:
+1. Studio (Start) -> South -> Recreation Zone.
+2. Recreation Zone -> East -> Super Hot Kitchenette -> West -> Recreation Zone.
+3. Recreation Zone -> West -> Upsettingly Hot Kitchen -> East -> Recreation Zone.
+4. Recreation Zone -> South -> Hot Kitchen.
+5. Hot Kitchen -> South -> Serious Workshop.
+
+Current status:
+- I am in the ""Serious Workshop"".
+- Only exit is North.
+- I haven't seen the coin yet.
+
+The only move is North, which takes me back to the Hot Kitchen. However, I need to explore. Since I'm at a dead end (only North exit), I must go North.
+
+Wait, let me re-examine the ""Hot Kitchen"" description:
+""You don't like doors? Why not try going east, that entranceway is unguarded. There is an exit to the north. Don't worry, it is unguarded. You don't like doors? Why not try going south, that entranceway is unguarded. There is an exit to the west. Don't worry, it is unguarded.""
+
+From Hot Kitchen, I can go East, North, South (back to Serious Workshop), or West.
+I came from the Recreation Zone (which was North of the Hot Kitchen).
+
+Wait, looking back at the transitions:
+Rec Zone -> South -> Hot Kitchen -> South -> Serious Workshop.
+
+So, if I go North from Serious Workshop, I return to Hot Kitchen.
+From Hot Kitchen, I have: North (Rec Zone), South (Serious Workshop), East, West.
+I haven't tried East or West from Hot Kitchen yet.
+
+Let's go North.","-= Hot Kitchen =-
+You find yourself in a kitchen. A hot one. I guess you better just go and list everything you see here.
+
+
+
+You don't like doors? Why not try going east, that entranceway is unguarded. There is an exit to the north. Don't worry, it is unguarded. You don't like doors? Why not try going south, that entranceway is unguarded. There is an exit to the west. Don't worry, it is unguarded.",0,False
+58,go east,"The agent is playing a TextWorld game to find a coin.
+Current location: Hot Kitchen.
+Available exits: East, North, South, West.
+
+History:
+1. Started in Silent Studio.
+2. Went South to Fun Recreation Zone.
+3. Went East to Super Hot Kitchenette (Dead end).
+4. Went West back to Fun Recreation Zone.
+5. Went West to Upsettingly Hot Kitchen (Dead end).
+6. Went East back to Fun Recreation Zone.
+7. Went South to Hot Kitchen.
+8. Went South to Serious Workshop (Dead end).
+9. Went North back to Hot Kitchen.
+
+Current position: Hot Kitchen.
+Visited rooms:
+- Silent Studio (North of Fun Recreation Zone)
+- Fun Recreation Zone (South of Silent Studio, North of Hot Kitchen, East of Upsettingly Hot Kitchen, West of Super Hot Kitchenette)
+- Super Hot Kitchenette (East of Fun Recreation Zone)
+- Upsettingly Hot Kitchen (West of Fun Recreation Zone)
+- Hot Kitchen (South of Fun Recreation Zone, North of Serious Workshop)
+- Serious Workshop (South of Hot Kitchen)
+
+Available paths from Hot Kitchen:
+- North (already visited: Fun Recreation Zone)
+- South (already visited: Serious Workshop)
+- East (not yet visited)
+- West (not yet visited)
+
+I should explore the East or West exit from the Hot Kitchen.","-= Vault =-
+I am honoured to announce that you are now in the vault. The room is well lit.
+
+
+
+You don't like doors? Why not try going east, that entranceway is unblocked. There is an exit to the north. Don't worry, it is unblocked. You don't like doors? Why not try going south, that entranceway is unblocked. There is an exit to the west. Don't worry, it is unguarded.",0,False
+59,,,I beg your pardon?,0,False
+60,,,I beg your pardon?,0,False
+61,,,I beg your pardon?,0,False
+62,go east,"The agent is in the ""Vault"".
+Exits: east, north, south, west.
+The objective is to find the coin and use 'take coin'.
+Currently, the observation for ""Vault"" does not mention a coin.
+The agent has already visited:
+- Upsettingly Hot Kitchen (west of Fun Recreation Zone)
+- Fun Recreation Zone (north of Hot Kitchen)
+- Hot Kitchen (north of Serious Workshop, south of Fun Recreation Zone, east of Upsettingly Hot Kitchen, west of Vault)
+- Serious Workshop (south of Hot Kitchen)
+- Vault (east of Hot Kitchen)
+
+Let's trace the map:
+- Upsettingly Hot Kitchen <-> Hot Kitchen <-> Vault
+- Hot Kitchen <-> Fun Recreation Zone
+- Hot Kitchen <-> Serious Workshop
+
+Available unexplored paths from Vault:
+- Vault East
+- Vault North
+- Vault South
+
+Wait, let's look at the ""Vault"" observation again:
+""You don't like doors? Why not try going east, that entranceway is unblocked. There is an exit to the north. Don't worry, it is unblocked. You don't like doors? Why not try going south, that entranceway is unblocked. There is an exit to the west. Don't worry, it is unguarded.""
+
+No coin mentioned. I should try going east, north, or south.
+
+Let's try going east.","-= Dish-Pit =-
+Well, here we are in a dish-pit. You begin looking for stuff.
+
+
+
+There is an exit to the west. Don't worry, it is unblocked.",0,False
+63,,,I beg your pardon?,0,False
+64,go west,"*   Goal: Find and take the coin.
+    *   Current location: Dish-Pit.
+    *   Available exits: West (unblocked).
+    *   History:
+        *   Start -> ... -> Hot Kitchen (N, E, S, W)
+        *   Hot Kitchen -> South -> Serious Workshop (N)
+        *   Serious Workshop -> North -> Hot Kitchen
+        *   Hot Kitchen -> East -> Vault (N, E, S, W)
+        *   Vault -> East -> Dish-Pit (W)
+    *   Target object: Coin (not yet seen).
+
+    *   Current Room: Dish-Pit.
+    *   Exits: West.
+    *   Items seen: None.
+    *   The coin has not been found yet.
+
+    *   From Dish-Pit, the only exit is West, which leads back to the Vault.
+    *   From Vault, I've tried East (to Dish-Pit) and West (to Hot Kitchen).
+    *   I haven't tried North or South from the Vault.
+    *   I haven't tried North or West from the Hot Kitchen.
+
+    *   Current location: Dish-Pit.
+    *   Action: `go west` (to return to Vault).","-= Vault =-
+I am honoured to announce that you are now in the vault. The room is well lit.
+
+
+
+You don't like doors? Why not try going east, that entranceway is unblocked. There is an exit to the north. Don't worry, it is unblocked. You don't like doors? Why not try going south, that entranceway is unblocked. There is an exit to the west. Don't worry, it is unguarded.",0,False
+65,,,I beg your pardon?,0,False
+66,go north,"The agent is playing a text-based adventure game (TextWorld).
+Find the coin and use the command `take coin`.
+`go <dir>` (north, east, south, west), `take coin`, `goal`.
+25 steps.
+Current room is ""Vault"".
+Exits from Vault: East (to Dish-Pit), North, South, West.
+
+    *   Start -> (some movements) -> Hot Kitchen.
+    *   Hot Kitchen -> South -> Serious Workshop.
+    *   Serious Workshop -> North -> Hot Kitchen.
+    *   Hot Kitchen -> East -> Vault.
+    *   Vault -> East -> Dish-Pit.
+    *   Dish-Pit -> West -> Vault.
+
+    *   Hot Kitchen: East, North, South, West.
+    *   Serious Workshop: North (to Hot Kitchen).
+    *   Vault: East (to Dish-Pit), North, South, West (to Hot Kitchen).
+    *   Dish-Pit: West (to Vault).
+
+    *   North of Hot Kitchen: Not yet visited.
+    *   West of Hot Kitchen: Not yet visited.
+    *   North of Vault: Not yet visited.
+    *   South of Vault: Not yet visited.
+
+    The agent is currently in the ""Vault"".
+    Exits: North, South, East (already visited Dish-Pit), West (already visited Hot Kitchen).
+
+    Let's try going North from the Vault.","-= Sweaty Cookery =-
+You find yourself in a cookery. A sweaty kind of place. The room is well lit.
+
+
+
+You don't like doors? Why not try going south, that entranceway is unguarded.",0,False
+67,go south,"*   Current Location: Sweaty Cookery.
+    *   Available Exits: South.
+    *   Goal: Find and take the coin.
+    *   History:
+        *   Started (unknown start).
+        *   Hot Kitchen (N, S, E, W) -> South to Serious Workshop.
+        *   Serious Workshop (N) -> North to Hot Kitchen.
+        *   Hot Kitchen (N, S, E, W) -> East to Vault.
+        *   Vault (N, S, E, W) -> East to Dish-Pit.
+        *   Dish-Pit (W) -> West to Vault.
+        *   Vault (N, S, E, W) -> North to Sweaty Cookery.
+    *   Current state: Sweaty Cookery. Only exit is South (leads back to Vault).
+
+    *   Hot Kitchen: (N, S, E, W)
+    *   Serious Workshop: (N)
+    *   Vault: (N, S, E, W)
+    *   Dish-Pit: (W)
+    *   Sweaty Cookery: (S)
+
+    *   From Hot Kitchen:
+        *   South -> Serious Workshop (Checked)
+        *   East -> Vault (Checked)
+        *   North -> ? (Not yet visited)
+        *   West -> ? (Not yet visited)
+    *   From Vault:
+        *   North -> Sweaty Cookery (Checked)
+        *   East -> Dish-Pit (Checked)
+        *   South -> ? (Not yet visited)
+        *   West -> Hot Kitchen (Checked)
+
+    *   I am in Sweaty Cookery. The only way out is South.
+    *   Go South to return to Vault.
+    *   From Vault, try South (since North, East, and West have been explored).
+
+    *   Command: `go south
+`","-= Vault =-
+I am honoured to announce that you are now in the vault. The room is well lit.
+
+
+
+You don't like doors? Why not try going east, that entranceway is unblocked. There is an exit to the north. Don't worry, it is unblocked. You don't like doors? Why not try going south, that entranceway is unblocked. There is an exit to the west. Don't worry, it is unguarded.",0,False
+68,,,I beg your pardon?,0,False
+69,,,I beg your pardon?,0,False
+70,,,I beg your pardon?,0,False
+71,go south,"*   Agent role: Play TextWorld (maze exploration to find a coin).
+    *   Commands: `goal`, `go <dir>`, `take coin`.
+    *   Constraints: 25 steps, no restarting, one action per turn, no other text.
+    *   Current Status: In the ""Vault"".
+    *   Available exits from ""Vault"": east, north, south, west.
+    *   Visited rooms:
+        *   Serious Workshop (North of something, but I started there and went north) -> Wait, I started, went south to Serious Workshop, then north to Hot Kitchen.
+        *   Hot Kitchen (North of Serious Workshop; exits: north, east, south, west).
+        *   Vault (East of Hot Kitchen; exits: north, east, south, west).
+        *   Dish-Pit (East of Vault; exit: west).
+        *   Sweaty Cookery (North of Vault; exit: south).
+    *   Current Room: Vault.
+
+    *   North -> Sweaty Cookery (Visited)
+    *   East -> Dish-Pit (Visited)
+    *   South -> ? (Not visited)
+    *   West -> Hot Kitchen (Visited)
+
+    *   The only unexplored direction from the Vault is ""south"".
+
+    *   `go south
+`","-= Cubicle =-
+You are in a cubicle. A normal kind of place. Let's see what's in here.
+
+
+
+You need an unguarded exit? You should try going east. You need an unguarded exit? You should try going north. You don't like doors? Why not try going south, that entranceway is unguarded. There is an exit to the west. Don't worry, it is unguarded.",0,False
+72,,,I beg your pardon?,0,False
+73,,,I beg your pardon?,0,False
+74,,,I beg your pardon?,0,False
+75,go west,"The user is playing a text-based adventure game called TextWorld.
+The goal is to find and take the coin.
+Available commands: `goal`, `go <dir>`, `take coin`.
+Max steps: 25.
+
+Current state:
+- Current room: Cubicle
+- Available exits: east, north, south, west.
+- History:
+    - Started (initial position unknown).
+    - `go south` (Observation: null)
+    - `go south` (Observation: null)
+    - `go north` (Observation: null)
+    - `go east` (Observation: ""I beg your pardon?"")
+    - `go east` -> Dish-Pit (Exit west)
+    - `go west` -> Vault (Exits: east, north, south, west)
+    - `go north` -> Sweaty Cookery (Exit south)
+    - `go south` -> Vault (Exits: east, north, south, west)
+    - `go south` -> Cubicle (Exits: east, north, south, west)
+
+Rooms visited:
+- Dish-Pit
+- Vault
+- Sweaty Cookery
+- Cubicle
+
+The coin has not been spotted yet.
+From Vault:
+- East -> Dish-Pit
+- North -> Sweaty Cookery
+- South -> Cubicle
+- West -> ? (not visited yet)
+
+From Cubicle:
+- North -> Vault
+- East -> ?
+- South -> ?
+- West -> ?
+
+Since Vault west is unvisited, and Cubicle exits (except north) are unvisited, I should explore further.
+
+Let's try going west from Cubicle. Or I could go north back to Vault and then west.
+Actually, I am currently in the Cubicle.
+Exits from Cubicle: east, north (to Vault), south, west.
+
+Let's explore the Cubicle's other exits first.
+Try `go west`.","-= Spare Room =-
+Look at you, bigshot, walking into a spare room like it isn't some huge deal. You begin looking for stuff.
+
+
+
+There is an exit to the east. Don't worry, it is unguarded.",0,False
+76,,,I beg your pardon?,0,False
+77,go east,"*   Game: TextWorld (maze exploration).
+    *   Goal: Find and take the coin.
+    *   Commands: `goal`, `go <dir>`, `take coin`.
+    *   Current Location: Spare Room.
+    *   Observation: ""There is an exit to the east. Don't worry, it is unguarded.""
+    *   Movement History:
+        *   Dish-Pit (east) -> Vault (west)
+        *   Vault (north) -> Sweaty Cookery (south)
+        *   Sweaty Cookery (south) -> Vault (south)
+        *   Vault (south) -> Cubicle (west)
+        *   Cubicle (west) -> Spare Room
+
+    *   Spare Room: Exit East (leads back to Cubicle).
+    *   Cubicle: Exits East (Vault), North (?), South (?), West (Spare Room).
+    *   Vault: Exits East (Dish-Pit), North (Sweaty Cookery), South (Cubicle), West (?).
+    *   Dish-Pit: Exit West (Vault).
+    *   Sweaty Cookery: Exit South (Vault).
+
+    *   I've explored: Dish-Pit, Vault, Sweaty Cookery, Cubicle, Spare Room.
+    *   I haven't found the coin yet.
+    *   Looking at the Cubicle observation again: ""You need an unguarded exit? You should try going east [Vault]. You need an unguarded exit? You should try going north. You don't like doors? Why not try going south, that entranceway is unguarded. There is an exit to the west [Spare Room].""
+    *   I missed ""North"" and ""South"" in the Cubicle.
+    *   Wait, the Cubicle said: ""going east"", ""going north"", ""going south"", ""exit to the west"".
+    *   I went West to the Spare Room.
+    *   I should go East back to Cubicle, then try North or South.
+
+    *   Currently in Spare Room.
+    *   Available exit: East.
+
+    *   `go east
+`","-= Cubicle =-
+You are in a cubicle. A normal kind of place. Let's see what's in here.
+
+
+
+You need an unguarded exit? You should try going east. You need an unguarded exit? You should try going north. You don't like doors? Why not try going south, that entranceway is unguarded. There is an exit to the west. Don't worry, it is unguarded.",0,False
+78,go east,"*   Current location: Cubicle.
+    *   Exits: East, North, South, West.
+    *   History:
+        *   Vault (East of Dish-
+*   Current location: Cubicle.
+    *   Exits: East, North, South, West.
+    *   History:
+        *   Vault (East of Dish-Pit) -> Sweaty Cookery (North of Vault) -> Vault (South of Sweaty Cookery) -> Cubicle (South of Vault) -> Spare Room (West of Cubicle) -> Cubicle (East of Spare Room).
+    *   Target: Find and take the coin.
+    *   Constraint: 25 steps maximum.
+
+    *   Dish-Pit -> Vault (East)
+    *   Vault -> Sweaty Cookery (North)
+    *   Vault -> Cubicle (South)
+    *   Cubicle -> Spare Room (West)
+    *   Cubicle -> Vault (North) - *Wait, looking at the Observation: ""You need an unguarded exit? You should try going north."" (leads to Vault).*
+    *   Cubicle -> South (exists)
+    *   Cubicle -> East (exists)
+
+    *   Vault (visited)
+    *   Sweaty Cookery (visited)
+    *   Dish-Pit (visited)
+    *   Spare Room (visited)
+    *   Cubicle (visited)
+
+    *   From Cubicle, I can go East or South. I've already gone North (Vault) and West (Spare Room).
+
+    *   Try going East from the Cubicle.","-= Absurdly Hot Scullery =-
+You're now in an absurdly hot scullery.
+
+
+
+There is an exit to the west. Don't worry, it is unguarded.",0,False
+79,go west,"*   Current location: Absurdly Hot Scullery.
+    *   Available exits: West (unguarded).
+    *   Goal: Find and take the coin.
+    *   Previous moves:
+        *   Vault -> North (Sweaty Cookery) -> South (Vault)
+        *   Vault -> South (Cubicle) -> West (Spare Room) -> East (Cubicle) -> East (Absurdly Hot Scullery).
+    *   Current state: In Absurdly Hot Scullery. The only exit is west.
+
+    *   From Absurdly Hot Scullery, I can only go west.
+    *   Going west leads back to the Cubicle.
+    *   From the Cubicle, I can go North, East, South, or West.
+    *   I've already visited:
+        *   Vault (North, South, East, West)
+        *   Sweaty Cookery (South)
+        *   Cubicle (East, North, South, West)
+        *   Spare Room (East)
+        *   Absurdly Hot Scullery (West)
+
+    *   Wait, looking at the Vault description again:
+        *   Vault exits: East (unblocked), North (unblocked), South (unblocked), West (unguarded).
+    *   Looking at Cubicle description:
+        *   Cubicle exits: East (unguarded), North (unguarded), South (unguarded), West (unguarded).
+
+    *   Let's trace:
+        1.  Vault -> North -> Sweaty Cookery -> South -> Vault.
+        2.  Vault -> South -> Cubicle -> West -> Spare Room -> East -> Cubicle -> East -> Absurdly Hot Scullery.
+        3.  Current: Absurdly Hot Scullery.
+
+    *   Possible unexplored paths:
+        *   Vault East.
+        *   Vault West.
+        *   Cubicle North.
+
+    *   Since I am in Absurdly Hot Scullery and the only exit is west, I must go west.
+
+    *   Action: go west.","-= Cubicle =-
+You are in a cubicle. A normal kind of place. Let's see what's in here.
+
+
+
+You need an unguarded exit? You should try going east. You need an unguarded exit? You should try going north. You don't like doors? Why not try going south, that entranceway is unguarded. There is an exit to the west. Don't worry, it is unguarded.",0,True

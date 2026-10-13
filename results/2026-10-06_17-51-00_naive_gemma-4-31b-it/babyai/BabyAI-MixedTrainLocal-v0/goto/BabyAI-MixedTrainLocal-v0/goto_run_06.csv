@@ -1,0 +1,619 @@
+Step,Action,Reasoning,Observation,Reward,Done
+0,turn left,"*   Goal: Go to the red ball.
+    *
+*   Goal: Go to the red ball.
+    *   Current Observation:
+        *   Wall 5 steps forward.
+        *   Wall 1 step right.
+        *   Red ball 1 step left and 4 steps forward.
+
+    *   The red ball is at (left=1, forward=4) relative to the current position.
+    *   Action options: turn left, turn right, go forward, pick up, drop, toggle.
+
+    *   To reach the red ball (1 left, 4 forward):
+        *   Option 1: Turn left, go forward 1 step, turn right, go forward 4 steps.
+        *   Option 2: Go forward 4 steps, turn left, go forward 1 step.
+
+    *   Current situation:
+        *   Wall 5 steps forward (safe to go forward 4 steps).
+        *   Wall 1 step right (irrelevant for now).
+        *   Red ball 1 left, 4 forward.
+
+    *   Let's try Option 1: Turn left.
+
+    *   Step 1: Turn left. (Now facing the direction where the ball is 1 step forward and 4 steps right - wait, no).
+    *   Correction: If the ball is 1 step left and 4 steps forward:
+        *   Turn left.
+        *   Go forward 1 step.
+        *   Turn right.
+        *   Go forward 4 steps.
+
+    *   Alternatively:
+        *   Go forward 4 steps.
+        *   Turn left.
+        *   Go forward 1 step.
+
+    *   Let's start with ""turn left"".","a wall 6 steps forward
+a wall 2 steps left",0,False
+1,turn right,"*
+*   Goal: Go to the red ball.
+    *   Initial Observation:
+        *   Wall: 5 steps forward.
+        *   Wall: 1 step right.
+        *   Red Ball: 1 step left and 4 steps forward.
+    *   Action taken: `turn left`.
+
+    *   Wall: 6 steps forward.
+    *   Wall: 2 steps left.
+    *   *Wait*, where is the red ball? The current observation doesn't explicitly list the red ball. Let's re-evaluate the position.
+
+    *   Initially: Red ball was 1 step left, 4 steps forward.
+    *   Action: `turn left`.
+    *   New orientation:
+        *   Previous ""Left"" is now ""Forward"".
+        *   Previous ""Forward"" is now ""Right"".
+        *   Previous ""Right"" is now ""Backward"".
+        *   Previous ""Backward"" is now ""Left"".
+    *   Recalculating red ball position relative to new orientation:
+        *   Original: 1 step left, 4 steps forward.
+        *   New: (Original Left -> New Forward), (Original Forward -> New Right).
+        *   So, red ball should be 1 step forward and 4 steps right.
+
+    *   Wait, the current observation is: ""a wall 6 steps forward, a wall 2 steps left"".
+    *   This doesn't mention the red ball. In many of these simulated environments, if an object isn't mentioned, it's not in the current line of sight or too far.
+    *   However, looking at the current observation again: ""a wall 6 steps forward, a wall 2 steps left"".
+    *   If I turned left, and there was a wall 5 steps forward and a wall 1 step right...
+        *   Old forward (5 steps) is now New Right.
+        *   Old right (1 step) is now New Backward.
+    *   Let's check the new observation: ""a wall 6 steps forward, a wall 2 steps left"".
+    *   If the agent turned left, the ""wall 6 steps forward"" might be the wall that was previously to the left? But the initial observation didn't mention a wall to the left.
+    *   Wait, initial obs:
+        - Wall 5 steps forward.
+        - Wall 1 step right.
+        - Ball 1 step left, 4 steps forward.
+    *   After `turn left`:
+        - Previous ""forward"" (wall 5) is now ""right"".
+        - Previous ""right"" (wall 1) is now ""backward"".
+        - Previous ""left"" is now ""forward"".
+    *   So, if the agent turns left, and there's a wall 6 steps forward now, it means there was a wall 6 steps to the left initially.
+    *   And the red ball was 1 step left, 4 steps forward.
+    *   In the new coordinate system (after turning left):
+        - Red ball was 1 step left (now 1 step forward).
+        - Red ball was 4 steps forward (now 4 steps right).
+        - So red ball is 1 step forward, 4 steps right.
+
+    *   If the ball is 1 step forward and 4 steps right, and I see a wall 6 steps forward, I should probably move forward first to get closer to the ball's row or just move toward it.
+    *   However, the red ball is not mentioned in the current observation. This is strange. Usually, the agent can see the ball if it's nearby.
+    *   Let's re-examine the initial observation: ""a red ball 1 step left and 4 steps forward"".
+    *   Action: `turn left`.
+    *   New Observation: ""a wall 6 steps forward, a wall 2 steps left"".
+    *   Wait, maybe the `turn left` didn't place the ball in view? Or maybe the ball is now to the right?
+    *   If the ball is 1 step forward and 4 steps right, it might be obscured or the observation only lists walls. But the prompt says ""go to the red ball"".
+    *   Let's try `turn right` to go back to the original orientation? No, that's redundant.
+    *   If I turn right now, I'll be facing the original forward direction.
+    *   Original Forward: Wall 5 steps.
+    *   Original Left: Ball 1 step left, 4 steps forward.
+    *   If I turn right now, I'm back to the original orientation. Then I can `turn left` again? No.
+    *   Let's try to move forward? If I move forward, I am moving in the direction of the ball's offset.
+    *   Actually, if the ball was 1 step left and 4 steps forward, and I turned left, I am now facing the direction of the ball's offset.
+    *   I should move forward.
+
+    *   Initial: Ball at (-1, 4). (x=left/right, y=forward/backward).
+    *   Turn left: Axis rotation. New X = Old Y, New Y = -Old X.
+    *   Wait, the standard rotation is: New Forward = Old Left, New Right = Old Forward.
+    *   Ball was: 1 step left (new forward), 4 steps forward (new right).
+    *   So ball is at (new_forward=1, new_right=4).
+    *   Observation: wall 6 forward, wall 2 left.
+    *   The ball is 1 step forward. Why isn't it in the observation?
+    *   Maybe the observation only lists walls? No, the first one listed the ball.
+    *   Maybe I should turn right again to face the original forward?
+    *   If I turn right:
+        - Facing: Old Forward.
+        - Ball: 1 step left, 4 steps forward.
+        - I can see it again.
+    *   Wait, the goal is to go to the red ball. If I turn right, I'm back to:
+        - Wall 5 forward.
+        - Ball 1 left, 4 forward.
+    *   Then I can `turn left` again? No.
+    *   Wait, if I'm facing the original forward, I should `turn left` then `go forward`? No, I already turned left.
+    *   Let's try `turn right` to see if the ball reappears. Or maybe I should `turn right` and then `go forward`?
+    *   Actually, let's look at the options: `turn left`, `turn right`, `go forward`, `pick up`, `drop`, `toggle`.
+    *   If the ball is 1 step forward and 4 steps right, I should `go forward` first.
+
+    *   Observation: a wall 6 steps forward, a wall 2 steps left.
+    *   If I `turn right`, I'll be facing the original forward.
+    *   The ball is 1 step left and 4 steps forward.
+    *   If I `turn right` and then `go forward` 4 times, I'll be 4 steps forward.
+    *   Then I `turn left` and `go forward` 1 step.
+    *   Wait, the first observation said ""red ball 1 step left and 4 steps forward"".
+    *   The most efficient path: `turn left` (already done), `go forward` (1 step), `turn right`, `go forward` (4 steps).
+    *   Wait, let's check:
+        1. Start: Ball at (-1, 4).
+        2. `turn left`: Facing (-1, 0). Ball is at (new_f=1, new_r=4).
+        3. `go forward` 1 step: Ball is now at (new_f=0, new_r=4).
+        4. `turn right`: Facing (0, 1). Ball is now at (new_f=4, new_r=0).
+        5. `go forward` 4 steps: Reach ball.
+
+    *   Is the ball not appearing because it's not ""directly"" in front? The observation said ""1 step left and 4 steps forward"". This usually means the agent can see it.
+    *   If the agent turned left, the ball is now ""1 step forward and 4 steps right"".
+    *   If the observation ""a wall 6 steps forward, a wall 2 steps left"" is all I see, maybe the ball is no longer visible?
+    *   Let's try `turn right` to return to the state where the ball was visible.","a wall 5 steps forward
+a wall 1 step right
+a red ball 1 step left and 4 steps forward",0,False
+2,turn left,"*   Goal: Go to the red ball.
+    *   Possible Actions: turn left, turn right, go forward, pick up, drop, toggle.
+    *   Observation:
+        *   Wall 5 steps forward.
+        *   Wall 1 step right.
+        *   Red ball 1 step left and 4 steps forward.
+
+    *   Step 1: I previously turned left, then turned right.
+    *   Current Observation:
+        *   Wall 5 steps forward.
+        *   Wall 1 step right.
+        *   Red ball 1 step left and 4 steps forward.
+    *   Wait, the current observation is the same as the first observation.
+    *   Goal position: Red ball (1 step left, 4 steps forward).
+
+    *   To get to (1 left, 4 forward), I need to:
+        1. Turn left.
+        2. Go forward 1 step.
+        3. Turn right.
+        4. Go forward 4 steps.
+    *   OR
+        1. Go forward 4 steps.
+        2. Turn left.
+        3. Go forward 1 step.
+
+    *   Let's try turning left first to align with the ""1 step left"" part.
+
+    *   Previous sequence:
+        1. Observation: (same) -> turn left.
+        2. Observation: Wall 6 forward, wall 2 left. (This implies the agent turned left and now faces a wall 6 steps ahead).
+        3. Observation: (back to original) -> turn right.
+    *   Wait, the prompt says ""Current Observation: a wall 5 steps forward, a wall 1 step right, a red ball 1 step left and 4 steps forward"". This is the original state.
+
+    *   If I turn left now:
+        *   I'll be facing the direction of the ""1 step left"".
+        *   Then I can go forward 1 step.
+        *   Then turn right and go forward 4 steps.
+
+    *   Let's re-evaluate:
+        *   Current Pos: (0, 0), Facing North.
+        *   Ball Pos: (-1, 4).
+        *   Walls: (0, 5), (1, 0).
+        *   Action: turn left.
+        *   New state: Facing West.
+        *   Ball is now at (1 step forward, 4 steps right).
+
+    *   Action: turn left.","a wall 6 steps forward
+a wall 2 steps left",0,False
+3,turn right,"*   Goal: Go to the red ball.
+    *   Possible actions: `turn left`, `turn right`, `go forward`, `pick up`, `drop`, `toggle`.
+    *   Previous sequence:
+        1.  Obs: wall 5 forward, wall 1 right, red ball 1 left 4 forward. -> Action: `turn left`.
+        2.  Obs: wall 6 forward, wall 2 left. -> Action: `turn right`.
+        3.  Obs: wall 5 forward, wall 1 right, red ball 1 left 4 forward. -> Action: `turn left`.
+        4.  Current Obs: wall 6 forward, wall 2 left.
+
+    *   Observation 1 (initial): Red ball is at (1 step left, 4 steps forward).
+    *   Agent turned left.
+    *   Observation 2: wall 6 forward, wall 2 left. (Agent is now facing the direction where the ball was ""left"").
+    *   Agent turned right. (Agent is now facing the original direction).
+    *   Observation 3: Red ball is at (1 step left, 4 steps forward).
+    *   Agent turned left.
+    *   Observation 4 (current): wall 6 forward, wall 2 left.
+
+    *Wait, let's analyze the orientation:*
+    - Start: Facing North (relative). Ball is at (-1, 4).
+    - Action: `turn left`. Now facing West.
+    - Observation: wall 6 forward (West), wall 2 left (South).
+    - Action: `turn right`. Now facing North again.
+    - Observation: ball at (-1, 4).
+    - Action: `turn left`. Now facing West.
+    - Observation: wall 6 forward (West), wall 2 left (South).
+
+    *Current State:*
+    - The agent is facing West.
+    - From the North orientation, the ball was at (-1, 4).
+    - Since the agent is now facing West, the ball's relative position changes.
+    - Original (North): ball is (-1, 4).
+    - Current (West): The ball is at (x', y') where x' is the old y (-1) and y' is the old -x (relative to current heading).
+    - Actually, let's just look at the coordinates.
+    - North: x=0, y=0. Ball: x=-1, y=4.
+    - Facing West: The x-axis is now forward. The ball is at x=1, y=4 (if we rotate coordinates).
+    - Let's check the observation when facing West: ""a wall 6 steps forward, a wall 2 steps left"".
+    - If the agent is facing West, and the ball was at (-1, 4) relative to North, then relative to West, the ball is 1 step forward and 4 steps right.
+
+    *Wait, the prompt says:*
+    Observation: a wall 6 steps forward, a wall 2 steps left.
+    The red ball is not mentioned in the current observation. This suggests the red ball might be out of sight or the agent needs to move/turn to see it.
+
+    *However, let's look at the loop:*
+    Obs 1: Ball 1L 4F. -> Action: turn left.
+    Obs 2: (No ball). -> Action: turn right.
+    Obs 3: Ball 1L 4F. -> Action: turn left.
+    Obs 4: (No ball).
+
+    The agent keeps turning left and right without moving forward. To reach a ball at (1L, 4F), the agent should:
+    1. Turn left.
+    2. Go forward 1 step.
+    3. Turn right.
+    4. Go forward 4 steps.
+    (Or go forward 4, then turn left, then go forward 1).
+
+    Currently, the agent is facing West (having just turned left from North).
+    Relative to West, the ball is 1 step forward and 4 steps right.
+    Observation 4: ""a wall 6 steps forward, a wall 2 steps left"".
+    The ball is not listed. This is strange. Why is it not listed if it's only 1 step forward and 4 steps right?
+    Maybe the ""wall 6 steps forward"" is blocking the view or the observation only lists things in the immediate direction? No, the first observation listed ""1 step left and 4 steps forward"".
+
+    Wait, let's re-read Obs 1: ""a red ball 1 step left and 4 steps forward"".
+    If I turn left, I am now facing the direction that was ""left"".
+    The ball is now 1 step forward and 4 steps right.
+    But Obs 2 says: ""a wall 6 steps forward, a wall 2 steps left"". No ball.
+    This implies the ball is *not* in the current field of view or the observation is limited.
+
+    Let's try to move forward. If the agent is facing West and the ball is 1 step forward (and 4 steps right), moving forward 1 step might bring it closer or into view.
+
+    However, the agent is stuck in a turn left -> turn right -> turn left loop.
+    To get to (1L, 4F):
+    1. Go forward 4 steps.
+    2. Turn left.
+    3. Go forward 1 step.
+
+    Let's check the current state again.
+    Last action: `turn left`.
+    Current Observation: `a wall 6 steps forward, a wall 2 steps left`.
+    The agent is facing West.
+
+    If the agent turns right, it will face North again.
+    Observation 3 (when facing North) was: `a wall 5 steps forward, a wall 1 step right, a red ball 1 step left and 4 steps forward`.
+
+    If the agent turns right now, it will be back to facing North and will see the ball again.
+    But the goal is to *reach* the ball, not just see it.
+    To reach it from North:
+    - Option A: Go forward 4, turn left, go forward 1.
+    - Option B: Turn left, go forward 1, turn right, go forward 4.
+
+    The agent already tried turning left.
+    When it turned left, it saw: `a wall 6 steps forward, a wall 2 steps left`.
+    The ball was not mentioned. This means the ball is not at ""1 step forward"".
+    Wait, ""1 step left and 4 steps forward"" means:
+    Start -> move forward 4 -> move left 1.
+    OR
+    Start -> move left 1 -> move forward 4.
+
+    If the agent turns left, it's now facing ""Left"".
+    The ball is now 1 step forward and 4 steps right.
+    Since the observation didn't mention it, maybe the agent needs to move forward first?
+    No, if it's 1 step forward and 4 steps right, it should be visible if ""1 step left and 4 steps forward"" was visible.
+
+    Let's re-examine the observations.
+    Obs 1: Ball 1L 4F.
+    Turn left.
+    Obs 2: Wall 6F, Wall 2L. (No ball).
+    Turn right.
+    Obs 3: Ball 1L 4F.
+    Turn left.
+    Obs 4: Wall 6F, Wall 2L.
+
+    It seems turning left makes the ball disappear from the observation.
+    To reach the ball, the agent should probably go forward while facing North.
+
+    Action: `go forward`.
+
+    Wait, if I go forward while facing West (current state), I'm moving away from the North-South axis.
+    If I turn right, I face North.
+    If I'm facing North, the ball is 1L 4F.
+    If I then `go forward`, I'm getting closer to the ball's y-coordinate.
+
+    Let's try `turn right` to get back to the orientation where the ball is visible, then `go forward`.
+    But the agent already did `turn left` -> `turn right` -> `turn left`.
+    If it does `turn right` again, it's just looping.
+    Maybe the agent should have used `go forward` when it was facing North?
+    Yes.
+
+    Current state: Facing West.
+    Action: `turn right` (to face North).
+    Next Observation: Ball 1L 4F.
+    Next Action: `go forward`.
+
+    Let's try `turn right`.","a wall 5 steps forward
+a wall 1 step right
+a red ball 1 step left and 4 steps forward",0,False
+4,go forward,"The agent's goal is to reach the red ball.
+Current Observation:
+- Wall 5 steps forward.
+- Wall 1 step right.
+- Red ball 1 step left and 4 steps forward.
+
+Previous sequence:
+1. Observation: wall 5f, wall 1r, red ball 1l 4f -> Action: turn left
+2. Observation: wall 6f, wall 2l -> Action: turn right
+3. Observation: wall 5f, wall 1r, red ball 1l 4f -> Action: turn left
+4. Observation: wall 6f, wall 2l -> Action: turn right
+5. Observation: wall 5f, wall 1r, red ball 1l 4f
+
+The agent is stuck in a loop.
+Current state: Facing a wall (5 steps away), wall on the right (1 step), red ball is 1 step left and 4 steps forward.
+
+If the agent turns left (which it did twice before), it ends up facing the wall that was 6 steps forward relative to the new orientation (which was the wall 2 steps left in the previous step). Wait, let's re-analyze the geometry.
+
+Start state:
+- Forward: Wall (5)
+- Right: Wall (1)
+- Target: Left (1), Forward (4)
+
+If I ""turn left"":
+- New Forward = Old Left.
+- New Right = Old Forward.
+- New Left = Old Back.
+- New Back = Old Right.
+Observation after ""turn left"":
+- Wall 6 steps forward (The target was 1 left and 4 forward. The distance from current pos to target is $\sqrt{1^2 + 4^2} = \sqrt{17} \approx 4.12$. But the observation says ""a wall 6 steps forward"").
+Wait, if I turn left, the ""wall 2 steps left"" in the next observation was the ""wall 1 step right"" in the previous one? No.
+Old Right (1) -> New Back (1).
+Old Forward (5) -> New Right (5).
+Old Left (1) -> New Forward.
+So if I turn left, I am facing the direction where the ball was 1 step away (horizontally) and 4 steps away (vertically). The observation says ""a wall 6 steps forward"".
+
+Let's look at the loop:
+Obs 1: Wall 5f, Wall 1r, Ball 1l 4f.
+Action: turn left.
+Obs 2: Wall 6f, Wall 2l.
+Action: turn right.
+Obs 3: Wall 5f, Wall 1r, Ball 1l 4f.
+(Repeats)
+
+The agent is just spinning in circles.
+To get to the red ball (1 left, 4 forward):
+Option A: Turn left, then move forward.
+Wait, if I turn left, the ball is now 4 steps right and 1 step forward? Or 1 step forward and 4 steps right?
+Let's check the coordinates.
+Current pos: (0,0), facing North (0,1).
+Wall at (0,5).
+Wall at (1,0).
+Ball at (-1, 4).
+
+Action: Turn Left.
+Now facing West (-1,0).
+Wall at (0,5) is now at (5,0) relative to agent -> 5 steps right.
+Wall at (1,0) is now at (0,-1) relative to agent -> 1 step back.
+Ball at (-1, 4) is now at (1, 4) relative to agent? No.
+Relative to West:
+X_new = Y_old = 4
+Y_new = -X_old = -(-1) = 1
+So ball is at (1, 4) - No, wait.
+If facing West:
+Forward is (-1, 0).
+The point (-1, 4) is 1 step forward and 4 steps left?
+Wait:
+Target is (-1, 4).
+Current facing is (-1, 0).
+Vector from (0,0) to (-1, 4) is (-1, 4).
+Component in facing direction (-1,0) is $(-1, 4) \cdot (-1, 0) = 1$.
+Component in right direction (0,1) is $(-1, 4) \cdot (0, 1) = 4$.
+So the ball is 1 step forward and 4 steps right.
+
+Observation 2 says: ""a wall 6 steps forward, a wall 2 steps left"".
+This doesn't mention the ball. Maybe the ball is only visible from certain angles or distances?
+But the agent is stuck.
+
+To reach the ball (1 left, 4 forward):
+1. Turn left.
+2. Go forward (1 step).
+3. Turn right.
+4. Go forward (4 steps).
+5. Pick up.
+
+Let's try to break the loop. The agent has been turning left then right.
+It should probably try to ""go forward"" or ""turn left"" and then ""go forward"".
+In Obs 1: ""a red ball 1 step left and 4 steps forward"".
+If I turn left, the ball is 1 step forward and 4 steps right.
+Then if I go forward 1 step, I am at (-1, 0).
+The ball is now at (-1, 4), which is 4 steps forward (if I turn right).
+
+Let's try ""turn left"" again, but this time I must follow it with ""go forward"".
+Wait, the agent already turned left twice and then right twice.
+Current Observation: ""a wall 5 steps forward, a wall 1 step right, a red ball 1 step left and 4 steps forward"".
+
+If I ""turn left"", I face the direction of the ball's X-offset.
+If I ""go forward"", I move towards the wall (5 steps away).
+If I ""turn right"", I face the wall (1 step away).
+
+Let's try:
+Turn left -> Go forward (1 step) -> Turn right -> Go forward (4 steps).
+
+Current action: turn left. (Wait, I've done that).
+Actually, the observation says ""a red ball 1 step left and 4 steps forward"".
+If I ""turn left"", and the observation becomes ""a wall 6 steps forward, a wall 2 steps left"", it means the ball is no longer in view? Or the ""wall 6 steps forward"" is actually the wall that was 5 steps forward?
+Wait:
+If I turn left, the wall at (0,5) is now at (5,0) - 5 steps right.
+The wall at (1,0) is now at (0,-1) - 1 step back.
+The observation ""a wall 6 steps forward"" is strange.
+
+Maybe the ""turn left"" isn't 90 degrees? No, usually it is.
+Maybe the map is different.
+Let's try ""turn left"" and then ""go forward"".
+
+But the prompt asks for one action.
+If I turn left, I face the ball's column.
+Let's try ""turn left"". (Wait, the loop was Turn Left -> Turn Right -> Turn Left -> Turn Right).
+I will try ""turn left"" again, but I'll commit to moving forward next.
+
+Wait, if the ball is 1 step left and 4 steps forward, maybe I can just ""go forward"" 4 steps, then ""turn left"" and ""go forward"" 1 step?
+Let's try that.
+Action: go forward.
+
+Let's see:
+Current: Wall 5f, Ball 1l 4f.
+If I go forward:
+New Obs: Wall 4f, Ball 1l 3f.
+This seems more progressive than turning.
+
+Wait, if I turn left, and I see ""a wall 6 steps forward"", maybe that wall is the boundary of the room?
+If the room is 6x6?
+Original: Wall 5f (at y=5), Wall 1r (at x=1).
+Agent at (0,0) facing (0,1).
+Ball at (-1, 4).
+If agent turns left, facing (-1, 0).
+Wall at x=-6? (Since Wall 6f).
+Wall at y=0? (Since Wall 2l? No).
+
+Let's try a different approach.
+1. go forward
+2. go forward
+3. go forward
+4. go forward
+5. turn left
+6. go forward
+7. pick up
+
+Let's try ""go forward"".","a wall 4 steps forward
+a wall 1 step right
+a red ball 1 step left and 3 steps forward",0,False
+5,go forward,"*   Goal: Go to the red ball.
+    *   Actions: `turn left`, `turn right`, `go forward`, `pick up`, `drop`, `toggle`.
+    *   Observation:
+        *   Wall: 4 steps forward.
+        *   Wall: 1 step right.
+        *   Red ball: 1 step left and 3 steps forward.
+
+    *   Red ball position: 1 step left, 3 steps forward.
+    *   To get to the ball, the agent needs to move left and then move forward (or vice versa, or a combination).
+    *   The agent is currently facing the direction where the ball is 3 steps forward and 1 step left.
+
+    *   Option 1: `turn left` -> then move forward.
+    *   Option 2: `go forward` -> get closer to the ball's longitude.
+
+    Let's re-evaluate the previous sequence:
+    - Observation: ball 1 left, 4 forward. Action: `turn left`
+    - Observation: ball not mentioned, wall 2 left. Action: `turn right` (back to original facing)
+    - Observation: ball 1 left, 4 forward. Action: `turn left`
+    - Observation: ball not mentioned, wall 2 left. Action: `turn right` (back to original facing)
+    - Observation: ball 1 left, 4 forward. Action: `go forward`
+    - Current Observation: ball 1 left, 3 forward.
+
+    Since the agent is facing forward and the ball is 1 step to the left and 3 steps ahead, the most efficient way to reach it is to either move forward more or turn left.
+
+    If I `go forward` 3 more times, the ball will be exactly 1 step to my left. Then I `turn left` and `go forward` 1 step.
+    Alternatively, I can `turn left` now, but then the ball would be 1 step forward and 3 steps right (approx). Wait, if I turn left, the ""1 step left"" becomes ""1 step forward"", and ""3 steps forward"" becomes ""3 steps right"".
+
+    Current: Ball at (-1, 3) relative to facing (0, 1).
+    Action: `go forward` -> Ball at (-1, 2).
+    Action: `go forward` -> Ball at (-1, 1).
+    Action: `go forward` -> Ball at (-1, 0).
+    Action: `turn left` -> Ball at (0, 1).
+    Action: `go forward` -> Ball at (0, 0).
+
+    Or:
+    Action: `turn left` -> Ball at (1, -1)? No.
+    If I turn left, my new Y axis is the old X axis.
+    Old pos: (0, 0). Target: (-1, 3).
+    New facing: Left (-1, 0).
+    Target relative to new facing:
+    New X = Old Y = 3
+    New Y = -Old X = -(-1) = 1
+    Wait, if I turn left, the target is now 1 step forward and 3 steps right.
+
+    Let's just keep going forward until the ball is directly to the side, or turn and move.
+    Current Observation: ""a red ball 1 step left and 3 steps forward"".
+
+    Action: `go forward` seems like a consistent progress.","a wall 3 steps forward
+a wall 1 step right
+a red ball 1 step left and 2 steps forward",0,False
+6,go forward,"*   Goal: Go to the red ball.
+    *   Current Observation:
+        *   Wall: 3 steps forward
+        *   Wall: 1 step right
+        *   Red ball: 1 step left and 2 steps forward
+
+    *   The red ball is at (left 1, forward 2).
+    *   I need to move towards the red ball.
+    *   Current strategy: I have been moving forward. I am currently at (0, 0) relative to current observation. Ball is at (-1, 2).
+    *   Possible next steps:
+        *   Option 1: Go forward 2 steps, then turn left and go forward 1 step.
+        *   Option 2: Turn left, go forward 1 step, turn right, go forward 2 steps.
+    *   Current position relative to goal: Red ball is 1 step left and 2 steps forward.
+    *   If I go forward now, I'll be at (0, 1). Ball will be 1 step left and 1 step forward.
+
+    *   Wait, let's check previous actions.
+    *   Previous observation: red ball 1 step left and 3 steps forward.
+    *   Action: go forward.
+    *   Now: red ball 1 step left and 2 steps forward.
+    *   Action: go forward again.
+    *   Next observation will likely be: red ball 1 step left and 1 step forward.
+
+    *   Alternatively, I could turn left now.
+    *   But going forward is the most direct path to getting closer to the ball's ""forward"" coordinate.
+
+    *   Action: go forward.","a wall 2 steps forward
+a wall 1 step right
+a red ball 1 step left and 1 step forward",0,False
+7,go forward,"*   Goal: Go to the red ball.
+    *   Current Observation:
+        *   Wall: 2 steps forward
+        *   Wall: 1 step right
+        *   Red ball: 1 step left and 1 step forward.
+    *   Available Actions: turn left, turn right, go forward, pick up, drop, toggle.
+
+    *   Red ball is at (1 left, 1 forward).
+    *   To get to the ball:
+        1.  Turn left.
+        2.  Go forward (now the ball is 1 step forward).
+        3.  Turn right.
+        4.  Go forward (now the ball is 0 steps forward, i.e., under me or in front of me).
+        *OR*
+        1.  Go forward (now the ball is 1 step left and 0 steps forward).
+        2.  Turn left.
+        3.  Go forward (now the ball is 0 steps forward).
+
+    *   Let's trace the ""Go forward"" path:
+        *   Current: (1 left, 1 forward).
+        *   Action: `go forward`.
+        *   New state: Ball is 1 step left.
+        *   Next action: `turn left`.
+        *   Next action: `go forward`. (Ball is now below/in front).
+
+    *   Let's trace the ""Turn left"" path:
+        *   Current: (1 left, 1 forward).
+        *   Action: `turn left`.
+        *   New state: Ball is 1 step forward and 1 step right.
+        *   Next action: `go forward`.
+        *   Next action: `turn right`.
+        *   Next action: `go forward`.
+
+    *   Wait, if the ball is ""1 step left and 1 step forward"", moving forward first puts me in a position where the ball is just ""1 step left"".
+
+    *   Is there a better way?
+        If I `turn left`, I am now facing the direction where the ball is ""1 step forward and 1 step right"".
+        If I `go forward`, the ball becomes ""1 step left"".
+
+    Let's try `go forward`.","a wall 1 step forward
+a wall 1 step right
+a red ball 1 step left",0,False
+8,,,"
+
+Your previous output did not contain a valid action. Defaulted to action: go forward
+
+Observation:
+a wall 1 step forward
+a wall 1 step right
+a red ball 1 step left",0,False
+9,turn left,"The agent is in a navigation game.
+Go to the red ball.
+`turn left`, `turn right`, `go forward`, `pick up`, `drop`, `toggle`.
+
+    *   A wall 1 step forward.
+    *   A wall 1 step right.
+    *   A red ball 1 step left.
+
+    *   The red ball is 1 step left.
+    *   To reach the red ball, the agent needs to turn left.
+    *   After turning left, the red ball will be 1 step forward.
+    *   Then the agent can move forward to be on top of it or in front of it.
+
+    *   Observation: a red ball 1 step left.
+    *   Action: `turn left`.","a wall 1 step right
+a red ball 1 step forward",0.859375,True
