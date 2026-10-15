@@ -35,17 +35,10 @@ You always have to output one of the above actions at a time and no other text. 
 
         if messages and messages[-1].role == "user":
             messages[-1].content += "\n\n" + naive_instruction
-        
-        with open("contentnaive.txt", "a") as f: #hier weghalen remove
-            f.write(f"Content written:\n{messages}========================\n")
 
         response = self.client.generate(messages)
 
         final_answer = self._extract_final_answer(response)
-        
-        with open("contentnaive.txt", "a") as f: #hier weghalen remove
-            f.write(f"Response:\n{response}========================\n")
-            f.write(f"Action extracted:\n{final_answer}========================\n")
 
         return final_answer
 
