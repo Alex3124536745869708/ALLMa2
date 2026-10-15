@@ -1,0 +1,1111 @@
+Step,Action,Reasoning,Observation,Reward,Done
+0,turn left,"*   Goal: Go to the red box *after* picking up the green key.
+    *   Current Observation:
+        *   Wall 3 steps forward.
+        *   Wall 2 steps right.
+        *   Red box 3 steps left and 2 steps forward.
+    *   Current State: I don't have the green key yet (it's not mentioned in the observation, and I haven't picked it up).
+
+    *   Wall 3 steps forward.
+    *   Wall 2 steps right.
+    *   Red box is at (X=-3, Y=2) relative to my current facing direction (if forward is Y+).
+    *   Is there a green key? The observation doesn't list a green key.
+
+    *   Wait, the prompt says ""go to the red box *after* you pick up the green key.""
+    *   In the current observation, I only see a wall forward, a wall right, and a red box. I do *not* see a green key.
+    *   If the green key is not visible, I might need to explore or move to find it.
+    *   However, the red box is visible. But the rule is: pick up green key *first*.
+
+    *   Objective 1: Find and pick up the green key.
+    *   Objective 2: Go to the red box.
+
+    *   Observation:
+        *   Forward: Wall (3 steps).
+        *   Right: Wall (2 steps).
+        *   Red box: 3 left, 2 forward.
+    *   Since the green key isn't visible, I need to explore areas not currently blocked by walls.
+    *   Moving left seems like a good option since the red box is in that direction and there are no walls mentioned to the left.
+
+    *   Forward: Wall (3 steps).
+    *   Right: Wall (2 steps).
+    *   Left: No wall mentioned.
+    *   If I turn left, I can explore that side.
+
+    *Wait*, let's re-examine the observation:
+    ""a red box 3 steps left and 2 steps forward""
+    This means if I turn left and go 3 steps, then turn right and go 2 steps, I'll hit the red box.
+
+    But I need the green key first. If the green key isn't listed, I have to move to see more of the map.
+
+    *   Action options: turn left, turn right, go forward, pick up, drop, toggle.
+    *   Forward: Wall in 3 steps.
+    *   Right: Wall in 2 steps.
+    *   Left: Open space.
+
+    Let's try turning left to see if the green key appears in the new observation.
+
+    *   Current: Facing Forward.
+    *   Observation: Red box (3L, 2F), Wall (3F), Wall (2R).
+    *   Movement to find the key: I can't see it now. I'll turn left to explore.
+
+    Wait, if I turn left, the observation will update. Let's try that.
+
+    (Self-Correction): Is it possible the green key is hidden? Or maybe I just need to move? If I turn left, I'll be facing the direction where the red box is located (roughly).
+
+    *Action choice:* turn left.","a wall 5 steps forward
+a wall 3 steps right
+a green key 2 steps left and 3 steps forward
+a red box 2 steps right and 3 steps forward",0,False
+1,,,"
+
+Your previous output did not contain a valid action. Defaulted to action: go forward
+
+Observation:
+a wall 4 steps forward
+a wall 3 steps right
+a green key 2 steps left and 2 steps forward
+a red box 2 steps right and 2 steps forward",0,False
+2,,,"
+
+Your previous output did not contain a valid action. Defaulted to action: go forward
+
+Observation:
+a wall 3 steps forward
+a wall 3 steps right
+a green key 2 steps left and 1 step forward
+a red box 2 steps right and 1 step forward",0,False
+3,go forward,"*   Goal: Go to the red box *after* picking up the green key.
+    *   Current Status: Need to pick up the green key first.
+    *   Current Observation:
+        *   Wall 3 steps forward.
+        *   Wall 3 steps right.
+        *   Green key: 2 steps left and 1 step forward.
+        *   Red box: 2 steps right and 1 step forward.
+
+    *   The agent previously tried to turn left, but the system logged ""Defaulted to action: go forward"" (likely due to some processing error or specific prompt formatting issue in the previous turns, but the resulting state is updated).
+    *   The agent has moved forward 3 times (from the first observation to the current one).
+    *   Initial: Green key was at 2 left, 3 forward.
+    *   Now: Green key is at 2 left, 1 forward.
+
+    *   The green key is at (x=-2, y=1) relative to current position.
+    *   To get there:
+        *   Option A: Go forward 1 step, then turn left, then go forward 2 steps.
+        *   Option B: Turn left, go forward 2 steps, then turn right, then go forward 1 step.
+    *   Let's check the wall constraints. Wall is 3 steps forward. Moving 1 step forward is safe.
+
+    *   Step 1: Go forward 1 step (now key is at 2 left, 0 forward).
+    *   Step 2: Turn left.
+    *   Step 3: Go forward 2 steps.
+    *   Step 4: Pick up key.
+
+    Alternatively:
+    *   Step 1: Turn left.
+    *   Step 2: Go forward 2 steps.
+    *   Step 3: Turn right.
+    *   Step 4: Go forward 1 step.
+    *   Step 5: Pick up key.
+
+    Wait, if the key is 2 steps left and 1 step forward:
+    Current pos: (0,0)
+    Key pos: (-2, 1)
+    Forward direction: +Y axis.
+    Right direction: +X axis.
+    Left direction: -X axis.
+
+    Movements:
+    1. go forward -> pos (0,1). Key is now at (-2, 0) relative to agent.
+    2. turn left -> facing -X.
+    3. go forward 2 steps -> pos (-2, 1).
+    4. pick up.
+
+    Let's try ""go forward"" first. Or ""turn left"".
+    Actually, if I ""turn left"" now, the key (which is at 2 left, 1 forward) becomes 1 step right and 2 steps forward (relative to new facing direction -X).
+    No, that's confusing. Let's stick to the current orientation.
+
+    Key is at 2 left, 1 forward.
+    Action: go forward. (Bringing it to 2 left, 0 forward).
+
+    Wait, if I go forward 1 step:
+    Observation will likely be: ""Green key 2 steps left"".
+    Then I turn left and go forward 2 steps.
+
+    Let's double-check:
+    If I turn left now:
+    Observation will be: ""Green key 1 step right and 2 steps forward"". (Because what was forward is now right, and what was left is now forward).
+    Wait:
+    Original: Forward = +Y, Right = +X, Left = -X.
+    Key: (-2, 1).
+    Turn left: New Forward = -X, New Right = +Y, New Left = -Y.
+    Key relative to agent:
+    X_new = - (Y_old - Y_agent) = - (1 - 0) = -1 (Wait, this is wrong).
+    Rotation matrix for turn left (90 deg):
+    x' = -y
+    y' = x
+    Wait, standard 2D rotation:
+    New X = x cos(theta) - y sin(theta)
+    New Y = x sin(theta) + y cos(theta)
+    For 90 deg (turn left):
+    New X = -y
+    New Y = x
+    Current key: x=-2, y=1.
+    New X = -1, New Y = -2.
+    So it would be 1 step left and 2 steps backward. No, that's not right.
+
+    Let's just use simple logic:
+    Current: 2 left, 1 forward.
+    Action: go forward.
+    New: 2 left, 0 forward.
+    Action: turn left.
+    New: 2 forward, 0 left.
+    Action: go forward.
+    Action: go forward.
+    Action: pick up.
+
+    Alternative:
+    Action: turn left.
+    New: 1 step right, 2 steps forward? No.
+    If I face left, the object that was ""left"" is now ""forward"". The object that was ""forward"" is now ""right"".
+    So: 2 steps forward, 1 step right.
+    Then: go forward 2 steps.
+    Then: turn right.
+    Then: go forward 1 step.
+    Then: pick up.
+
+    ""go forward"" seems more direct to get the Y coordinate aligned first.
+
+    Observation:
+    a wall 3 steps forward
+    a wall 3 steps right
+    a green key 2 steps left and 1 step forward
+    a red box 2 steps right and 1 step forward
+
+    Objective: Pick up green key.
+    Current position: (0,0)
+    Key position: (-2, 1)
+    Action: go forward.
+    Expected state: (0,1), Key at (-2, 0) relative to agent.","a wall 2 steps forward
+a green key 2 steps left
+a red box 2 steps right",0,False
+4,turn left,"*   Goal: Pick up the green key, then go to the red box.
+    *   Current Observation:
+        *   Wall: 2 steps forward.
+        *   Green key: 2 steps left.
+        *   Red box: 2 steps right.
+    *   Previous Action: `go forward` (which brought the agent from 3 steps away from the wall to 2 steps away).
+
+    *   The green key is the priority.
+    *   The green key is 2 steps to the left.
+    *   To get to the green key, I need to turn left and then move forward.
+
+    *   Current orientation: Facing the wall.
+    *   Key location: 2 steps left.
+    *   Action needed: `turn left`.
+
+    *   After `turn left`, the green key should be forward. Then I can `go forward` twice and `pick up`.
+
+    *   [THOUGHT] I need to pick up the green key before going to the red box. The green key is 2 steps to my left. I should turn left to face the key.
+    *   [ACTION] turn left.","a wall 2 steps right
+a green key 2 steps forward",0,False
+5,go forward,"*   Goal: Go to the red box after picking up the green key.
+    *   Current Observation:
+        *   Wall 2 steps right.
+        *   Green key 2 steps forward.
+    *   Previous Actions/Observations sequence:
+        *   Initial: Wall 3f, Wall 2r, Red box 3l 2f.
+        *   Action: turn left.
+        *   Observation: Wall 5f, Wall 3r, Green key 2l 3f, Red box 2r 3f.
+        *   Action (defaulted): go forward.
+        *   Observation: Wall 4f, Wall 3r, Green key 2l 2f, Red box 2r 2f.
+        *   Action (defaulted): go forward.
+        *   Observation: Wall 3f, Wall 3r, Green key 2l 1f, Red box 2r 1f.
+        *   Action: go forward.
+        *   Observation: Wall 2f, Green key 2l, Red box 2r.
+        *   Action: turn left.
+        *   Current Observation: Wall 2r, Green key 2f.
+
+    *   I need the green key first.
+    *   The green key is 2 steps forward.
+    *   To pick up the green key, I need to be on top of it.
+    *   Action needed: go forward, go forward, pick up.
+
+    *   Current status: Facing the green key (2 steps forward).
+    *   Next step: Move closer to the green key.
+    *   Action: go forward.","a wall 2 steps right
+a green key 1 step forward",0,False
+6,go forward,"*   Goal: Go to the red box *after* picking up the green key.
+    *   Current Observation:
+        *   a wall 2 steps right
+        *   a green key 1 step forward
+    *   Previous Action: `go forward` (which moved me closer to the green key).
+
+    *   The green key is 1 step forward.
+    *   I need to pick up the green key before going to the red box.
+    *   To pick up the key, I first need to be *on top of it* or *in front of it*. The instructions say ""pick up: pick up the object below you"" and ""Once the desired object... in front of you, you can use the 'toggle' action to interact with it."" Wait, looking at the ""pick up"" action: ""pick up: pick up the object below you"". To get the object below me, I must move onto its position.
+    *   Current state: Key is 1 step forward.
+    *   Next step: Move forward 1 step to be on top of the green key.
+
+    *   Action: `go forward`
+    *   Result: I should be on top of the green key.
+
+    *   If I am on top of the key, the observation should reflect that the key is ""below"" me or at 0 steps. Then I can use `pick up`.
+
+    *   `turn left`
+    *   `turn right`
+    *   `go forward`
+    *   `pick up`
+    *   `drop`
+    *   `toggle`
+
+    *   Since the key is 1 step forward, `go forward` is the correct move to reach the key's position.
+
+    *   Observation: key 1 step forward.
+    *   Thought: Move to the key's position.
+    *   Action: go forward.","a wall 2 steps right
+a green key 1 step forward",0,False
+7,,,"
+
+Your previous output did not contain a valid action. Defaulted to action: go forward
+
+Observation:
+a wall 2 steps right
+a green key 1 step forward",0,False
+8,go forward,"*   Goal: Pick up the green key, then go to the red box.
+    *   Current Observation: ""a wall 2 steps right"", ""a green key 1 step forward"".
+    *   Previous action (from history): `go forward` (defaulted due to some error in the previous prompt sequence).
+    *   Current State: The green key is 1 step forward.
+
+    *   The green key is immediately in front of me (1 step forward).
+    *   To pick up the key, I first need to be on top of it or have it beneath me.
+    *   Action `go forward` will place me on the position of the green key.
+
+    *   Wait, the observation says ""a green key 1 step forward"".
+    *   If I move forward, I will be *on* the key.
+    *   Once on the key, the observation should change to indicate the key is ""below"" me.
+    *   Then I can use the `pick up` action.
+
+    *   Action: `go forward`.
+
+    *   Wait, let's re-read the observation history.
+    *   Obs: `a green key 1 step forward`
+    *   Last action: `go forward` (defaulted).
+    *   Current Obs: `a green key 1 step forward`.
+    *   Wait, if the last action was `go forward` and the observation is still `a green key 1 step forward`, it implies I haven't reached it or the movement didn't work? Or perhaps the ""defaulted"" action occurred but the observation wasn't updated?
+    *   Actually, looking at the prompt:
+        `Observation: a wall 2 steps right, a green key 1 step forward`
+        `Your previous output did not contain a valid action. Defaulted to action: go forward`
+        `Observation: a wall 2 steps right, a green key 1 step forward`
+    *   If I was 1 step away, and I moved forward, I should be *on* it. If I'm still 1 step away, maybe the action didn't happen or I'm blocked? No, the observation says the key is 1 step forward.
+    *   Let's try `go forward` again. If it still says 1 step forward, there might be an issue, but it's the only logical step to get to the key.
+
+    *   Target: Green key.
+    *   Distance: 1 step forward.
+    *   Action: `go forward`.","a wall 2 steps right
+a green key 1 step forward",0,False
+9,go forward,"*   Goal: Go to the red box after picking up the green key.
+    *   Current Observation:
+        *   Wall 2 steps right.
+        *   Green key 1 step forward.
+    *   Previous action: `go forward`.
+    *   Previous state (before the last `go forward`): `a green key 1 step forward`.
+    *   Current state: `a green key 1 step forward`.
+    *   Wait, there's a discrepancy. The observation says `a green key 1 step forward` multiple times. If I move forward once, and the key was 1 step forward, I should be on top of it.
+    *   Let's re-examine:
+        *   Obs 1 (before last `go forward`): `a green key 1 step forward`.
+        *   Action: `go forward`.
+        *   Current Obs: `a green key 1 step forward`.
+    *   This suggests the `go forward` action didn't move me closer to the key, or I'm not actually on top of it yet. Or perhaps the observation ""1 step forward"" means it's in the next square.
+    *   Wait, the previous turn's output says: ""Your previous output did not contain a valid action. Defaulted to action: go forward"". And the observation stayed the same.
+    *   Let's look at the sequence again:
+        *   Observation: `a green key 1 step forward`
+        *   Action: `go forward`
+        *   Observation: `a green key 1 step forward` (Note: The prompt says ""Your previous output did not contain a valid action. Defaulted to action: go forward"").
+        *   Observation: `a green key 1 step forward`
+        *   Action: `go forward`
+        *   Current Obs: `a green key 1 step forward`
+    *   If I keep going forward and the key remains ""1 step forward"", something is wrong. But usually, in these games, if an object is ""1 step forward"", moving forward puts you on the same tile. If I am on the same tile, the observation would usually say something like ""a green key below you"".
+    *   Since the observation still says ""1 step forward"", I should try moving forward again. However, if I've tried that multiple times and the state isn't changing, I might be blocked or the distance is not decreasing.
+    *   Actually, let's check the distance history:
+        *   Key was 2 steps forward.
+        *   Action: `go forward`.
+        *   Observation: `a green key 1 step forward`.
+        *   Action: `go forward`.
+        *   Observation: `a green key 1 step forward` (This is where the glitch happened).
+        *   Action: `go forward`.
+        *   Observation: `a green key 1 step forward`.
+    *   If the key is ""1 step forward"", one more ""go forward"" should put me on it. Once I am on it, the observation should change to ""a green key below you"".
+    *   Wait, maybe the key is not ""below"" but ""in front""? The prompt says: ""Once the desired object you want to interact or pickup in front of you, you can use the 'toggle' action to interact with it."" and ""pick up: pick up the object below you"".
+    *   Is the key ""in front"" (1 step) or ""below""?
+    *   Observation: `a green key 1 step forward`.
+    *   If I `go forward`, I will be on the key. Then I `pick up`.
+    *   Let's try `go forward` one more time. If it still says `1 step forward`, maybe I need to `toggle`? No, `pick up` is for objects below you.
+    *   Let's try `go forward`.
+
+    *   Current state: Green key is 1 step forward.
+    *   Goal: Pick up green key.
+    *   Action: `go forward` to get on top of the key.","a wall 2 steps right
+a green key 1 step forward",0,False
+10,toggle,"*   Goal: Pick up the green key, then go to the red box.
+    *   Current Observation: A wall 2 steps right, a green key 1 step forward.
+    *   Previous Actions: The agent has been trying to `go forward` to reach the green key.
+    *   State analysis:
+        *   Green key is 1 step forward.
+        *   The agent has been attempting `go forward` multiple times, but for some reason, the observation remains ""a green key 1 step forward"". Wait, let me re-read.
+        *   Observation 1: `a green key 1 step forward` -> `go forward`
+        *   Observation 2: `a green key 1 step forward` -> `go forward`
+        *   Observation 3: `a green key 1 step forward` -> `go forward`
+        *   Observation 4: `a green key 1 step forward` -> `go forward`
+        *   Current Observation: `a green key 1 step forward`
+    *   Analysis of the pattern: The agent is attempting to move forward to a key that is ""1 step forward"", but the distance doesn't seem to be decreasing, or the agent hasn't reached the point where the key is ""below"" it.
+    *   Wait, looking back at the logic:
+        *   Observation: `a green key 1 step forward`
+        *   Action: `go forward`
+        *   Next Observation: `a green key 1 step forward`
+        *   This implies that either the action `go forward` isn't working (maybe blocked?) or the key is *actually* in front of the agent, and to ""pick up"", the agent needs to be *on* the key.
+        *   If the key is 1 step forward, one `go forward` should put the agent *on* the key.
+        *   If the observation *still* says ""1 step forward"" after `go forward`, maybe there is something blocking? But the observation doesn't mention a wall in front.
+        *   Actually, let's look closer.
+        *   Observation: `a green key 1 step forward`
+        *   Agent: `go forward`
+        *   Observation: `a green key 1 step forward`
+        *   This is a loop. If the agent is 1 step away and goes forward, it should be at 0 steps (below).
+        *   If the distance isn't changing, maybe I should try `toggle`? No, the tips say ""Once the desired object... in front of you, you can use 'toggle' to interact with it"" and ""pick up: pick up the object below you"".
+        *   Wait, maybe the ""1 step forward"" means the key is *right in front* of me. If I `go forward`, I should be *on* it.
+        *   If I am *on* it, the observation should change to say the key is ""below"" or not mention the distance.
+        *   Let's try `go forward` one more time? No, that's what happened last time.
+        *   Is it possible that `toggle` is required to ""interact"" with it before picking it up? The tip says ""Once the desired object... in front of you, you can use the 'toggle' action to interact with it.""
+        *   The key is 1 step forward (in front). Let's try `toggle`.
+        *   Wait, let me re-read the ""pick up"" description: ""pick up: pick up the object below you"".
+        *   If I `go forward` and the observation stays `a green key 1 step forward`, maybe the agent is stuck?
+        *   Actually, looking at the previous turn:
+            User: `Observation: a wall 2 steps right, a green key 1 step forward`
+            Model: `go forward`
+            User: `Observation: a wall 2 steps right, a green key 1 step forward`
+        *   If the distance doesn't change, maybe the key is *not* an object you step on, but an object you `toggle`? Or maybe I need to be exactly on it.
+        *   Let's try `go forward` again? No, the prompt says ""It doesn't make sense to repeat the same action over and over if the observation doesn't change.""
+        *   If `go forward` didn't move me closer to the key (it's still 1 step forward), maybe there's an invisible wall or I need to `toggle` it first.
+        *   Let's try `toggle`.
+
+    *   Current state: Green key is 1 step forward.
+    *   Goal: Pick up green key.
+    *   Action `go forward` hasn't worked (observation didn't change).
+    *   Tip: ""Once the desired object... in front of you, you can use the 'toggle' action to interact with it.""
+    *   Since `go forward` is failing to move the agent onto the key, maybe `toggle` is the intended interaction to ""pick it up"" or ""activate"" it? Or maybe I need to move forward and then `pick up`. But the observation isn't changing.
+    *   Wait, if I `go forward` and the key is still ""1 step forward"", it's possible I'm not moving.
+    *   Let's try `toggle`.
+
+    *   Wait, let me re-read the observation history again.
+    *   Obs: `a green key 2 steps forward` -> `go forward` -> Obs: `a green key 1 step forward`. (This worked).
+    *   Obs: `a green key 1 step forward` -> `go forward` -> Obs: `a green key 1 step forward`. (This failed).
+    *   If `go forward` doesn't work when the object is 1 step forward, it might mean I'm already *at* the position where I can't move forward any further, or the key is ""in front"" of me.
+    *   If the key is ""in front"" of me, I should use `toggle` to interact with it or `go forward` to be *on* it.
+    *   If `go forward` didn't change the distance from 1 to 0 (below), then I cannot move forward.
+    *   If I cannot move forward, I must `toggle` it.
+
+    *   Wait, let's think about the ""pick up"" action again. ""pick up the object below you"".
+    *   If the key is 1 step forward, it's not below me.
+    *   If `go forward` doesn't change the observation, maybe I should try `pick up`? No, that's for things *below*.
+    *   Let's try `toggle`.","a wall 2 steps right
+a green key 1 step forward",0,False
+11,pick up,"*   Goal: Pick up the green key, then go to the red box.
+    *   Current status: I have been trying to interact with the green key.
+    *   Observation: ""a wall 2 steps right"", ""a green key 1 step forward"".
+    *   Previous action: `toggle`.
+    *   Result of `toggle`: The observation didn't change. The green key is still 1 step forward.
+
+    *   The green key is 1 step forward.
+    *   To pick up the key, I need to be *on top of it* (based on the prompt: ""pick up: pick up the object below you"").
+    *   The `toggle` action is for interacting with objects *in front of* you. The goal is to *pick up* the key.
+    *   If I am 1 step away from the key, I need to move forward one more step to be on top of it.
+
+    *   Wait, I've been trying `go forward` multiple times, and the observation stayed ""a green key 1 step forward"".
+    *   Looking at the history:
+        *   Obs: green key 2 steps forward -> action: `go forward` -> Obs: green key 1 step forward.
+        *   Obs: green key 1 step forward -> action: `go forward` -> Obs: green key 1 step forward (stuck).
+        *   Obs: green key 1 step forward -> action: `go forward` -> Obs: green key 1 step forward (stuck).
+        *   Obs: green key 1 step forward -> action: `go forward` -> Obs: green key 1 step forward (stuck).
+        *   Obs: green key 1 step forward -> action: `toggle` -> Obs: green key 1 step forward.
+
+    *   Wait, if `go forward` keeps resulting in ""green key 1 step forward"", maybe I'm blocked or there's a logic error in the game state, OR I am actually on it but the observation is slightly misleading?
+    *   Actually, let's look at the sequence again.
+        - Obs: green key 2 steps forward. Action: `go forward`.
+        - Obs: green key 1 step forward. Action: `go forward`.
+        - Obs: green key 1 step forward. (Repeat)
+    *   This suggests that I cannot move forward further, or the distance doesn't decrease.
+    *   However, the prompt says ""pick up: pick up the object below you"".
+    *   If the key is ""1 step forward"", I am not yet *below* it.
+    *   Wait, is there something else? ""a wall 2 steps right"".
+    *   If `go forward` is not working, maybe I need to `toggle` it from 1 step away? The prompt says: ""Once the desired object you want to interact or pickup in front of you, you can use the 'toggle' action to interact with it.""
+    *   Wait, if the goal is to *pick up* the key, and the action `pick up` is for objects *below* me, but the `toggle` is for objects *in front* of me...
+    *   Let's try `pick up`. But I'm 1 step away.
+    *   Wait, let's re-read the ""Tips"": ""Once the desired object you want to interact or pickup in front of you, you can use the 'toggle' action to interact with it.""
+    *   This implies that if the key is in front of me, I should use `toggle` to pick it up? Or maybe `toggle` interacts with a door/switch and `pick up` is specifically for items?
+    *   Let's look at the prompt again: ""pick up: pick up the object below you"". ""toggle: manipulate the object in front of you"".
+    *   Usually, ""pick up"" is for keys. ""Toggle"" is for doors/switches.
+    *   If I'm stuck at ""1 step forward"", and `go forward` isn't moving me closer, and `toggle` didn't change anything... maybe I should try `pick up` just in case ""1 step forward"" counts as ""below"" or the game engine is weird? Or maybe I should try to `go forward` one more time?
+    *   Wait, let's look at the sequence again.
+        1. `go forward` -> key 1 step forward.
+        2. `go forward` -> key 1 step forward.
+        3. `go forward` -> key 1 step forward.
+        4. `go forward` -> key 1 step forward.
+    *   It seems `go forward` is not working. This usually means there's an obstacle or I've reached the limit. But the observation says ""a green key 1 step forward"". There is no wall mentioned as being 1 step forward.
+    *   Could it be that I need to `pick up`? Let's try `pick up`.
+
+    *   Wait, the tip says: ""Once the desired object you want to interact or pickup in front of you, you can use the 'toggle' action to interact with it.""
+    *   ""pickup in front of you... use 'toggle'"". This is a very specific tip. It explicitly links ""pickup"" to ""toggle"" when the object is ""in front"".
+    *   I tried `toggle` and the observation stayed ""a green key 1 step forward"".
+    *   If `toggle` didn't work and `go forward` didn't work, what's left?
+    *   Maybe the `toggle` action *did* work, but the observation hasn't updated to say ""you are holding the green key""?
+    *   Actually, the observation provided is: ""a wall 2 steps right, a green key 1 step forward"".
+    *   If I used `toggle` and the key is still there, it didn't work.
+
+    *   Let's re-read carefully: ""pick up: pick up the object below you"".
+    *   If I can't move to the space the key is on (since `go forward` results in ""1 step forward"" repeatedly), maybe I'm already on it and the observation is just weird? No, ""1 step forward"" is quite explicit.
+    *   Is it possible I need to `pick up` despite the ""1 step forward"" observation?
+    *   Or is it possible that `toggle` is meant to be used when the object is *exactly* 1 step forward? I tried that.
+
+    *   Let's try `go forward` again? No, I've tried it 4 times.
+    *   Let's try `pick up`.
+
+    *   Wait, look at the prompt's Tips again: ""Once the desired object you want to interact or pickup in front of you, you can use the 'toggle' action to interact with it.""
+    *   This implies that to pick up the key *when it is in front of you*, you use `toggle`.
+    *   I just did `toggle`. The observation remained the same.
+    *   If `toggle` didn't work and `go forward` didn't work, maybe I need to move around?
+    *   But there is only a wall 2 steps right.
+    *   Let's try `pick up` just in case.
+
+    *   Observation: `a wall 2 steps right`, `a green key 1 step forward`.
+    *   If I am 1 step away, and `go forward` doesn't move me, and `toggle` (which the tip says is for objects in front) doesn't work...
+    *   Maybe I need to `pick up`?
+
+    *   Wait, the prompt says ""pick up: pick up the object below you"".
+    *   If I am 1 step away, I am not below it.
+    *   Let's try `go forward` one more time? The user says ""Your previous output did not contain a valid action"" in the history. This happens when the model outputs something other than the action.
+    *   The most recent action was `toggle`. The result was the same observation.
+
+    *   Let's think: if the key is 1 step forward, and I can't move forward, and `toggle` doesn't work... maybe I'm already holding it? No, it's still in the observation.
+    *   What if the ""1 step forward"" is the distance I must be at to use `pick up`? (Contrary to the ""below you"" description).
+    *   Or what if `toggle` was the right move, but I need to do it again? No, that doesn't make sense.
+
+    *   Let's try `pick up`.
+
+    *   Self-Correction: The tip says ""Once the desired object you want to interact or pickup in front of you, you can use the 'toggle' action to interact with it.""
+    *   This is a very strong hint. I used `toggle` once. It didn't change the observation.
+    *   Is it possible the key is *not* the object to be ""toggled"" but ""picked up"", and the tip is just general?
+    *   Let's try `pick up`.
+
+    *   Wait, let me look at the history again.
+        Observation: `a green key 1 step forward`
+        Action: `go forward`
+        Observation: `a green key 1 step forward`
+        (This happened 4 times).
+    *   This strongly suggests that the agent is stuck. If `go forward` doesn't work, and `toggle` doesn't work, the only other action that makes sense for an object is `pick up`.
+
+    *   Reasoning:
+        1. Current goal: Pick up green key.
+        2. Position: Green key is 1 step forward.
+        3. Attempted: `go forward` (multiple times, no change), `toggle` (once, no change).
+        4. Available actions: `pick up`, `drop`, `turn left`, `turn right`.
+        5. `pick up` is used for objects below the agent. If `go forward` doesn't work, the agent might already be in the required position for `pick up`, or the ""1 step forward"" description is slightly offset from the ""below you"" requirement.
+        6. Given the failure of `go forward` and `toggle`, `pick up` is the only logical choice.
+
+    *   Action: `pick up`.","You carry a green key
+a wall 3 steps forward
+a wall 2 steps right",0,False
+12,turn left,"*   Goal: Go to the red box after picking up the green key.
+    *   Current State:
+        *   Holding: green key.
+        *   Observation:
+            *   a wall 3 steps forward.
+            *   a wall 2 steps right.
+    *   Previous Actions:
+        *   Turned left, went forward several times to reach the green key.
+        *   Tried to `toggle` (which didn't seem to do anything since it's a key).
+        *   `pick up` was successful (now carrying the green key).
+
+    *   I have the green key. Now I need to find the red box.
+    *   Looking back at the previous observations:
+        *   Observation 1: a red box 3 steps left and 2 steps forward.
+        *   Observation 2: a red box 2 steps right and 3 steps forward.
+        *   Observation 3: a red box 2 steps right and 2 steps forward.
+        *   Observation 4: a red box 2 steps right and 1 step forward.
+        *   Observation 5: a red box 2 steps right.
+    *   Wait, the agent's orientation changed. Let's re-trace the movement to locate the red box relative to current position.
+        *   Start: Red box was at (3 left, 2 forward).
+        *   Action: Turn left. (Now facing the direction that was ""left"").
+        *   Action: Go forward 3 steps (approx).
+        *   Observation: Green key was 2 steps forward. (Current facing: what was original left).
+        *   Action: Go forward until on the key.
+        *   Observation before picking up: ""a wall 2 steps right, a green key 1 step forward"" (Wait, it said 1 step forward multiple times, then I picked it up).
+        *   Current state: ""a wall 3 steps forward, a wall 2 steps right"".
+
+    *   Let's analyze the relative coordinates from Observation 5 (just before picking up the key):
+        *   Green key was at 0 steps forward (since I picked it up).
+        *   Red box was 2 steps right (from Observation 5: ""a green key 2 steps left, a red box 2 steps right""). *Wait*, looking back at the prompt: ""Observation: a wall 2 steps forward, a green key 2 steps left, a red box 2 steps right"".
+        *   Then I turned left.
+        *   Then I went forward until I was at the key.
+        *   When I was at the key, the red box would have been... where?
+        *   If I turned left and moved forward to the key, the red box (which was 2 steps right of my previous position) is now behind me and to the right.
+
+    *   Let's trace the coordinates (X, Y, Facing):
+        1.  Start: (0,0, North). Red Box at (-3, 2).
+        2.  Turn Left: (0,0, West). Red Box at (2, 3) relative to West (Wait: Original North Y+ is forward, Original West X- is left. New forward is X-, new right is Y+).
+            *   Red Box Original: X=-3, Y=2.
+            *   Current Pos: X=0, Y=0. Facing West (X-).
+            *   Relative to West: Forward = X-, Right = Y+, Left = Y-, Back = X+.
+            *   Red Box Relative: X is -3 (3 steps forward), Y is 2 (2 steps right).
+        3.  Wait, looking at Observation 2: ""a green key 2 steps left and 3 steps forward, a red box 2 steps right and 3 steps forward"".
+            *   If Facing West: Forward is X-.
+            *   Red box at (X-3, Y+2). Green key at (X-3, Y-2).
+        4.  Agent moved forward (Facing West) 3 steps.
+            *   New Pos: (-3, 0). Facing West.
+            *   Red box is now at (-3, 2). Relative to (-3, 0) facing West: 0 steps forward, 2 steps right.
+            *   Green key is now at (-3, -2). Relative to (-3, 0) facing West: 0 steps forward, 2 steps left.
+        5.  Observation 5 says: ""a wall 2 steps forward, a green key 2 steps left, a red box 2 steps right"". (Matches my trace).
+        6.  Agent turned left (now facing South, Y-).
+            *   New Pos: (-3, 0). Facing South.
+            *   Red box at (-3, 2). Relative to (-3, 0) facing South: Forward is Y-, Right is X+, Left is X+, Back is Y+.
+            *   Wait: Relative to (-3, 0) facing South (Y-): Red box is at Y=2 (2 steps back), X=-3 (0 steps left/right).
+        7.  Agent went forward to the key.
+            *   Key was at (-3, -2).
+            *   Agent moved 2 steps South to (-3, -2).
+            *   Now at (-3, -2), facing South.
+            *   Red Box is at (-3, 2).
+            *   Relative to (-3, -2) facing South: Forward is Y-, Back is Y+.
+            *   Red Box is at Y=2. Distance = 2 - (-2) = 4 steps back.
+
+    *   Let's re-verify:
+        *   At key position (-3, -2), facing South.
+        *   Red box is at (-3, 2).
+        *   To get to the red box, I need to turn around (turn left/right twice) or turn right/left and move.
+        *   Turning around (Face North) and moving forward 4 steps would reach (-3, 2).
+
+    *   Observation: ""a wall 3 steps forward, a wall 2 steps right"".
+    *   I am facing South.
+    *   A wall is 3 steps forward (at Y = -5).
+    *   A wall is 2 steps right (at X = -1, Y = -2).
+    *   The red box is behind me (at Y = 2).
+
+    *   I need to go back the way I came.
+    *   Action: turn left (facing East) or turn right (facing West).
+    *   Actually, if I turn left twice, I'll face North.
+    *   Let's try turning around.
+
+    *Wait*, let me re-read the observations carefully.
+    Observation 5: ""a wall 2 steps forward, a green key 2 steps left, a red box 2 steps right""
+    Then: ""turn left"" -> Facing the key.
+    Then: ""go forward"" 2 times -> now on the key.
+    Current Observation: ""a wall 3 steps forward, a wall 2 steps right""
+    Since I was facing the key (which was to the left of my original path), and the red box was to the right of my original path, the red box is now behind me and to the right (relative to the key direction).
+
+    Wait, if I'm at the key (-3, -2) facing South, and the red box is at (-3, 2).
+    Red box is exactly 4 steps behind me.
+    To go there, I should turn around.
+
+    *Alternative*: Maybe I can just turn right, turn right, and then go forward.
+
+    Let's check the actions again.
+    Current action: turn left.
+    Next action: turn left.
+    Then: go forward.
+
+    Let's double check if the red box is still there.
+    Previous observations mentioned the red box.
+    Observation: ""a green key 2 steps left, a red box 2 steps right"" (when facing West).
+    Then turn left (facing South).
+    Go forward 2 steps (to the key).
+    Now facing South at the key.
+    Red box is at the same X coordinate (-3) but Y=2.
+    Distance is 4 steps North.
+    Facing South, North is behind me.
+
+    So:
+    1. Turn left (Face East)
+    2. Turn left (Face North)
+    3. Go forward 4 steps.
+
+    Is there a better way?
+    Turn right, Turn right. (Same result).
+
+    Wait, let's look at the ""a wall 2 steps right"" in the current observation.
+    I am at (-3, -2) facing South.
+    Wall 2 steps right is at X = -1, Y = -2.
+    Wall 3 steps forward is at X = -3, Y = -5.
+
+    My target is (-3, 2).
+    Facing South, the red box is at (-3, 2), which is 4 steps backward.
+
+    Action: turn left.","You carry a green key
+a wall 5 steps forward
+a wall 3 steps right
+a red box 3 steps left",0,False
+13,,,"
+
+Your previous output did not contain a valid action. Defaulted to action: go forward
+
+Observation:
+You carry a green key
+a wall 4 steps forward
+a wall 3 steps right",0,False
+14,,,"
+
+Your previous output did not contain a valid action. Defaulted to action: go forward
+
+Observation:
+You carry a green key
+a wall 3 steps forward
+a wall 3 steps right",0,False
+15,,,"
+
+Your previous output did not contain a valid action. Defaulted to action: go forward
+
+Observation:
+You carry a green key
+a wall 2 steps forward
+a wall 3 steps right",0,False
+16,turn left,"*   Goal: Go to the red box *after* picking up the green key.
+    *   Current state: I am carrying the green key.
+    *   Current observation:
+        *   You carry a green key.
+        *   a wall 2 steps forward.
+        *   a wall 3 steps right.
+    *   Previous sequence:
+        *   Picked up the green key.
+        *   Turned left.
+        *   Several ""go forward"" actions (defaulted) were taken.
+        *   Current position: Wall 2 steps forward, wall 3 steps right.
+
+    *   Before picking up the key, the red box was at ""2 steps right and 1 step forward"" (relative to the position where the key was ""2 steps left and 1 step forward"").
+    *   Let's re-examine the coordinate system from earlier:
+        *   At one point: ""a green key 2 steps left and 1 step forward; a red box 2 steps right and 1 step forward"".
+        *   Then I went forward (now: green key 2 steps left, red box 2 steps right).
+        *   Then I turned left and went forward to pick up the key.
+        *   Now I have the key.
+
+    *   Wait, let's trace the movement again:
+        1.  Observation: green key 2 left, 1 forward; red box 2 right, 1 forward.
+        2.  Action: `go forward`.
+        3.  Observation: green key 2 left; red box 2 right.
+        4.  Action: `turn left`.
+        5.  Observation: green key 2 forward.
+        6.  Action: `go forward` (twice).
+        7.  Action: `pick up` (obtained green key).
+        8.  Observation: You carry a green key; wall 3 steps forward; wall 2 steps right. (At this point, I am standing where the green key was).
+
+    *   Now, where is the red box?
+        *   When I was at the ""green key 2 left; red box 2 right"" spot:
+            *   The key was at (x-2, y).
+            *   The box was at (x+2, y).
+        *   I turned left and moved 2 steps forward to the key.
+            *   My new position is (x-2, y).
+            *   The red box is at (x+2, y).
+        *   Relative to my current position (x-2, y), the red box is at (x+2, y).
+        *   Distance: (x+2) - (x-2) = 4 units to the right (relative to the original axis).
+        *   Wait, let's check my orientation.
+            *   Original orientation: Facing north (towards the wall).
+            *   Action `turn left`: Now facing west.
+            *   Action `go forward` (2 steps): Now at the key's position.
+            *   Current orientation: West.
+            *   Relative to west:
+                *   North is now Right.
+                *   South is now Left.
+                *   East is now Behind.
+            *   The red box was at (x+2, y), which is East of (x,y) and therefore East of (x-2, y).
+            *   If I am facing West, East is behind me.
+            *   To get to the red box (East), I need to turn around or turn right twice. Or turn right (now facing North) and then move.
+
+    *   Let's check the most recent observations again:
+        *   ""You carry a green key, a wall 5 steps forward, a wall 3 steps right, a red box 3 steps left"" (This happened after `turn left`).
+        *   Wait, let's re-read carefully:
+            *   Observation after `turn left`: ""You carry a green key, a wall 5 steps forward, a wall 3 steps right, a red box 3 steps left"".
+            *   Then several ""go forward"" defaults happened (3 steps).
+            *   Now: ""You carry a green key, a wall 2 steps forward, a wall 3 steps right"".
+
+    *   Wait, if the red box was 3 steps left and I moved forward 3 steps, where is it now?
+        *   Initial (after turn left): Position (0,0), Facing West. Box at (-3, 0) - No, ""3 steps left"" means relative to current facing.
+        *   If Facing West: Left is South. Box is at (0, -3).
+        *   Moved forward (West) 3 steps: New position (-3, 0).
+        *   Now, the box at (0, -3) is relative to (-3, 0): 3 steps East (Right) and 3 steps South (Left).
+        *   Actually, let's just look at the ""a red box 3 steps left"" observation.
+        *   After that, the agent moved forward 3 times.
+        *   If the box was to the left, moving forward keeps the box to the left, but it moves ""back"" relative to the forward axis.
+        *   Current observation: ""a wall 2 steps forward, a wall 3 steps right"". The red box is no longer mentioned.
+
+    *   Wait, the ""a red box 3 steps left"" was in an observation *after* picking up the key.
+        *   Position at key pickup: (x-2, y), Facing West.
+        *   Observation: ""a red box 3 steps left"".
+        *   Wait, if I'm at (x-2, y) facing West, ""left"" is South. This doesn't match the ""red box 2 steps right"" (East) from earlier.
+        *   Let's re-evaluate.
+        *   Original: key at (-2, 1), box at (2, 1).
+        *   Move forward: key at (-2, 0), box at (2, 0).
+        *   Turn left: Facing West.
+        *   Move forward 2: Position (-2, 0).
+        *   Pick up key.
+        *   Current position (-2, 0), facing West.
+        *   Red box is at (2, 0).
+        *   Distance from (-2, 0) to (2, 0) is 4 units East.
+        *   Since I am facing West, East is behind me.
+
+    *   Let's look at the observations again.
+        *   Observation after `turn left`: ""a wall 5 steps forward, a wall 3 steps right, a red box 3 steps left"".
+        *   Wait, if the red box is 3 steps left and I am facing West, then the red box is at (x-2, y-3). This contradicts the previous ""2 steps right"" observation.
+
+    *   Let's ignore the complex coordinate tracking and focus on the most recent available info.
+        *   The red box was mentioned as ""3 steps left"" some steps ago.
+        *   I then moved forward 3 times.
+        *   If the box was 3 steps left, and I moved forward 3 steps, the box is now 3 steps left and 3 steps behind me.
+        *   To get to it: Turn right (now facing North), go forward 3 steps, turn right (now facing East), go forward 3 steps? No, that's not right.
+
+    *   Let's try to find the box.
+        *   I'm currently facing a wall 2 steps forward and a wall 3 steps right.
+        *   I'll try turning around to find the box.
+
+    *   Wait, let's look at the observations one more time.
+        Observation 1: key 2L 3F, box 2R 3F.
+        Observation 2 (after go forward): key 2L 2F, box 2R 2F.
+        Observation 3 (after go forward): key 2L 1F, box 2R 1F.
+        Observation 4 (after go forward): key 2L, box 2R.
+        Observation 5 (after turn left): key 2F.
+        Observation 6 (after go forward): key 1F.
+        Observation 7 (after go forward): key 1F (Wait, why did it stay 1F?).
+        Observation 8 (after go forward): key 1F.
+        Observation 9 (after go forward): key 1F.
+        Observation 10 (after toggle): key 1F.
+        Observation 11 (after pick up): Carrying key, wall 3F, wall 2R. (This is the key's location).
+        Observation 12 (after turn left): wall 5F, wall 3R, red box 3L. (Facing South now).
+        Observation 13 (after go forward): wall 4F, wall 3R.
+        Observation 14 (after go forward): wall 3F, wall 3R.
+        Observation 15 (after go forward): wall 2F, wall 3R. (Current).
+
+    *   Re-tracing:
+        At Obs 12: Facing South. Red box 3 steps Left (East).
+        At Obs 13: Moved 1 step South. Red box is now 3 steps Left and 1 step Behind.
+        At Obs 14: Moved 2 steps South. Red box is now 3 steps Left and 2 steps Behind.
+        At Obs 15: Moved 3 steps South. Red box is now 3 steps Left and 3 steps Behind.
+
+        Current position: (x-2, y-3), Facing South.
+        Red box position: (x+2, y) -- wait, the ""3 steps left"" in Obs 12 is confusing. Let's use the ""3 steps left"" as the ground truth.
+        Obs 12: Position (x-2, y), Facing South. Box is at (x-2 + 3, y) = (x+1, y)? No, ""Left"" when facing South is East. So (x-2+3, y) = (x+1, y).
+        Then moved 3 steps forward (South): New position (x-2, y-3).
+        Box is at (x+1, y).
+        Relative to (x-2, y-3), the box is 3 steps East (Left) and 3 steps North (Behind).
+
+    *   To get to the box:
+        1.  Turn right (now facing West).
+        2.  Turn right (now facing North).
+        3.  Go forward 3 steps.
+        4.  Turn left (now facing West).
+        5.  Wait, this is confusing. Let's just try turning around.
+
+    *   Alternatively, let's look at the options. I am at a wall 2 steps forward. I can't go forward much more. I should probably turn.
+
+    *   If I turn right, I'll face West.
+    *   If I turn right again, I'll face North.
+    *   If I turn right again, I'll face East.
+    *   The box was to my left (East) when I was facing South.
+    *   So if I turn right (West), turn right (North), turn right (East), I will be facing the box.
+    *   Or, more simply, turn left (facing East).
+
+    *   Let's try `turn right` first to see what happens, or `turn left` to face East.
+    *   Wait, Obs 12: Facing South, box 3 steps Left (East).
+    *   If I turn left now (Obs 15), I will be facing East.
+    *   If the box is 3 steps East and 3 steps North, turning left and moving forward will get me to (x+1, y-3). Then I'll need to go North.
+
+    *   Let's try `turn right` to move away from the wall.
+
+    *   Wait, let's re-read the observation again. ""a wall 2 steps forward, a wall 3 steps right"".
+        If I turn right, I'll be facing the wall that was 3 steps right.
+        If I turn left, I'll be facing the open space.
+
+    *   Action: `turn left`.","You carry a green key
+a wall 4 steps forward
+a wall 2 steps right
+a red box 3 steps left and 3 steps forward",0,False
+17,turn left,"*   Goal: Pick up the green key, then go to the red box.
+    *   Current State: Holding the green key.
+    *   Current Observation:
+        *   You carry a green key.
+        *   Wall 4 steps forward.
+        *   Wall 2 steps right.
+        *   Red box 3 steps left and 3 steps forward.
+
+    *   Target: Red box.
+    *   Position of Red box: 3 steps left, 3 steps forward.
+    *   To get there, I need to change my orientation to face the general direction of the red box or move in a way that brings me closer.
+    *   Current facing: forward (wall in 4 steps).
+    *   Action possibilities: `turn left`, `turn right`, `go forward`, `pick up`, `drop`, `toggle`.
+
+    *   The red box is ""3 steps left and 3 steps forward"".
+    *   If I turn left, the box (which was 3 left, 3 forward) will now be (3 forward, 3 right) relative to the new facing.
+    *   Wait, let's re-evaluate the coordinates relative to current facing:
+        *   Forward: 0, +y
+        *   Left: -x, 0
+        *   Right: +x, 0
+        *   Red Box: x = -3, y = +3
+    *   If I turn left:
+        *   New Forward: -x
+        *   New Right: +y
+        *   New Left: -y
+        *   The box at (-3, 3) is now 3 steps Forward (-x direction) and 3 steps Right (+y direction).
+    *   Alternatively, if I `go forward` first:
+        *   I move to (0, 1).
+        *   Red box is now 3 steps left and 2 steps forward.
+    *   If I `turn left` now:
+        *   I face -x.
+        *   Red box is at (-3, 3). Relative to me: 3 forward, 3 right.
+    *   The goal is to minimize steps or navigate efficiently. Since I need to go 3 left and 3 forward, turning left first puts me on the path to moving in the x-direction.
+
+    *   Current: (0,0), facing North. Box: (-3, 3).
+    *   Action: Turn Left.
+    *   New: (0,0), facing West. Box: (3 steps forward, 3 steps right).
+    *   Action: Go forward 3 times.
+    *   New: (-3, 0), facing West. Box: (3 steps right).
+    *   Action: Turn Right.
+    *   New: (-3, 0), facing North. Box: (3 steps forward).
+    *   Action: Go forward 3 times.
+    *   New: (-3, 3). Goal reached.
+
+    *   Observation says: ""a red box 3 steps left and 3 steps forward"".
+    *   To move left, I must first `turn left`.
+
+    *   Current observation: Red box is 3 steps left and 3 steps forward.
+    *   Action: `turn left`.","You carry a green key
+a wall 5 steps forward
+a wall 3 steps left
+a red box 3 steps right and 3 steps forward",0,False
+18,turn right,"*   Goal: Go to the red box after picking up the green key.
+    *   Current status: Carrying the green key.
+    *   Current Observation:
+        *   Wall 5 steps forward.
+        *   Wall 3 steps left.
+        *   Red box 3 steps right and 3 steps forward.
+
+    *   The agent is carrying the green key.
+    *   The target is the red box.
+    *   The red box is located at (3 steps right, 3 steps forward).
+
+    *   To get to the red box (3 right, 3 forward), the agent needs to face the red box or move toward it.
+    *   Currently facing ""forward"".
+    *   The red box is to the right and forward.
+    *   Strategy:
+        1.  Turn right to face the general direction of the red box.
+        2.  Move forward.
+        3.  Turn left and move forward to reach the coordinates.
+        *Alternatively:* Move forward 3 steps, then turn right and move 3 steps.
+
+    *   Current position relative to red box: Red box is 3 steps right and 3 steps forward.
+    *   If I turn right, the red box will be 3 steps forward and 3 steps left (or something similar depending on coordinates).
+    *   Let's check:
+        *   Forward = Y axis (+), Right = X axis (+).
+        *   Current position (0,0). Red box (3, 3).
+        *   Turn right: New forward is X axis (+). New left is Y axis (+).
+        *   Red box is now 3 steps forward (X=3) and 3 steps left (Y=3).
+
+    *   Wait, let's try moving forward first.
+        *   Current position (0,0).
+        *   Move forward 3 steps -> position (0, 3).
+        *   Then the red box (3, 3) will be 3 steps to the right.
+
+    *   Let's try turning right first.
+        *   Turn right -> facing East.
+        *   Move forward 3 steps -> position (3, 0).
+        *   Then turn left (facing North) and move 3 steps -> position (3, 3).
+
+    *   Looking at the current observation: ""a red box 3 steps right and 3 steps forward"".
+    *   Possible action: Turn right.
+
+    *   Previous action was ""turn left"".
+    *   The agent was trying to find the red box.
+    *   The red box is now ""3 steps right and 3 steps forward"".
+
+    *   Immediate objective: Move toward the red box.
+    *   Step: Turn right to orient toward the red box's X-coordinate.
+
+    *   Wait, let me double-check if there's a more direct way.
+    *   If I ""go forward"", I get closer to the Y-coordinate of the box.
+    *   If I ""turn right"", I orient myself toward the X-coordinate of the box.
+
+    *   Let's see the surroundings:
+        *   Wall 5 steps forward. (I can go forward 3 steps safely).
+        *   Wall 3 steps left.
+        *   Red box 3 steps right and 3 steps forward.
+
+    *   If I go forward 3 steps:
+        *   (0,0) -> (0,1) -> (0,2) -> (0,3).
+        *   At (0,3), the red box (3,3) will be 3 steps to the right.
+
+    *   If I turn right:
+        *   Now facing right.
+        *   Red box is 3 steps forward and 3 steps left.
+
+    *   Either ""go forward"" or ""turn right"" is valid. Let's choose ""turn right"" to start moving toward the X-offset first. Or ""go forward"" to resolve the Y-offset.
+    *   Actually, usually, these games prefer a ""turn"" to a target coordinate if it's not directly in front. But ""go forward"" is also efficient.
+
+    *   Let's try `turn right`.
+
+    *   Check valid actions: turn left, turn right, go forward, pick up, drop, toggle.
+    *   Current Observation: red box 3 steps right and 3 steps forward.
+    *   Action: turn right.","You carry a green key
+a wall 4 steps forward
+a wall 2 steps right
+a red box 3 steps left and 3 steps forward",0,False
+19,,,"
+
+Your previous output did not contain a valid action. Defaulted to action: go forward
+
+Observation:
+You carry a green key
+a wall 3 steps forward
+a wall 2 steps right
+a red box 3 steps left and 2 steps forward",0,False
+20,,,"
+
+Your previous output did not contain a valid action. Defaulted to action: go forward
+
+Observation:
+You carry a green key
+a wall 2 steps forward
+a wall 2 steps right
+a red box 3 steps left and 1 step forward",0,False
+21,turn left,"*   Goal: Go to the red box after picking up the green key.
+    *   Status: I have the green key (""You carry a green key"").
+    *   Current Observation:
+        *   Wall 2 steps forward.
+        *   Wall 2 steps right.
+        *   Red box: 3 steps left AND 1 step forward.
+    *   Objective: Reach the red box.
+
+    *   The red box is located at (relative to current facing): 1 step forward and 3 steps left.
+    *   Current direction: Facing forward.
+    *   The red box is to the left.
+
+    *   To get to a location that is ""left and forward"", I should generally turn left to face that direction or move forward and then turn left.
+    *   Wait, the observation says ""a red box 3 steps left and 1 step forward"".
+    *   If I turn left, the red box will then be ""3 steps forward and 1 step right"" (roughly).
+    *   Let's check the previous turns:
+        *   I was turning left/right and moving forward.
+        *   I am currently facing a wall 2 steps forward.
+        *   The box is 3 steps left and 1 step forward.
+
+    *   Since the box is mostly to my left, turning left is a logical step to orient myself toward it.
+
+    *   Action: turn left.
+
+    *   The red box is at (x=-3, y=1) where y is forward and x is right.
+    *   Current facing: +y.
+    *   Action `turn left` changes facing to -x.
+    *   New relative position: The box is now at (y_new=3, x_new=1) (since -x is now forward and +y is now right).
+    *   This brings me closer to facing the box.","You carry a green key
+a wall 5 steps forward
+a wall 2 steps right
+a red box 1 step right and 3 steps forward",0,False
+22,go forward,"*   Goal: Go to the red box after picking up the green key.
+    *   Current State:
+        *   Carrying: Green key.
+        *   Observation:
+            *   Wall 5 steps forward.
+            *   Wall 2 steps right.
+            *   Red box 1 step right and 3 steps forward.
+    *   Previous state/action history: The agent has been turning and moving forward. The last few actions involved turning left and moving forward (defaulted).
+
+    *   The red box is at (relative coordinates): +1 right, +3 forward.
+    *   Current Orientation: Facing ""forward"".
+    *   To reach (1, 3):
+        *   Option 1: Go forward 3 steps, then turn right and go forward 1 step.
+        *   Option 2: Turn right, go forward 1 step, turn left, and go forward 3 steps.
+
+    *   If I go forward 3 steps:
+        *   Current: Wall 5 steps forward.
+        *   After 1 step: Wall 4 steps forward.
+        *   After 2 steps: Wall 3 steps forward.
+        *   After 3 steps: Wall 2 steps forward.
+        *   The box will be 1 step right.
+
+    *   Let's check the options again.
+        *   Forward: Wall at 5. Red box at (1, 3).
+        *   Action ""go forward"" is safe.
+
+    *   Current Observation: ""a red box 1 step right and 3 steps forward"".
+    *   If I move forward once, the box will be 1 step right and 2 steps forward.
+    *   If I turn right, the box will be 3 steps forward and 1 step left (Wait, no. If I turn right, the current ""forward"" becomes ""left"", and the current ""right"" becomes ""forward"").
+    *   Current axis: Y (forward), X (right). Box at (1, 3).
+    *   Turn Right: New axis: X' (forward), Y' (left).
+        *   Original X (1) becomes new X' (1).
+        *   Original Y (3) becomes new Y' (3).
+        *   So box is 1 step forward, 3 steps left.
+
+    *   Let's stick to moving forward towards the general vicinity first.
+
+    *   Observation: a red box 1 step right and 3 steps forward.
+    *   Action: `go forward`.
+    *   Expected outcome: a red box 1 step right and 2 steps forward.
+
+    *   Alternatively, turn right and go forward.
+    *   If I turn right, the box is 1 step forward and 3 steps left.
+    *   If I then go forward 1 step, the box is 0 steps forward and 3 steps left.
+    *   Then turn left and go forward 3 steps.
+
+    *   Wait, let's try the simplest path: go forward 3 times, then turn right, then go forward 1 time.
+
+    *   Is there any obstacle? ""a wall 5 steps forward"". No, the box is at 3 steps forward.
+
+    *   [THOUGHT] I have the green key. The red box is 1 step right and 3 steps forward. I will move forward to get closer to the red box.
+    *   [ACTION] go forward.","You carry a green key
+a wall 4 steps forward
+a wall 2 steps right
+a red box 1 step right and 2 steps forward",0,False
+23,go forward,"*   Goal: Pick up the green key, then go to the red box.
+    *   Current status: Carrying the green key.
+    *   Current observation:
+        *   Carry: green key
+        *   Wall: 4 steps forward
+        *   Wall: 2 steps right
+        *   Red box: 1 step right and 2 steps forward.
+
+    *   The red box is 1 step right and 2 steps forward.
+    *   If I move forward 2 steps, I will be 1 step right of the box.
+    *   Alternatively, if I turn right and move forward, I might get closer.
+
+    *   Observation: ""a red box 1 step right and 2 steps forward""
+    *   If I go forward once: it will be 1 step right and 1 step forward.
+    *   If I go forward again: it will be 1 step right.
+    *   Then I can turn right and go forward 1 step to be on the red box.
+
+    *   Current position: (0,0), facing North.
+    *   Red box: (1, 2).
+    *   Step 1: Go forward -> Position (0,1), facing North. Red box is (1, 1) [1 right, 1 forward].
+    *   Step 2: Go forward -> Position (0,2), facing North. Red box is (1, 0) [1 right].
+    *   Step 3: Turn right -> Position (0,2), facing East. Red box is (1, 0) [1 forward].
+    *   Step 4: Go forward -> Position (1,2), facing East. Red box is (0, 0) [below].
+
+    *   Go forward.","You carry a green key
+a wall 3 steps forward
+a wall 2 steps right
+a red box 1 step right and 1 step forward",0,False
+24,,,"
+
+Your previous output did not contain a valid action. Defaulted to action: go forward
+
+Observation:
+You carry a green key
+a wall 2 steps forward
+a red box 1 step right",0,False
+25,turn right,"*   Goal: Pick up green key, then go to the red box.
+    *   Current state:
+        *   Carrying green key: Yes.
+        *   Red box location: 1 step right.
+        *   Obstacles: Wall 2 steps forward.
+    *   Previous action: ""go forward"" (defaulted).
+
+    *   Current Observation:
+        *   ""You carry a green key""
+        *   ""a wall 2 steps forward""
+        *   ""a red box 1 step right""
+
+    *   The target is the red box.
+    *   The red box is 1 step to the right.
+    *   To reach it, I need to face the red box and move forward, or turn right and move forward.
+    *   Action: `turn right` followed by `go forward`.
+
+    *   Immediate next step: Turn right to face the red box.","You carry a green key
+a wall 2 steps left
+a red box 1 step forward",0.8171875,True
