@@ -2,7 +2,7 @@ import json
 from pathlib import Path
 
 
-E2_results = ["2026-10-14_11-04-02_react_Qwen_Qwen2.5-1.5B-Instruct/",
+E3_results = ["2026-10-14_11-04-02_react_Qwen_Qwen2.5-1.5B-Instruct/",
 "2026-10-14_11-21-29_react_Qwen_Qwen2.5-3B-Instruct/",
 "2026-10-14_11-51-27_react_Qwen_Qwen2.5-7B-Instruct/",
 "2026-10-14_14-09-22_react_gemma-4-31b-it"]
@@ -12,7 +12,7 @@ matrix = dict()
 
 results_path = Path("results")
 
-for result in E2_results:
+for result in E3_results:
     result_path = results_path / result
     model = result_path.name.split("_")[-1]
 
@@ -27,7 +27,7 @@ for result in E2_results:
 # create the latex table
 out = r"""\begin{table}[t]
 \caption{Average progress in percentage of different LLM models and sizes on the BALROG benchmark with ReAct.}
-\label{tab:performance_matrix2}
+\label{tab:performance_matrix3}
 \vskip 0.15in
 \centering
 \resizebox{0.6\textwidth}{!}{%
