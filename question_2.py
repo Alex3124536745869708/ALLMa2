@@ -26,11 +26,11 @@ for result in E2_results:
 
 # create the latex table
 out = r"""\begin{table}[t]
-\caption{Average progress in percentage of different LLM models and sizes on the BALROG benchmark with Zero-shot-CoT, Meta prompting, and planning.}
+\caption{Average progress and standard error in percentage of different LLM models and sizes on the BALROG benchmark with Zero-shot-CoT, Meta prompting, and planning.}
 \label{tab:performance_matrix2}
 \vskip 0.15in
 \centering
-\resizebox{0.6\textwidth}{!}{%
+\resizebox{0.45\textwidth}{!}{%
 \begin{tabular}{l|c|c|c}
 \hline
 """

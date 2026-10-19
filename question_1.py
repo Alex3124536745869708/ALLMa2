@@ -28,7 +28,7 @@ for result in E1_results:
 
 # create the latex table
 out = r"""\begin{table}[t]
-\caption{Average progress in percentage of different LLM models and sizes on the BALROG benchmark.}
+\caption{Average progress and standard error in percentage of different LLM models and sizes on the BALROG benchmark.}
 \label{tab:performance_matrix}
 \vskip 0.15in
 \centering
