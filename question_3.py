@@ -5,7 +5,7 @@ from pathlib import Path
 E3_results = ["2026-10-14_11-04-02_react_Qwen_Qwen2.5-1.5B-Instruct/",
 "2026-10-14_11-21-29_react_Qwen_Qwen2.5-3B-Instruct/",
 "2026-10-14_11-51-27_react_Qwen_Qwen2.5-7B-Instruct/",
-"2026-10-14_14-09-22_react_gemma-4-31b-it"]
+"2026-10-16_17-11-03_react_gemma-4-31b-it"]
 
 # performance matrix (LLM x Benchmarks)
 matrix = dict()
@@ -21,7 +21,7 @@ for result in E3_results:
 
     for name, metrics in summary["environments"].items():
         prev = matrix.get(model, dict())
-        prev[name] = metrics["progression_percentage"]
+        prev[name] = (metrics["progression_percentage"], metrics["standard_error"])
         matrix[model] = prev
 
 # create the latex table
@@ -39,7 +39,7 @@ models = ["Qwen2.5-1.5B-Instruct", "Qwen2.5-3B-Instruct", "Qwen2.5-7B-Instruct",
 out += "models & " + " & ".join(benchmarks) + r" \\" + "\n"
 out += r"\hline" + "\n"
 for model in models:
-    results = [str(round(matrix[model][bench.lower()], 3)) for bench in benchmarks]
+    results = [str(round(matrix[model][bench.lower()][0], 2)) + "\pm" + str(round(matrix[model][bench.lower()][1], 2)) for bench in benchmarks]
     out += model + " & " + " & ".join(results) + r" \\" + "\n"
 out += r"""\hline
 \end{tabular}%
