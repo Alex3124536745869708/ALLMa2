@@ -1,0 +1,1203 @@
+Step,Action,Reasoning,Observation,Reward,Done
+0,turn right,"*   Goal: Open the door.
+    *   Possible Actions: `turn left`, `turn right`, `go forward`, `pick up`, `drop`, `toggle`.
+    *   Current Observation:
+        *   A wall 4 steps forward.
+        *   A wall 1 step left.
+    *   Context: This is the starting observation. No previous actions.
+
+    *   There's a wall 4 steps forward and a wall 1 step left.
+    *   To find a door, I need to explore the environment.
+    *   I can
+*   Goal: Open the door.
+    *   Possible Actions: `turn left`, `turn right`, `go forward`, `pick up`, `drop`, `toggle`.
+    *   Current Observation:
+        *   A wall 4 steps forward.
+        *   A wall 1 step left.
+    *   Context: This is the starting observation. No previous actions.
+
+    *   There's a wall 4 steps forward and a wall 1 step left.
+    *   To find a door, I need to explore the environment.
+    *   I can't turn left (wall 1 step left), but I can go forward or turn right.
+    *   Since there's a wall 4 steps forward, moving forward might lead me closer to something, but I don't see a door yet.
+    *   Turning right seems like a good way to explore areas not currently visible.
+
+    *   Objective: Explore the environment to find the door.
+    *   Action 1: `go forward` (Move towards the wall to see if there's anything there).
+    *   Action 2: `turn right` (See what's to the right).
+
+    Let's start by moving forward or turning right. Given that there is a wall far ahead (4 steps) and a wall very close to the left (1 step), turning right opens up a whole new direction of exploration.
+
+    Wait, looking at the walls:
+    Front: Wall (4 steps)
+    Left: Wall (1 step)
+    Right: ?
+    Back: ?
+
+    If I `go forward`, I'll still be facing the wall.
+    If I `turn right`, I can see what's in that direction.
+
+    Let's try turning right to see what else is in the room.
+
+    [THOUGHT] I see a wall 4 steps in front of me and a wall 1 step to my left. I need to find a door to open it. Since I'm restricted on the left and there's a wall ahead, turning right is the best way to explore the rest of the area.
+
+    [ACTION] turn right","a wall 6 steps forward
+a wall 3 steps right
+a blue key 3 steps left and 4 steps forward
+a locked blue door 2 steps right and 6 steps forward",0,False
+1,turn left,"*   Goal: Open the door.
+    *   Observation:
+        *   Wall: 6 steps forward.
+        *   Wall: 3 steps right.
+        *   Blue key: 3 steps left, 4 steps forward.
+        *   Locked blue door: 2 steps right, 6 steps forward.
+
+    *   I need to open the locked blue door.
+    *   To open a locked blue door, I likely need the blue key.
+    *   The blue key is at (3 left, 4 forward).
+    *   The door is at (2 right, 6 forward).
+
+    *   Current orientation: Facing forward (towards the wall 6 steps away).
+    *   Key position: 3 steps left, 4 steps forward.
+    *   To get to the key, I need to move left and forward.
+
+    *   Option 1: Turn left, go forward 3 steps, turn right, go forward 4 steps.
+    *   Option 2: Go forward 4 steps, turn left, go forward 3 steps.
+
+    *   Let's start by turning left to get closer to the key's x-coordinate relative to the current orientation.
+
+    *   Previous action: `turn right` (based on the first prompt, although the observation has shifted, the state is new).
+    *   Current position: Facing forward.
+    *   Target: Blue key (3 steps left, 4 steps forward).
+    *   Action: `turn left`.","a wall 4 steps forward
+a wall 1 step left",0,False
+2,go forward,"*   Goal: Open the door.
+    *   Observation 1: a wall 4 steps forward, a wall 1 step left.
+    *   Action 1: turn right.
+    *   Observation 2: a wall 6 steps forward, a wall 3 steps right, a blue key 3 steps left and 4 steps forward, a locked blue door 2 steps right and 6 steps forward.
+    *   Action 2: turn left.
+    *   Observation 3 (Current): a wall 4 steps forward, a wall 1 step left.
+
+    *   The agent turned right, saw the goal (locked blue door) and the key (blue key).
+    *   Then the agent turned left, which brought it back to the orientation it had in Observation 1 (since it just reversed the previous turn).
+    *   Current situation: a wall 4 steps forward, a wall 1 step left. This is identical to the starting state.
+
+    *   Goal: Open the locked blue door.
+    *   Requirement: Need the blue key to open the locked blue door.
+    *   Location of blue key: 3 steps left and 4 steps forward (relative to the orientation in Observation 2).
+    *   Wait, let's re-evaluate the orientations:
+        *   Start: Face North (arbitrarily). Wall 4F, Wall 1L.
+        *   Turn Right: Face East. Observation: Wall 6F, Wall 3R, Key 3L 4F (relative to East), Door 2R 6F (relative to East).
+            *   Relative to East:
+                *   Key: 3 left (North), 4 forward (East).
+                *   Door: 2 right (South), 6 forward (East).
+        *   Turn Left: Face North again.
+        *   Observation 3: Wall 4F, Wall 1L. (Matches Start).
+
+    *   The agent needs to go back to the state where it could see the key and door, or navigate towards them.
+    *   Since the agent just turned left and is now facing the same way it started, it needs to turn right again to face the direction where the key and door are.
+
+    *   Immediate Objective: Move toward the blue key.
+    *   Step 1: Turn right to face the direction of the key and door.
+
+    *   Action 1: turn right.
+    *   Action 2: turn left (returns to start).
+    *   Current: Observation matches start.
+    *   Next: Need to get to the key. I should turn right to face the direction described in Observation 2.
+
+    *Alternative thought:*
+    Is it possible the agent is already in a position to go forward?
+    In Observation 2 (facing East):
+    Key: 3 Left (North), 4 Forward (East).
+    Door: 2 Right (South), 6 Forward (East).
+    If the agent is now facing North (after turn left), the key is 4 steps East and 3 steps North? No.
+    Let's re-map:
+    Orientation 2 (East):
+    Key is at (x+4, y+3) if facing (1,0).
+    Door is at (x+6, y-2).
+    Current Orientation (North, facing (0,1)):
+    Key is at (x+4, y+3).
+    To reach (x+4, y+3) from (x,y) facing North:
+    Go forward 3 steps, then turn right and go forward 4 steps? Or turn right, go forward 4, turn left, go forward 3?
+    But the agent can only see ""a wall 4 steps forward"" and ""a wall 1 step left"".
+    Wait, the ""wall 4 steps forward"" means the agent cannot go forward more than 3 steps.
+    If the key is 3 steps North, the agent can actually go forward.
+
+    Let's re-check the coordinate system:
+    Observation 2 (facing East):
+    Forward = East.
+    Left = North.
+    Right = South.
+    Key: 4 Forward (East), 3 Left (North).
+    Door: 6 Forward (East), 2 Right (South).
+
+    Observation 3 (facing North):
+    Forward = North.
+    Left = West.
+    Right = East.
+    Key is at: 3 Forward (North), 4 Right (East).
+    Door is at: 2 Left (West? No, 2 South = 2 backward), 6 Right (East). Wait.
+    Let's re-calculate door:
+    From Obs 2: Door is 6 Forward (East) and 2 Right (South).
+    Relative to North: Door is 6 Right (East) and 2 Backward (South).
+
+    Wait, looking at the current observation: ""a wall 4 steps forward"".
+    If the agent goes forward 3 steps, it will be 3 steps North.
+    Then the key would be 4 steps Right (East).
+
+    However, the most direct way to get to the key (relative to Obs 2) was:
+    1. Turn left (facing North).
+    2. Go forward 3 steps.
+    3. Turn right (facing East).
+    4. Go forward 4 steps.
+
+    Wait, the agent already did ""turn left"".
+    Current observation: Wall 4 steps forward.
+    If the agent goes forward 3 steps, it's on the right path to the key.
+
+    Let's verify:
+    Obs 2: Key is 3 steps left, 4 steps forward.
+    Agent turned left.
+    Now Agent is facing the ""left"" direction of Obs 2.
+    To reach the key:
+    1. Go forward 3 steps.
+    2. Turn right.
+    3. Go forward 4 steps.
+
+    So, the action ""go forward"" is a valid move toward the key.
+
+    Let's double-check the ""wall 4 steps forward"".
+    If the wall is 4 steps forward, the agent can move 1, 2, or 3 steps forward.
+    Since the key is 3 steps ""left"" (which is now ""forward""), going forward is the correct move.
+
+    Action: go forward.","a wall 3 steps forward
+a wall 1 step left",0,False
+3,go forward,"*   Goal: Open the door.
+    *   Possible Actions: turn left, turn right, go forward, pick up, drop, toggle.
+    *   Previous Observation: `a wall 4 steps forward`, `a wall 1 step left`.
+    *   Previous Action: `go forward`.
+    *   Current Observation: `a wall 3 steps forward`, `a wall 1 step left`.
+    *   Global Context:
+        *   A blue key is located (somewhere, relative to a previous state).
+        *   A locked blue door is located (somewhere, relative to a previous state).
+        *   Let's re-examine the observation history:
+            1.  Observation 1: `a wall 4 steps forward`, `a wall 1 step left`.
+                Action: `turn right`.
+            2.  Observation 2: `a wall 6 steps forward`, `a wall 3 steps right`, `a blue key 3 steps left and 4 steps forward`, `a locked blue door 2 steps right and 6 steps forward`.
+                Action: `turn left`.
+            3.  Observation 3: `a wall 4 steps forward`, `a wall 1 step left`.
+                Action: `go forward`.
+            4.  Observation 4 (Current): `a wall 3 steps forward`, `a wall 1 step left`.
+
+    *   Initial position (Obs 1): (0,0), facing North (assuming). Wall at (0,4), Wall at (-1,0).
+    *   Action: `turn right`. Facing East.
+    *   Obs 2 (Facing East):
+        *   Wall 6 forward: (6,0).
+        *   Wall 3 right: (0,-3).
+        *   Blue key 3 left and 4 forward: (4, 3) - relative to East, ""left"" is North, ""forward"" is East. So (4, 3).
+        *   Locked blue door 2 right and 6 forward: (6, -2) - relative to East, ""right"" is South, ""forward"" is East. So (6, -2).
+    *   Action: `turn left`. Facing North again.
+    *   Obs 3 (Facing North):
+        *   Wall 4 forward: (0,4).
+        *   Wall 1 left: (-1,0).
+    *   Action: `go forward`.
+    *   Obs 4 (Facing North, Position (0,1)):
+        *   Wall 3 forward: (0,4). (Correct: 4 - 1 = 3).
+        *   Wall 1 left: (-1,1). (Wait, the observation says ""a wall 1 step left"". In Obs 3 it was ""a wall 1 step left"" at (-1,0). Now at (0,1) it's ""a wall 1 step left"" at (-1,1). This implies the wall on the left is a continuous wall).
+
+    *   I need the blue key to open the locked blue door.
+    *   The blue key was at (4, 3) in global coordinates.
+    *   I am currently at (0, 1) facing North.
+    *   To get to the key at (4, 3):
+        *   Need to move North and East.
+        *   Currently facing North.
+        *   Move North until Y=3, then turn right and move East until X=4.
+        *   Or turn right now (facing East) and move East until X=4, then turn left and move North until Y=3.
+
+    *   I've already tried going forward once.
+    *   Current status: (0, 1), facing North.
+    *   Objective: Get the blue key.
+    *   The key is at (4, 3).
+    *   Steps:
+        1.  Go forward (to (0, 2)).
+        2.  Go forward (to (0, 3)).
+        3.  Turn right (face East).
+        4.  Go forward (to (1, 3)).
+        5.  Go forward (to (2, 3)).
+        6.  Go forward (to (3, 3)).
+        7.  Go forward (to (4, 3)).
+        8.  Pick up.
+
+    *   Alternative strategy: Turn right now, then go forward.
+    *   Let's check the walls.
+        *   Obs 3/4: Wall 1 step left. Wall 3 steps forward.
+        *   If I turn right, I face East.
+        *   Is there a wall in the way of the key (4, 3)?
+        *   Obs 2 said: Wall 6 steps forward (6, 0), Wall 3 steps right (0, -3).
+        *   It didn't mention walls at (1, 1), (2, 1), (3, 1), (4, 1) or anywhere in the North-East quadrant except maybe the far walls.
+
+    *   Current action: `go forward`.
+    *   Next logical action to reach (4, 3): Keep going forward or turn right.
+    *   Let's continue moving forward to align with the key's Y-coordinate (3).
+
+    *   Obs 3: `a wall 4 steps forward`, `a wall 1 step left`
+    *   Action: `go forward`
+    *   Obs 4: `a wall 3 steps forward`, `a wall 1 step left`
+    *   The wall on the left is still there. I am moving closer to the wall in front.
+    *   The key was 4 forward and 3 left (relative to East).
+    *   Let's re-map the key relative to North.
+    *   Relative to East (Facing East):
+        *   Forward = East (X+)
+        *   Left = North (Y+)
+        *   Key = (4 steps Forward, 3 steps Left) = (4, 3).
+    *   Current position: (0, 1). Facing: North.
+    *   Key: (4, 3).
+    *   Remaining distance: 4 steps East, 2 steps North.
+
+    *   I can go forward 2 more times, then turn right and go forward 4 times.
+    *   Or turn right now, go forward 4 times, then turn left and go forward 2 times.
+
+    *   Is there a simpler way?
+    *   Let's just continue forward for a bit.
+
+    *   Previous Action: `go forward`.
+    *   Observation: `a wall 3 steps forward`, `a wall 1 step left`.
+    *   Goal: Get blue key.
+    *   Plan: Go forward to reach the y-coordinate of the key, then move towards it.
+
+    Wait, let me double-check the key location from Obs 2.
+    Obs 2: ""a blue key 3 steps left and 4 steps forward"" (Facing East).
+    Forward = X+, Left = Y+.
+    So Key = (4, 3).
+    Current Position = (0, 1). Facing = North.
+    Key relative to current = 4 steps East, 2 steps North.
+
+    I will go forward again.","a wall 2 steps forward
+a wall 1 step left",0,False
+4,go forward,"*   Goal: Open the door.
+    *   Current state:
+        *   Wall 2 steps forward.
+        *   Wall 1 step left.
+    *   Previous sequence:
+        *   Obs 1: wall 4 forward, wall 1 left -> Action: turn right.
+        *   Obs 2: wall 6 forward, wall 3 right, blue key (3L, 4F), locked blue door (2R, 6F) -> Action: turn left.
+        *   Obs 3: wall 4 forward, wall 1 left -> Action: go forward.
+        *   Obs 4: wall 3 forward, wall 1 left -> Action: go forward.
+        *   Current Obs: wall 2 forward, wall 1 left.
+
+    *   The agent is trying to reach the blue key (3 left and 4 forward from Obs 2).
+    *   Let's re-trace the movement from Obs 2:
+        *   Obs 2 orientation:
+            *   Forward: Wall (6 steps)
+            *   Right: Wall (3 steps)
+            *   Left: 3 steps left, 4 steps forward (Blue Key)
+            *   Right/Forward: 2 steps right, 6 steps forward (Locked Blue Door)
+        *   Action: turn left.
+        *   New Orientation (relative to Obs 2):
+            *   The agent turned left. Now, what was ""left"" is now ""forward"".
+            *   Previous ""left"" was (3L, 4F). Now it's (4F, 3R)? No, wait.
+            *   If the agent was facing North:
+                *   Forward = North
+                *   Left = West
+                *   Right = East
+                *   Blue key was at (-3, 4).
+                *   Turn left -> Now facing West.
+                *   Relative to West: Forward is West, Right is North, Left is South.
+                *   The blue key (-3, 4) relative to (0,0) facing West is:
+                    *   x-axis (West): -3 steps (so 3 steps forward).
+                    *   y-axis (North): 4 steps (so 4 steps right).
+                *   Wait, let's check the observation after turn left: ""a wall 4 steps forward, a wall 1 step left"".
+                *   This doesn't perfectly align with my coordinate math, but let's look at the trend.
+
+    *   The agent has been moving ""forward"" for the last 3 turns.
+    *   Obs 3: wall 4 forward.
+    *   Obs 4: wall 3 forward.
+    *   Current Obs: wall 2 forward.
+    *   The agent is clearly moving toward something (the wall).
+
+    *   The goal is to get the blue key and then open the blue door.
+    *   Looking at Obs 2 again: ""a blue key 3 steps left and 4 steps forward"".
+    *   Turn left (agent now faces West).
+    *   Now ""forward"" is West. The key was 3 steps West.
+    *   If the agent goes forward 3 steps, they should reach the coordinate where the key's X-offset was.
+    *   Current situation: wall 2 steps forward. (They have gone forward 2 steps since the ""wall 4 steps forward"" observation).
+    *   Wait, if it was ""wall 4 steps forward"" and they went forward twice, it's now ""wall 2 steps forward"". They are approaching a wall.
+    *   Is the key at that wall? Or is the key elsewhere?
+    *   Let's re-examine Obs 2: ""a blue key 3 steps left and 4 steps forward"".
+    *   If the agent turns left, the key is now ""4 steps right and 3 steps forward"".
+    *   Wait.
+    *   Original: Forward=N, Right=E, Left=W.
+    *   Key: (-3, 4).
+    *   Turn left: Now facing W.
+    *   Relative to facing W:
+        *   Forward = W
+        *   Right = N
+        *   Left = S
+    *   Key (-3, 4) relative to (0,0) facing W:
+        *   x = -3 (3 steps forward)
+        *   y = 4 (4 steps right)
+    *   So the key should be 3 steps forward and 4 steps right.
+    *   However, the observation after turn left was ""a wall 4 steps forward"".
+    *   If the agent moves forward, they are moving West.
+    *   After 2 steps forward, they are at (-2, 0). The wall is at (-4, 0).
+    *   The key is at (-3, 4).
+    *   To get to the key, the agent needs to be at (-3, 4).
+    *   Current position: (-2, 0).
+    *   Next step to get closer to (-3, 4):
+        *   Go forward 1 more step to reach x = -3.
+        *   Then turn right (facing North) and go forward 4 steps.
+
+    *   Current observation: ""a wall 2 steps forward"".
+    *   If the agent goes forward one more time, they will be 1 step away from the wall.
+    *   The key is at x = -3.
+    *   Let's assume the ""wall 4 steps forward"" in Obs 3 was the wall at x = -4.
+    *   Step 1 (Obs 3 -> Obs 4): forward. Position x = -1.
+    *   Step 2 (Obs 4 -> Current): forward. Position x = -2.
+    *   Step 3 (Current -> Next): forward. Position x = -3.
+    *   At x = -3, the agent will be aligned with the key.
+
+    *   Current Obs: Wall 2 steps forward.
+    *   If I go forward, the wall will be 1 step forward.
+    *   Is it better to go forward or turn?
+    *   If I go forward, I reach x = -3.
+    *   Then I can turn right and move towards y = 4.
+
+    *   Obs 2: Key at 3L, 4F.
+    *   Turn Left.
+    *   Now facing Left.
+    *   Key is 3 steps forward, 4 steps right.
+    *   Obs 3: wall 4 forward. (Wait, if the key is 3 steps forward, why is there a wall 4 steps forward? Maybe the wall is *behind* the key or is the boundary).
+    *   Obs 4: wall 3 forward.
+    *   Current Obs: wall 2 forward.
+    *   If the agent goes forward one more time, they will be at 3 steps forward from the turn. (Wait: Obs 3 (wall 4), Obs 4 (wall 3), Current (wall 2). That's 2 steps moved).
+    *   Let's re-count:
+        *   Start (Obs 2) -> Turn Left.
+        *   Obs 3: Wall 4 forward. (Agent has just turned).
+        *   Action: Forward.
+        *   Obs 4: Wall 3 forward. (Agent moved 1 step).
+        *   Action: Forward.
+        *   Current Obs: Wall 2 forward. (Agent moved 2 steps).
+    *   To reach ""3 steps forward"", the agent needs to move one more step.
+
+    *   Goal: Get the key.
+    *   Key was 3 steps forward (relative to the turn).
+    *   Agent has moved 2 steps forward.
+    *   One more step forward will place the agent 3 steps forward from the original turning point.
+    *   Then the agent can turn right to find the key (which was 4 steps forward in the original orientation, meaning 4 steps right in the current orientation).
+
+    *   Turn left (facing West).
+    *   Forward (at x=-1, y=0).
+    *   Forward (at x=-2, y=0).
+    *   Forward (at x=-3, y=0). <--- Next step.
+    *   Then turn right (facing North).
+    *   Forward 4 steps (at x=-3, y=4). <--- Key location.
+
+    *   Obs 2: ""a blue key 3 steps left and 4 steps forward"".
+    *   Turn Left.
+    *   Move forward 3 steps.
+    *   Turn Right.
+    *   Move forward 4 steps.
+    *   Pick up key.
+
+    *   Current progress: 2 steps forward.
+    *   Required: 3 steps forward.
+    *   Action: go forward.","a wall 1 step forward
+a wall 1 step left",0,False
+5,"turn right)
+2. Obs 2 (Facing East): Wall 6 forward (East), wall 3 right (South), blue key 3 left (North) and 4 forward (East), locked blue door 2 right (South) and 6 forward (East).
+3. Action: turn left. The agent is now facing North.
+4. Obs 3: Wall 4 forward (North), wall 1 left (West). This aligns with the initial orientation but the agent has moved.
+5. The agent has moved forward (North) 3 times.
+6. Current Position: 3 steps North of the position at the start of Obs 3.
+7. Key Position: In Obs 2, the key was 4 forward (East) and 3 left (North). Since the agent is currently 3 steps North of the starting point of the Northward movement, the key is now 0 steps North and 4 steps East relative to the agent.
+8. Current Observation: Wall 1 step forward (North), wall 1 step left (West).
+9. To reach the key (4 steps East), the agent must turn right to face East.
+
+[ACTION] turn right
+
+ACTION: turn right","*   Goal: Open the door.
+    *   Current Observation:
+        *   a wall 1 step forward
+        *   a wall 1 step left
+    *   Previous sequence of events:
+        1.  Initially: Wall 4 steps forward, wall 1 step left. (Action: turn right)
+        2.  Observation: Wall 6 forward, wall 3 right, blue key 3 left and 4 forward, locked blue door 2 right and 6 forward. (Action: turn left)
+        3.  Observation: Wall 4 forward, wall 1 left. (Action: go forward)
+        4.  Observation: Wall 3 forward, wall 1 left. (Action: go forward)
+        5.  Observation: Wall 2 forward, wall 1 left. (Action: go forward)
+        6.  Current Observation: Wall 1 forward, wall 1 left.
+
+    *   Looking at the observations, the agent has been moving forward in a corridor.
+    *   The goal is to open the blue door.
+    *   To open a locked blue door, the agent needs a blue key.
+    *   Previously, the observation indicated: ""a blue key 3 steps left and 4 steps forward"".
+    *   Wait, let's re-evaluate the movement.
+        *   Start: Wall 4 forward, Wall 1 left. (Turn right) -> Now facing right relative to start.
+        *   Obs 2: Wall 6 forward, Wall 3 right, blue key 3 left and 4 forward, locked blue door 2 right and 6 forward. (Turn left) -> Now facing the original direction.
+        *   Obs 3: Wall 4 forward, Wall 1 left. (Go forward x 3) -> Moved 3 steps forward.
+        *   Current Obs: Wall 1 forward, Wall 1 left. (Total forward movement: 3 steps).
+
+    *   If the agent is now at ""Wall 1 forward, Wall 1 left"", they have moved 3 steps forward since Obs 3.
+    *   Wait, let's look at the coordinates relative to the blue key in Obs 2: ""blue key 3 steps left and 4 steps forward"".
+    *   After the ""turn left"" in Obs 2, the agent is facing the direction that was ""forward"" in Obs 2.
+    *   In Obs 3, the agent saw ""a wall 4 steps forward"". They have moved forward 3 times. Now there is ""a wall 1 step forward"".
+    *   The blue key was ""3 steps left and 4 steps forward"" in Obs 2.
+    *   The agent has moved forward 3 steps.
+    *   Current position relative to Obs 2: 3 steps forward.
+    *   Blue key relative to current position: (4-3) = 1 step forward, 3 steps left.
+
+    *   If the agent goes forward one more step, they will be at the wall (Wall 1 step forward).
+    *   At that point, the key will be 3 steps to the left.
+    *   However, looking at the current observation ""a wall 1 step forward"", the agent cannot go forward if there's a wall *at* 1 step? No, ""a wall 1 step forward"" usually means the wall is the next square. Let's check the movement: 4 -> 3 -> 2 -> 1. So the agent is now 1 step away from the wall.
+    *   To get the blue key (which is 3 steps left and 1 step forward from current), the agent should probably move to the position where the key is.
+    *   Wait, let's look at the observation ""a wall 1 step left"" as well. If there is a wall 1 step left, the agent cannot turn left and go forward.
+
+    *   Wait, let's re-read Obs 2: ""a blue key 3 steps left and 4 steps forward"".
+    *   If I am at Obs 3 (facing forward), and the key is 4 forward and 3 left...
+    *   I moved forward 3 steps.
+    *   Now I am 1 step forward from the key's longitudinal position.
+    *   The key is 3 steps left.
+    *   But ""a wall 1 step left"" is currently observed. This means I can't just turn left.
+
+    *   Let's re-examine the layout.
+    *   Obs 2: Wall 6 fwd, Wall 3 right, key 3 left 4 fwd, door 2 right 6 fwd.
+    *   The agent turned left.
+    *   Obs 3: Wall 4 forward, Wall 1 left.
+    *   The agent went forward 3 times.
+    *   Current Obs: Wall 1 forward, Wall 1 left.
+    *   If the wall is 1 step left and 1 step forward, the agent is in a narrow corridor.
+    *   Wait, if the agent is 1 step from the wall in front, and the key was 4 steps forward and 3 steps left from the *starting point of the forward movement* (Obs 2), and the agent has moved 3 steps... the key is still 1 step forward and 3 steps left.
+    *   But the current observation is ""a wall 1 step left"". If there is a wall 1 step left, the agent cannot move left.
+    *   Wait, let's look at the ""a wall 1 step left"" in Obs 3, 4, 5, and 6. It has been there the whole time. This means the agent is walking alongside a wall on their left.
+    *   If the key is 3 steps left, but there's a wall 1 step left, the key must be *behind* that wall or the agent is not in the right place.
+    *   Wait, let's re-read Obs 2 again: ""a blue key 3 steps left and 4 steps forward"".
+    *   If the agent turned left (from facing right), they are now facing the direction that was ""forward"" in Obs 2.
+    *   So the key is 4 steps forward and 3 steps left relative to the agent's orientation at the start of Obs 3.
+    *   The agent has moved forward 3 steps.
+    *   Current position: 3 steps forward from Obs 3.
+    *   Key position: 4 steps forward and 3 steps left from Obs 3.
+    *   Relative to current position: 1 step forward and 3 steps left.
+    *   Observation: ""a wall 1 step forward, a wall 1 step left"".
+    *   If there is a wall 1 step left, the agent cannot move left.
+    *   If there is a wall 1 step forward, the agent cannot move forward.
+    *   The agent is stuck in a corner? No, if they turn right, they can move.
+
+    *   Let's re-evaluate the turn.
+    *   Obs 1: Wall 4 forward, wall 1 left. Action: turn right.
+    *   Obs 2: Wall 6 forward, wall 3 right, blue key 3 left 4 forward, locked blue door 2 right 6 forward.
+    *   Now, the agent is facing the direction that was ""right"" in Obs 1.
+    *   In this new orientation (Obs 2):
+        *   Forward is the direction of the wall 6 steps away.
+        *   Right is a wall 3 steps away.
+        *   The key is 3 left and 4 forward.
+        *   The door is 2 right and 6 forward.
+    *   Then the agent ""turn left"".
+    *   Now the agent is facing the direction that was ""left"" in Obs 2.
+    *   Wait, if they turn left from Obs 2, ""forward"" becomes what was ""left"".
+    *   So, relative to the new orientation:
+        *   The new ""forward"" is the old ""left"".
+        *   The old ""forward"" (where the wall was 6 steps away) is now to the ""right"".
+        *   The old ""left"" (where the key was 3 steps left and 4 steps forward) is now...
+            *   Old Left = New Forward.
+            *   Old Forward = New Right.
+            *   Key was (3 left, 4 forward).
+            *   New coords: (3 forward, 4 right).
+    *   Let's check Obs 3: ""a wall 4 steps forward, a wall 1 step left"".
+        *   This matches the ""3 forward"" part (approximately).
+    *   Agent moves forward 3 times.
+    *   Current Obs: ""a wall 1 step forward, a wall 1 step left"".
+    *   Now the agent is at (3 forward, 0 right) relative to the start of Obs 3.
+    *   The key was at (3 forward, 4 right) relative to the start of Obs 3.
+    *   So the key is now 0 steps forward and 4 steps right.
+    *   Current Obs: ""a wall 1 step forward, a wall 1 step left"".
+    *   To get to the key (4 steps right), the agent should turn right.
+
+    *   Initial: Facing N. (Wall 4N, Wall 1W)
+    *   Action: Turn Right. Now facing E.
+    *   Obs 2:
+        *   Forward (E): Wall 6E
+        *   Right (S): Wall 3S
+        *   Key: 3W, 4E (Wait, 3 left of E is N, 4 forward of E is E). Key is 3N, 4E.
+        *   Door: 2S, 6E.
+    *   Action: Turn Left. Now facing N.
+    *   Obs 3:
+        *   Forward (N): Wall 4N (Wait, this matches the ""4 steps forward"" in Obs 3).
+        *   Left (W): Wall 1W (Wait, this matches the ""1 step left"" in Obs 3).
+    *   Action: Go Forward 3 times.
+    *   Current Position: (0, 3) where (0,0) is the start of Obs 3.
+    *   Key Position: 3N, 4E relative to start of Obs 2.
+        *   Let's re-calc Key position relative to start of Obs 3.
+        *   Start of Obs 3 = Start of Obs 2 + (0, 0) but facing N.
+        *   In Obs 2 (facing E): Key was 4 forward (E), 3 left (N).
+        *   So Key is at (4E, 3N).
+        *   Current Position: Agent is at start of Obs 3 (0,0) and moved forward (N) 3 steps.
+        *   Current Position: (0, 3N).
+        *   Key Position: (4E, 3N).
+        *   Distance: 4 steps East (Right).
+    *   Current Observation: ""a wall 1 step forward, a wall 1 step left"".
+        *   Forward (N) is a wall 1 step away.
+        *   Left (W) is a wall 1 step away.
+        *   Right (E) is open.
+    *   Goal: Go to the key at (4E, 3N).
+    *   Action: Turn right to face East.
+
+    *   If I turn right, I will be facing East.
+    *   Then I can go forward 4 steps to reach the key.
+
+    *   Turn Right.","
+
+Your previous output did not contain a valid action. Defaulted to action: go forward
+
+Observation:
+a wall 1 step forward
+a wall 1 step left",0,False
+6,turn right,"*   Goal: Open the door.
+    *   Current Observation: a wall 1 step forward, a wall 1 step left.
+    *   Previous Actions (summary):
+        *   Start: wall 4 forward, wall 1 left. Action: turn right. (Facing East)
+        *   Obs 2: wall 6 forward, wall 3 right, blue key 3 left and 4 forward, locked blue door 2 right and 6 forward. Action: turn left. (Facing North)
+        *   Obs 3: wall 4 forward, wall 1 left. Action: go forward.
+        *   Obs 4: wall 3 forward, wall 1 left. Action: go forward.
+        *   Obs 5: wall 2 forward, wall 1 left. Action: go forward.
+        *   Obs 6: wall 1 forward, wall 1 left. Action: turn right (failed due to formatting, defaulted to go forward).
+        *   Current Obs: wall 1 forward, wall 1 left. Wait, it says ""wall 1 step forward, wall 1 step left"".
+        *   Hold on, if the last action was ""go forward"" (defaulted), and the agent was at ""wall 1 step forward"", it should have hit the wall or moved into it. However, the current observation still says ""wall 1 step forward"". Let's re-evaluate.
+
+    *   Let's track coordinates:
+        *   Start: Pos (0,0), Facing North.
+        *   Action: `turn right` -> Facing East.
+        *   Obs 2: Wall 6 forward (East), wall 3 right (South), blue key 3 left (North) and 4 forward (East), locked blue door 2 right (South) and 6 forward (East).
+            *   Key is at: (4, 3) relative to (0,0) if East is x and North is y.
+            *   Door is at: (6, -2) relative to (0,0).
+        *   Action: `turn left` -> Facing North.
+        *   Obs 3: Wall 4 forward (North), wall 1 left (West). Pos (0,0).
+        *   Action: `go forward` -> Pos (0,1).
+        *   Action: `go forward` -> Pos (0,2).
+        *   Action: `go forward` -> Pos (0,3).
+        *   Action: `turn right` (requested, but the system said ""Your previous output did not contain a valid action. Defaulted to action: go forward"").
+        *   If the agent tried to `go forward` from (0,3) facing North, but there was a wall 1 step forward (Obs 6: ""a wall 1 step forward""), then `go forward` would result in hitting the wall or staying at (0,3).
+        *   Current Obs: ""a wall 1 step forward, a wall 1 step left"".
+        *   Current Pos: (0,3). Facing North.
+        *   Goal: Get the blue key at (4,3).
+        *   To get from (0,3) to (4,3), the agent needs to face East and move 4 steps forward.
+
+    *   Current Orientation: North.
+    *   Current Position: (0,3).
+    *   Key Position: (4,3).
+    *   Distance to key: 4 steps East.
+    *   Action needed: Turn right to face East.
+
+    *   Wait, let's re-verify the key position from Obs 2.
+    *   Obs 2: ""a blue key 3 steps left and 4 steps forward"".
+    *   Agent was facing East. ""Left"" is North. ""Forward"" is East.
+    *   Key: 3 North, 4 East. (4, 3). Correct.
+    *   Current Pos: (0,3). Facing North.
+    *   Target: (4,3).
+    *   Action: Turn right (to face East).
+
+    *   The prompt says ""Your previous output did not contain a valid action. Defaulted to action: go forward"".
+    *   The previous observation was ""a wall 1 step forward"".
+    *   If the agent attempted ""go forward"", it would be blocked by the wall.
+    *   So the agent is still at (0,3) facing North.
+    *   The objective is to reach the key at (4,3).
+    *   Therefore, turning right is the correct move.
+
+    [THOUGHT] I am currently facing North and I am 3 steps north of my starting position. My current observation shows a wall 1 step ahead of me. From previous observations, I know there is a blue key 4 steps East and 3 steps North of my starting point. Since I am already 3 steps North, the key is now 4 steps directly to my right (East). I need to turn right to face the key.
+    [ACTION] turn right","a wall 1 step left
+a blue key 4 steps forward",0,False
+7,go forward,"The current observation is:
+- A wall 1 step left.
+- A blue key 4 steps forward.
+
+The goal is to open the door. The door is locked and blue, so I need the blue key first.
+The blue key is currently 4 steps forward.
+
+Immediate objective: Reach the blue key.
+Action: Go forward.","a wall 1 step left
+a blue key 3 steps forward",0,False
+8,go forward,"The agent's goal is to open the door.
+The current observation is:
+- a wall 1 step left
+- a blue key 3 steps forward
+
+Previous action: `go forward`
+The agent was 4 steps away from the blue key and moved forward, now it is 3 steps away.
+
+Immediate objective: Reach the blue key to pick it up, as a locked blue door was mentioned in a previous observation.
+
+Next step: Continue moving forward to get closer to the blue key.","a wall 1 step left
+a blue key 2 steps forward",0,False
+9,go forward,"The goal is to open the door. The current observation shows a blue key 2 steps forward and a wall 1 step left.
+The previous actions were ""go forward"" repeatedly to get closer to the blue key.
+
+    *   Current Observation: `a wall 1 step left`, `a blue key 2 steps forward`.
+    *   Objective: Get the blue key.
+    *   Distance to Key: 2 steps forward.
+    *   Next Step: Move forward to get closer to the key.","a wall 1 step left
+a blue key 1 step forward",0,False
+10,go forward,"*   Goal: Open the door.
+    *   Observation: `a wall 1 step left`, `a blue key 1 step forward`.
+    *   Previous actions: The agent has been moving forward towards the blue key.
+    *   Context: The agent was previously at a location where the blue key was 4 steps forward, and it has moved forward 3 times. Now the key is 1 step forward.
+
+    *   The blue key is exactly 1 step forward.
+    *   To pick up the key, the agent needs to be *on top* of it (according to the action description: ""pick up: pick up the object below you"").
+    *   Wait, if the key is 1 step forward, moving forward once more will put the agent on top of the key.
+
+    *   Move forward one step to reach the key.
+    *   Then, the next action will be `pick up`.
+
+    *   Current action: `go forward` to move onto the blue key.","a wall 1 step left
+a blue key 1 step forward",0,False
+11,toggle,"*   Goal: Open the door.
+    *   Current Observation: ""a wall 1 step left"", ""a blue key 1 step forward"".
+    *   Previous Action: `go forward`.
+    *   Previous Observation (just before this): ""a wall 1 step left"", ""a blue key 1 step forward"". Wait, the last two observations were identical. The user provided ""a blue key 1 step forward"" twice.
+
+    *   The blue key is 1 step forward.
+    *   To interact with or pick up the key, I need to be directly on top of it or have it ""below me"" (for `pick up`) or ""in front of me"" (for `toggle` - although `pick up` is generally used for keys).
+    *   Wait, the observation says ""a blue key 1 step forward"". If I `go forward`, I will be on top of the key.
+
+    *   Step 1: Go forward to be on top of the blue key.
+    *   Step 2: Pick up the blue key.
+    *   Step 3: Navigate to the blue door.
+    *   Step 4: Use the blue key to open the blue door.
+
+    *   Current Observation: ""a blue key 1 step forward"".
+    *   Action: `go forward`. (This will put the agent on the key).
+
+    *   Actually, let me re-read the prompt: ""Once the desired object you want to interact or pickup in front of you, you can use the 'toggle' action to interact with it."" and ""pick up: pick up the object below you"".
+    *   If the key is 1 step forward, `go forward` will put it below me. Then I can use `pick up`.
+
+    *   Observation: a blue key 1 step forward.
+    *   Action: `go forward`.
+
+    *Wait*, check the previous turn.
+    Previous: `go forward`
+    Observation before that: `a blue key 2 steps forward`
+    Current observation: `a blue key 1 step forward`
+    Wait, looking at the history:
+    User: `a blue key 2 steps forward` -> Agent: `go forward`
+    User: `a blue key 1 step forward` -> Agent: `go forward`
+    User: `a blue key 1 step forward` (Current Observation).
+    It seems the last `go forward` didn't change the distance from 1 to 0.
+    Wait, if the key is 1 step forward, and I move forward, the key should now be ""below me"".
+
+    Let's check the observations again:
+    - a blue key 4 steps forward -> go forward
+    - a blue key 3 steps forward -> go forward
+    - a blue key 2 steps forward -> go forward
+    - a blue key 1 step forward -> go forward
+    - CURRENT: a blue key 1 step forward.
+
+    Wait, why is it still 1 step forward?
+    Maybe I can't move further because of a wall?
+    Observation: ""a wall 1 step left"", ""a blue key 1 step forward"".
+    There is no wall in front.
+    If I'm still 1 step away after `go forward`, maybe I should try `pick up` or `toggle`?
+    Actually, the instructions say ""pick up: pick up the object below you"" and ""toggle: manipulate the object in front of you"".
+    If the key is 1 step forward, it's *in front of me*.
+    Can I use `toggle` to pick it up? Or do I need it to be *below* me?
+    Usually, keys are picked up. ""pick up: pick up the object below you"".
+    If `go forward` didn't work to get me on top of it, maybe I can try `pick up`? No, it's 1 step forward.
+    Maybe I should try `go forward` again? No, the tip says ""It doesn't make sense to repeat the same action over and over if the observation doesn't change.""
+    Observation: `a blue key 1 step forward`.
+    Wait, maybe the `go forward` action just happened, and the observation is describing the state *after* the action?
+    Let's look at the history provided in the prompt.
+    Observation: `a blue key 1 step forward` -> Agent: `go forward` -> Observation: `a blue key 1 step forward`.
+    This implies `go forward` failed or the distance is minimum 1.
+    If I can't get on top of it, perhaps `toggle` is used for picking up items when they are in front? The tip says ""Once the desired object you want to interact or pickup in front of you, you can use the 'toggle' action to interact with it.""
+    This is the key! ""interact or pickup in front of you... use the 'toggle' action"".
+
+    *   Key is 1 step forward (in front of me).
+    *   Tip says use `toggle` to pickup objects in front of you.
+    *   Action: `toggle`.
+
+    Wait, let's re-read the tip carefully: ""Once the desired object you want to interact or pickup in front of you, you can use the 'toggle' action to interact with it.""
+    This is quite explicit.
+
+    *   The goal is the blue door.
+    *   I need the blue key.
+    *   The blue key is in front of me.
+    *   Action: `toggle`.","a wall 1 step left
+a blue key 1 step forward",0,False
+12,go forward,"*   Goal: Open the door.
+    *   Observation: a wall 1 step left, a blue key 1 step forward.
+    *   Previous Action: `toggle` (which failed or didn't result in picking up the key because the key is *1 step forward*, not *below*).
+    *   Key Location: 1 step forward.
+    *   Requirement to pick up an object: ""pick up: pick up the object below you"".
+    *   Requirement to interact with an object: ""toggle: manipulate the object in front of you"".
+
+    *   The agent is 1 step away from the blue key.
+    *   To pick up the key, the agent needs to be on top of it.
+    *   Action `go forward` will move the agent to the position of the blue key.
+
+    *   Current action should be `go forward` to get on top of the blue key.
+    *   Once on top of the key, the action should be `pick up`.
+
+    *   Wait, the previous action was `toggle`. Toggle is for objects *in front* of you. The key is 1 step forward. So `toggle` might interact with it, but usually, keys need to be picked up. The description says ""pick up: pick up the object below you"".
+    *   If the key is 1 step forward, `go forward` puts the agent on it. Then `pick up`.
+
+    *   Observation: `a blue key 1 step forward`.
+    *   Objective: Get the blue key.
+    *   Step: `go forward`.","a wall 1 step left
+a blue key 1 step forward",0,False
+13,pick up,"*   Goal: Open the door.
+    *   Current status: A blue key is 1 step forward. A wall is 1 step left.
+    *   Previous actions:
+        1.  `go forward` (repeatedly to reach the key).
+        2.  `toggle` (attempted to interact with the key, but it seems it didn't work or the key is still there).
+        3.  `go forward` (moved on top of the key).
+
+    *   Current Observation: `a wall 1 step left`, `a blue key 1 step forward`.
+    *   Wait, if the key was 1 step forward, and I executed `go forward`, the key should now be *below* me (if I am on it).
+    *   However, the observation still says `a blue key 1 step forward`. This is strange.
+    *   Let's look at the previous steps:
+        - `Observation: a blue key 1 step forward` -> `go forward`
+        - `Observation: a blue key 1 step forward` -> `toggle`
+        - `Observation: a blue key 1 step forward` -> `go forward`
+    *   If the key is still 1 step forward after two `go forward` actions, it means I might be hitting a wall or the movement isn't working as expected.
+    *   Looking at the previous observation: `a wall 1 step left`, `a blue key 1 step forward`.
+    *   If I am at a position and the key is 1 step forward, `go forward` should place me on the key.
+    *   If the observation *still* says the key is 1 step forward, I might not have actually moved.
+
+    *   Wait, look at the observation again: `a wall 1 step left`, `a blue key 1 step forward`.
+    *   If the key is 1 step forward, to pick it up, I need to be *below* it (according to the description of `pick up: pick up the object below you`).
+    *   To be below it, I must first `go forward`.
+    *   Once I am on the key, the observation should change (it shouldn't say it's 1 step forward).
+
+    *   Observation: `a blue key 1 step forward`.
+    *   Action: `go forward`.
+    *   (The result should be that I am now on the key).
+    *   Action: `pick up`.
+
+    *   Previous: `a blue key 1 step forward` -> `go forward` -> `a blue key 1 step forward` -> `toggle` -> `a blue key 1 step forward` -> `go forward` -> `a blue key 1 step forward`.
+    *   It seems my `go forward` commands are not moving me closer to the key, or the key is moving, or I'm stuck.
+    *   Actually, looking at the sequence:
+        - `a blue key 2 steps forward` -> `go forward` -> `a blue key 1 step forward`
+        - `a blue key 1 step forward` -> `go forward` -> `a blue key 1 step forward` (Wait, here it stopped decreasing).
+        - `a blue key 1 step forward` -> `toggle` -> `a blue key 1 step forward`
+        - `a blue key 1 step forward` -> `go forward` -> `a blue key 1 step forward`
+    *   This suggests that I cannot move further forward. There might be an invisible wall or I've reached the limit.
+    *   But the key is ""1 step forward"". If I can't `go forward` to be *on* the key, maybe the key is not ""below"" me but ""in front"" of me?
+    *   The prompt says: ""Once the desired object you want to interact or pickup in front of you, you can use the 'toggle' action to interact with it."" and ""pick up: pick up the object below you"".
+    *   Usually, keys are ""picked up"".
+    *   Let's try `pick up` just in case, but if I'm not *below* it, that won't work.
+    *   If I'm 1 step away and `go forward` doesn't move me, and `toggle` didn't work... let's try `pick up` anyway, or try to see if there's another way.
+    *   Actually, if the key is ""1 step forward"", and `go forward` results in ""1 step forward"", maybe I am already on it and the observation is slightly misleading? No, that's unlikely.
+    *   Wait, if I am ""1 step forward"" and `go forward` doesn't work, maybe I need to `toggle` it while it's in front of me? I already tried `toggle`.
+    *   Let's try `pick up`. If that fails, I'll reconsider.
+
+    *   Wait! If the observation is `a blue key 1 step forward` and I use `go forward`, and the observation remains `a blue key 1 step forward`, it implies I didn't move.
+    *   Is it possible the key is the thing I need to `pick up` and I must be *on* it?
+    *   If `go forward` is failing, maybe I should try `pick up` now.
+
+    *   Let's try `pick up`.
+
+    *Self-Correction:* The prompt says ""Once the desired object you want to interact or pickup in front of you, you can use the 'toggle' action to interact with it.""
+    Wait, ""interact or pickup in front of you... use the 'toggle' action"". This is contradictory to ""pick up: pick up the object below you"".
+    Let's re-read:
+    - `pick up`: pick up the object below you.
+    - `toggle`: manipulate the object in front of you.
+    - Tips: ""Once the desired object you want to interact or pickup in front of you, you can use the 'toggle' action to interact with it.""
+
+    This tip explicitly says to use `toggle` for objects *in front* of you, even for picking up.
+    I tried `toggle` once and the observation stayed `a blue key 1 step forward`.
+
+    Let's try `pick up` now.
+
+    *Wait*, let's look at the logic again.
+    1. `a blue key 1 step forward` -> `go forward` -> `a blue key 1 step forward`.
+    This means `go forward` didn't move the agent.
+    If `go forward` doesn't move the agent, and the agent is 1 step away from the key, the agent is facing the key.
+    The tip says: ""Once the desired object you want to interact or pickup in front of you, you can use the 'toggle' action to interact with it.""
+    I tried `toggle`, and nothing happened (observation remained the same).
+
+    Let's try `pick up` just in case ""below you"" is actually the state I'm in.
+
+    Wait, let me try `go forward` one more time? No, the prompt says ""It doesn't make sense to repeat the same action over and over if the observation doesn't change.""
+
+    So:
+    - `go forward` (did not change observation)
+    - `toggle` (did not change observation)
+    - `go forward` (did not change observation)
+
+    The only remaining action that makes sense is `pick up`.
+
+    Wait, is it possible I need to `turn` first? No, the key is forward.
+    Could the `toggle` action be for the door? ""manipulate the object in front of you"".
+    The key usually needs to be `picked up`.
+
+    Let's try `pick up`.
+
+    *Alternative thought:* Maybe I need to `go forward` but I'm blocked by something? `a wall 1 step left`. No, that's to the left.
+    What if I'm already *on* the key and the observation is just poorly worded? If I'm on the key, `pick up` is the correct action.
+
+    Let's try `pick up`.","You carry a blue key
+a wall 3 steps forward
+a wall 1 step left",0,False
+14,,"*   Goal: Open the door.
+    *   Current State:
+        *   Carrying: blue key.
+        *   Observation:
+            *
+*   Goal: Open the door.
+    *   Current State:
+        *   Carrying: blue key.
+        *   Observation:
+            *   Wall 3 steps forward.
+            *   Wall 1 step left.
+    *   Previous actions: Moved toward and picked up the blue key.
+
+    *   In the second observation of the game:
+        *   Locked blue door: 2 steps right and 6 steps forward (relative to the orientation at that time, which was facing East).
+    *   Let's re-track the movement to locate the door relative to the current position.
+        *   Initial state: Facing ? (Observation 1: wall 4 forward, wall 1 left). Action: `turn right`.
+        *   Observation 2 (Facing East): Wall 6 forward, wall 3 right, blue key 3 left (North) and 4 forward (East), locked blue door 2 right (South) and 6 forward (East).
+        *   Action: `turn left` (Now facing North).
+        *   Observation 3: Wall 4 forward, wall 1 left.
+        *   Action: `go forward` (x3).
+        *   Observation 6: Wall 1 forward, wall 1 left.
+        *   Action: `turn right` (Now facing East).
+        *   Observation 7: Wall 1 left, blue key 4 steps forward.
+        *   Action: `go forward` (x4).
+        *   Action: `pick up` blue key.
+    *   Current orientation: East.
+    *   Current position relative to Observation 2 (Start of facing East):
+        *   Moved 3 steps North (Observation 3-6).
+        *   Moved 4 steps East (Observation 7-13).
+    *   Door position relative to Observation 2:
+        *   2 steps right (South) and 6 steps forward (East).
+        *   Coordinates relative to Observation 2: (X=6, Y=-2) where X is East and Y is North.
+    *   Current position relative to Observation 2:
+        *   (X=4, Y=3).
+    *   Door position relative to current position:
+        *   X_diff = 6 - 4 = 2 steps East.
+        *   Y_diff = -2 - 3 = -5 steps North (so 5 steps South).
+
+    *   Goal: Reach the locked blue door.
+    *   Current Orientation: East.
+    *   Target relative to agent: 2 steps forward (East) and 5 steps right (South).
+
+    *   Option 1: Go forward 2 steps, then turn right and go forward 5 steps.
+    *   Option 2: Turn right, go forward 5 steps, then turn left and go forward 2 steps.
+
+    *   Observation: Wall 3 steps forward.
+    *   If I go forward 2 steps, I will be 1 step from the wall.
+    *   Let's check the coordinates again.
+        *   Observation 2 (East): Wall 6 forward.
+        *   Door (East): 6 forward, 2 right (South).
+        *   Current position: 4 forward (East), 3 left (North).
+        *   Distance to door: 2 more forward (East), 5 more right (South).
+    *   Wait, if the wall was 6 steps forward in Obs 2, and I am now 4 steps forward (relative to that point), there are 2 steps left before the wall.
+    *   Current Observation says ""a wall 3 steps forward"". This matches (roughly, maybe the map is slightly different or my tracking is off by 1, but the direction is clear).
+
+    *   Objective: Get to the door.
+    *   Path: Go forward 2 steps (to reach X=6), then turn right (South) and go forward 5 steps (to reach Y=-2).
+
+    *   Current observation: wall 3 steps forward, wall 1 step left.
+    *   Action: go forward.","
+
+Your previous output did not contain a valid action. Defaulted to action: go forward
+
+Observation:
+You carry a blue key
+a wall 2 steps forward
+a wall 1 step left",0,False
+15,,,"
+
+Your previous output did not contain a valid action. Defaulted to action: go forward
+
+Observation:
+You carry a blue key
+a wall 1 step forward
+a wall 1 step left",0,False
+16,turn right,"*   Goal: Open the door.
+    *   Current State: Carrying a blue key.
+    *   Observation:
+        *   You carry a blue key.
+        *   A wall 1 step forward.
+        *   A wall 1 step left.
+    *   Previous actions: Picked up blue key, then moved forward (defaulted action) twice.
+
+    *   Starting observation (Obs 2):
+        *   Wall 6 steps forward.
+        *   Wall 3 steps right.
+        *   Blue key 3 steps left and 4 steps forward.
+        *   Locked blue door 2 steps right and 6 steps forward.
+    *   After moving to the blue key (which was 4 steps forward from where I turned right, and 3 steps left from the original East-facing line):
+        *   I am now at the location of the blue key.
+    *   Target: Locked blue door.
+    *   Relative position of door from the starting East-facing position (Obs 2): 2 steps right (South) and 6 steps forward (East).
+    *   Relative position of key from starting East-facing position (Obs 2): 3 steps left (North) and 4 steps forward (East).
+    *   Vector from Key to Door:
+        *   $\Delta \text{East} = 6 - 4 = 2$ steps.
+        *   $\Delta \text{North} = -2 (\text{South}) - 3 (\text{North}) = -5$ steps (meaning 5 steps South).
+    *   Current orientation: I was moving forward towards the key (East). So I am currently facing East.
+
+    *   Door is 2 steps forward (East) and 5 steps right (South).
+    *   Observation: Wall 1 step forward, wall 1 step left.
+    *   Wait, if there's a wall 1 step forward, I can't go forward. I need to turn.
+
+    *   I am facing East.
+    *   To go South (towards the door), I need to turn right.
+
+    *   Current Observation: Wall 1 step forward, wall 1 step left.
+    *   I have the blue key.
+    *   I need to reach the locked blue door.
+    *   Turning right will face me South.
+
+    *   Observation says ""a wall 1 step forward"" and ""a wall 1 step left"".
+    *   Turn right.","You carry a blue key
+a wall 6 steps forward
+a wall 1 step left
+a locked blue door 1 step left and 5 steps forward",0,False
+17,go forward,"*   Goal: Open the door.
+    *   Inventory: Carrying a blue key.
+    *   Observation:
+        *   Wall 6 steps forward.
+        *   Wall 1 step left.
+        *   Locked blue door 1 step left and 5 steps forward.
+    *   Current Position: Facing a direction where the wall is 6 steps forward.
+    *   Target: Locked blue door.
+
+    *   The door is at (Relative coordinates): x = -1 (left), y = 5 (forward).
+    *   To reach it, I need to move 5 steps forward and 1 step left.
+
+    *   Step 1: Move forward 5 steps.
+    *   Step 2: Turn left.
+    *   Step 3: Move forward 1 step (to be in front of the door).
+    *   Step 4: Use the blue key (toggle).
+
+    *   The agent is currently facing forward.
+    *   Immediate goal: Move toward the door's longitudinal position.
+    *   Action: `go forward`.","You carry a blue key
+a wall 5 steps forward
+a wall 1 step left
+a locked blue door 1 step left and 4 steps forward",0,False
+18,go forward,"The agent is carrying a blue key.
+The current observation is:
+- A wall 5 steps forward.
+- A wall 1 step
+The agent is carrying a blue key.
+The current observation is:
+- A wall 5 steps forward.
+- A wall 1 step left.
+- A locked blue door is 1 step left and 4 steps forward.
+
+The goal is to open the door.
+The door is locked and blue, and the agent is carrying a blue key.
+To open the door, the agent needs to be directly in front of it and use the `toggle` action.
+
+Current position relative to the door:
+Door is at (x+1, y+4) if the agent is at (0,0) and facing North (assuming ""forward"" is North and ""left"" is West, but let's use relative terms).
+Actually, ""1 step left and 4 steps forward"" means:
+- Go forward 4 steps.
+- Turn left.
+- Go forward 1 step.
+- (Now the door is in front)
+
+Or:
+- Turn left.
+- Go forward 1 step.
+- Turn right.
+- Go forward 4 steps.
+- (Now the door is in front)
+
+The agent just performed `go forward` once. Previously, it was ""1 step left and 5 steps forward"". Now it's ""1 step left and 4 steps forward"".
+
+The agent needs to reach the position where the door is ""1 step forward"" or ""directly in front"" and then use `toggle`.
+
+Plan:
+1. Go forward 4 more steps.
+2. Turn left.
+3. Go forward 1 step (to be in front of the door).
+4. Use `toggle` to unlock/open the door.
+
+Wait, the door is ""1 step left and 4 steps forward"".
+If I go forward 4 steps:
+- The door will be ""1 step left"".
+Then I turn left:
+- The door will be ""1 step forward"".
+Then I go forward 1 step:
+- I will be *on* the door or the door will be *below* me? No, ""toggle"" is used for things ""in front of you"".
+If the door is ""1 step forward"", then `toggle` should work.
+
+Let's re-evaluate:
+If I go forward 4 steps, the door is 1 step left.
+Then I turn left.
+Now the door is 1 step forward.
+Then I use `toggle`.
+
+Current status:
+Wall 5 steps forward.
+Locked blue door 1 step left and 4 steps forward.
+Action: go forward.","You carry a blue key
+a wall 4 steps forward
+a wall 1 step left
+a locked blue door 1 step left and 3 steps forward",0,False
+19,go forward,"*   Goal: Open the door.
+    *   Current Status: Carrying a blue key.
+    *   Current Observation:
+        *   Wall 4 steps forward.
+        *   Wall 1 step left.
+        *   Locked blue door: 1 step left and 3 steps forward.
+
+    *   The locked blue door is 3 steps forward and 1 step left.
+    *   Current orientation: Facing forward.
+    *   To reach the door, I need to move 3 steps forward and then 1 step left, or turn left first and then move.
+    *   Wait, if the door is ""1 step left and 3 steps forward"", moving forward 3 steps will put me at a position where the door is exactly 1 step left.
+
+    *   Action 1: Go forward (current position -> 1 step forward). Door becomes 1 step left and 2 steps forward.
+    *   Action 2: Go forward. Door becomes 1 step left and 1 step forward.
+    *   Action 3: Go forward. Door becomes 1 step left and 0 steps forward.
+    *   Action 4: Turn left. Door is now 1 step forward.
+    *   Action 5: Go forward. Door is now below me/in front of me.
+    *   Action 6: Toggle (to unlock/open the door).
+
+    *   The previous action was `go forward`.
+    *   Initial observation (last prompt): `a locked blue door 1 step left and 5 steps forward`
+    *   Next observation: `a locked blue door 1 step left and 4 steps forward`
+    *   Current observation: `a locked blue door 1 step left and 3 steps forward`
+    *   The plan is working. I am getting closer to the door.
+
+    *   Continue moving forward until the door is just to the left.","You carry a blue key
+a wall 3 steps forward
+a wall 1 step left
+a locked blue door 1 step left and 2 steps forward",0,False
+20,go forward,"*   Goal: Open the door.
+    *   Current State:
+        *   Holding: `blue key`
+        *   Observation:
+            *   `a wall 3 steps forward`
+            *   `a wall 1 step left`
+            *   `a locked blue door 1 step left and 2 steps forward`
+    *   Previous actions:
+        *   Moved forward multiple times towards the door's longitude/latitude.
+        *   Starting point (last turn): `a locked blue door 1 step left and 5 steps forward`.
+        *   After 3 `go forward` moves: `a locked blue door 1 step left and 2 steps forward`.
+
+    *   The door is at (1 left, 2 forward) relative to the current position.
+    *   To reach the door, I need to move forward until the door is directly in front of me or adjacent to me, then turn towards it and use the `toggle` action.
+    *   Current relative position of the door: (X=-1, Y=2).
+    *   Action sequence to reach the door:
+        1.  `go forward` (Door becomes X=-1, Y=1)
+        2.  `go forward` (Door becomes X=-1, Y=0)
+        3.  `turn left` (Door becomes X=0, Y=1... wait, if it's at X=-1, Y=0 and I turn left, it's now 1 step forward).
+        4.  `toggle` (or `go forward` then `toggle`).
+
+    *Wait*, let's re-evaluate the distance.
+    Current: `a locked blue door 1 step left and 2 steps forward
+*   Goal: Open the door.
+    *   Current State:
+        *   Holding: `blue key`
+        *   Observation:
+            *   `a wall 3 steps forward`
+            *   `a wall 1 step left`
+            *   `a locked blue door 1 step left and 2 steps forward`
+    *   Previous actions:
+        *   Moved forward multiple times towards the door's longitude/latitude.
+        *   Starting point (last turn): `a locked blue door 1 step left and 5 steps forward`.
+        *   After 3 `go forward` moves: `a locked blue door 1 step left and 2 steps forward`.
+
+    *   The door is at (1 left, 2 forward) relative to the current position.
+    *   To reach the door, I need to move forward until the door is directly in front of me or adjacent to me, then turn towards it and use the `toggle` action.
+    *   Current relative position of the door: (X=-1, Y=2).
+    *   Action sequence to reach the door:
+        1.  `go forward` (Door becomes X=-1, Y=1)
+        2.  `go forward` (Door becomes X=-1, Y=0)
+        3.  `turn left` (Door becomes X=0, Y=1... wait, if it's at X=-1, Y=0 and I turn left, it's now 1 step forward).
+        4.  `toggle` (or `go forward` then `toggle`).
+
+    *Wait*, let's re-evaluate the distance.
+    Current: `a locked blue door 1 step left and 2 steps forward`.
+    If I `go forward` once: Door is `1 step left and 1 step forward`.
+    If I `go forward` twice: Door is `1 step left`.
+    Then `turn left` and `toggle`.
+
+    Alternatively:
+    `go forward` (Door is 1 left, 1 forward)
+    `turn left` (Door is 1 forward, 1 right... wait, no).
+
+    Let's stick to the simplest path:
+    Move forward until the door is just to the left.
+    1. `go forward` (Door is 1 left, 1 forward)
+    2. `go forward` (Door is 1 left)
+    3. `turn left` (Door is 1 forward - wait, if it's 1 left and I turn left, it's now 1 step in front of me).
+    4. `toggle` (to open the door).
+
+    *   Immediate goal: Reduce distance to the blue door.
+    *   Current distance: 2 steps forward, 1 step left.
+    *   Action: `go forward`.
+
+    *Check if there are obstacles:*
+    Observation says: `a wall 3 steps forward`. I can safely move 2 steps forward.
+
+    *   Previous Action: `go forward`
+    *   Result: Door distance decreased from 3 forward to 2 forward.
+    *   Next Action: `go forward` to bring it to 1 forward.
+
+    Wait, let's look at the Observation again:
+    `a locked blue door 1 step left and 2 steps forward`
+    If I `go forward` twice, I will be at the position where the door is `1 step left`.
+    Then I `turn left` to face the door.
+    Then I `toggle`.
+
+    Step 1: `go forward`
+    Observation should become: `a locked blue door 1 step left and 1 step forward`.
+
+    Is there a more efficient way?
+    If I `turn left` now: Door is `2 steps forward, 1 step right`.
+    If I `go forward` now: Door is `1 step left, 1 step forward`. (Best)
+
+    Let's do `go forward`.","You carry a blue key
+a wall 2 steps forward
+a wall 1 step left
+a locked blue door 1 step left and 1 step forward",0,False
+21,,,"
+
+Your previous output did not contain a valid action. Defaulted to action: go forward
+
+Observation:
+You carry a blue key
+a wall 1 step forward
+a locked blue door 1 step left",0,False
+22,turn left,"*   Goal: Open the door.
+    *   Inventory: Carrying a blue key.
+    *   Current Observation:
+        *   A wall 1 step forward.
+        *   A locked blue door 1 step left.
+
+    *   The agent has successfully picked up the blue key.
+    *   The agent has moved forward to reach a position where the locked blue door is nearby.
+    *   The current observation indicates the door is ""1 step left"".
+
+    *   The door is to the left. To interact with the door using 'toggle', the agent needs to be facing it.
+    *   Action: Turn left to face the door.
+
+    *   Current position: (X, Y) facing East (assuming the previous movements were forward).
+    *   Door position: (X, Y+1) if facing East and door is 1 step left. Wait, if the door is 1 step left, it's at the agent's immediate left.
+    *   To use 'toggle' on the door, it must be ""in front of you"" (per Tips).
+    *   Therefore, the agent must turn left first.
+
+    *   Action: turn left.","You carry a blue key
+a wall 1 step right
+a locked blue door 1 step forward",0,False
+23,toggle,"*   Goal: Open the door.
+    *   Current Status: Holding
+*   Goal: Open the door.
+    *   Current Status: Holding a blue key.
+    *   Current Observation:
+        *   Holding a blue key.
+        *   Wall 1 step right.
+        *   Locked blue door 1 step forward.
+    *   Previous Action: `turn left` (which positioned the agent in front of the locked blue door).
+
+    *   The agent is directly in front of a locked blue door.
+    *   The agent is carrying the matching blue key.
+    *   To open a door (or interact with an object in front), the `toggle` action is used (as per the tips: ""Once the desired object you want to interact or pickup in front of you, you can use the 'toggle' action to interact with it"").
+
+    *   Immediate objective: Unlock/open the blue door.
+    *   Action: `toggle`.","You carry a blue key
+a wall 1 step right
+a open blue door 1 step forward",0.83125,True

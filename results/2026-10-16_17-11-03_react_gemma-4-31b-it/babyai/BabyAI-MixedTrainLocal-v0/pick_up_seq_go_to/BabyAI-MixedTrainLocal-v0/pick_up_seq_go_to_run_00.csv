@@ -1,0 +1,925 @@
+Step,Action,Reasoning,Observation,Reward,Done
+0,turn left,"*   Goal: Pick up the green key, then go to the purple ball.
+    *   Current Observation:
+        *   Wall 4 steps forward.
+        *   Wall 1 step right.
+        *   Green key 3 steps left.
+    *   Current status: I don't have the green key yet.
+
+    *   The green key is 3 steps to the left.
+    *   To get to the green key, I need to turn left and then move forward.
+
+    *   Objective: Pick up the green key.
+    *   Step 1: Turn left to face the green key.
+    *   Step 2: Move forward 3 times.
+    *   Step 3: Pick up the key.
+
+    *   Current action: Turn left.","a wall 3 steps left
+a purple ball 2 steps left and 2 steps forward
+a green key 3 steps forward",0,False
+1,go forward,"*   Goal: Pick up green key -> Go to purple ball.
+    *   Current Observation:
+        *   Wall: 3 steps left.
+        *   Purple ball: 2 steps left, 2 steps forward.
+        *   Green key: 3 steps forward.
+    *   Previous Action: `turn left`.
+    *   Current Status: Need green key first.
+
+    *   The green key is 3 steps forward.
+    *   To pick up the key, I need to move to its position and then use the `pick up` action.
+
+    *   Immediate objective: Reach the green key.
+    *   Action: `go forward`.","a wall 3 steps left
+a purple ball 2 steps left and 1 step forward
+a green key 2 steps forward",0,False
+2,go forward,"*   Goal: Pick up the green key, then go to the purple ball.
+    *   Current Observation:
+        *   Wall: 3 steps left.
+        *   Purple ball: 2 steps left and 1 step forward.
+        *   Green key: 2 steps forward.
+    *   Previous Action: `go forward`.
+    *   State: I am moving toward the green key.
+
+    *   The green key is 2 steps forward.
+    *   The purple ball is 2 steps left and 1 step forward.
+    *   Priority: Get the green key first.
+
+    *   Since the green key is 2 steps forward, I need to move forward.
+    *   Step 1: `go forward` (will put me 1 step away from the key).
+    *   Step 2: `go forward` (will put me on top of/in front of the key).
+    *   Step 3: `pick up`.
+
+    *   Observation says the green key is 2 steps forward.
+    *   Action: `go forward`.","a purple ball 2 steps left
+a green key 1 step forward",0,False
+3,go forward,"*   Goal: Pick up the green key, then go to the purple ball.
+    *   Current Observation:
+        *   Purple ball: 2 steps left.
+        *   Green key: 1 step forward.
+    *   Previous sequence:
+        1.  Initial: wall 4 forward, wall 1 right, green key 3 left. (Action: turn left)
+        2.  Observation: wall 3 left, purple ball 2 left and 2 forward, green key 3 forward. (Action: go forward)
+        3.  Observation: wall 3 left, purple ball 2 left and 1 forward, green key 2 forward. (Action: go forward)
+        4.  Current Observation: purple ball 2 steps left, green key 1 step forward.
+
+    *   Objective 1: Pick up the green key.
+    *   Objective 2: Go to the purple ball.
+
+    *   The green key is 1 step forward.
+    *   I need to be *on top of* the object (or it needs to be *below me*) to pick it up, or *in front of* it to toggle (though ""pick up"" usually means below). Looking at the previous turns, the key was 3 steps forward, then 2, now 1.
+    *   Action to move to the key: `go forward`.
+
+    *   The key is currently 1 step forward.
+    *   If I `go forward`, I will be on the position of the green key.
+    *   Then I can use `pick up`.","a purple ball 2 steps left
+a green key 1 step forward",0,False
+4,toggle,"*   Goal: Pick up the green key, then go to the purple ball.
+    *   Current Observation: a purple ball 2 steps left, a green key 1 step forward.
+    *   Previous Action: `go forward` (from the state where the key was 2 steps forward).
+    *   Current State: The agent is now 1 step away from the green key.
+
+    *   The agent needs to pick up the green key first.
+    *   The green key is ""1 step forward"".
+    *   To pick up the key, the agent must be *on* the key or *below* the key (based on the ""pick up"" description: ""pick up the object below you"").
+    *   Wait, the prompt says ""Once the desired object you want to interact or pickup in front of you, you can use the 'toggle' action to interact with it"" and ""pick up: pick up the object below you"".
+    *   Let's re-read carefully:
+        - `pick up`: pick up the object below you.
+        - `toggle`: manipulate the object in front of you.
+    *   Usually, in these games, you move *onto* the object to pick it up. If the key is 1 step forward, the next move should be `go forward` to stand on it.
+    *   Wait, let's check the previous turn.
+        - Previous Observation: `a purple ball 2 steps left, a green key 1 step forward` (Wait, the previous prompt actually had the same observation as the current one? No, the user prompt says ""Current Observation: a purple ball 2 steps left, a green key 1 step forward"" and the *previous* assistant turn was `go forward` when the observation was `a purple ball 2 steps left, a green key 1 step forward`).
+    *   Let's re-examine the history:
+        - Obs 1: wall 4 fwd, wall 1 right, key 3 left. Action: `turn left`.
+        - Obs 2: wall 3 left, ball 2 left 2 fwd, key 3 fwd. Action: `go forward`.
+        - Obs 3: wall 3 left, ball 2 left 1 fwd, key 2 fwd. Action: `go forward`.
+        - Obs 4: ball 2 left, key 1 fwd. Action: `go forward`.
+        - Current Observation: ball 2 left, key 1 fwd.
+    *   Wait, if the action was `go forward` and the observation is still `a purple ball 2 steps left, a green key 1 step forward`, did the agent move?
+    *   Actually, the user prompt says:
+        ""Observation: a purple ball 2 steps left, a green key 1 step forward"" -> Agent: `go forward`
+        ""Current Observation: a purple ball 2 steps left, a green key 1 step forward""
+    *   If the action `go forward` didn't change the distance to the key (it's still 1 step forward), it means the agent might have hit a wall or something, OR the environment updated in a way that didn't change the relative distance (which is unlikely in a grid).
+    *   HOWEVER, look at the prompt again. The user provided the Observation, then I gave the action `go forward`, and now the user is asking for the next move based on the *same* observation.
+    *   Wait, look at the prompt sequence:
+        User: Observation: a purple ball 2 steps left, a green key 1 step forward.
+        Assistant: go forward.
+        User: Current Observation: a purple ball 2 steps left, a green key 1 step forward.
+    *   This is strange. If I went forward, the key should be 0 steps forward (below me).
+    *   Maybe I am already on it? Or maybe `go forward` failed?
+    *   Let's re-read the observation: ""a green key 1 step forward"".
+    *   If I just did `go forward` and it's still 1 step forward, maybe there's a wall? No, the observation doesn't mention a wall forward.
+    *   Let's assume the provided ""Current Observation"" is the truth. The green key is 1 step forward.
+    *   Wait, if I keep doing `go forward` and the observation doesn't change, the tip says: ""It doesn't make sense to repeat the same action over and over if the observation doesn't change.""
+    *   Is it possible that to pick up the key, I need to use `toggle` while it is in front of me?
+    *   Tip: ""Once the desired object you want to interact or pickup in front of you, you can use the 'toggle' action to interact with it.""
+    *   Ah! ""Once the desired object... in front of you, you can use the 'toggle' action to interact with it.""
+    *   And `pick up` is for the object ""below you"".
+    *   Usually, ""interact"" with a key might mean picking it up? Or maybe `toggle` is for doors/switches and `pick up` is for keys?
+    *   Let's look at the wording: ""Once the desired object you want to interact or pickup in front of you, you can use the 'toggle' action to interact with it.""
+    *   This suggests `toggle` can be used to pick up an item if it is in front of the agent.
+    *   Current state: Key is 1 step forward (in front of me).
+    *   Action choice: `go forward` (to get it below me) or `toggle` (to pick it up while it's in front of me).
+    *   Since the previous action was `go forward` and the observation remained the same, `go forward` might be blocked or the state didn't update. But the tip says ""don't repeat the same action if the observation doesn't change"".
+    *   Wait, looking at the sequence again:
+        User: Observation: a purple ball 2 steps left, a green key 1 step forward.
+        Assistant: go forward.
+        User: Current Observation: a purple ball 2 steps left, a green key 1 step forward.
+    *   If `go forward` didn't move me, maybe the key is the thing I need to `toggle`?
+    *   Let's re-read the prompt's ""Tips"": ""Once the desired object you want to interact or pickup in front of you, you can use the 'toggle' action to interact with it.""
+    *   This is a very strong hint. The key is in front of me (1 step forward). I should use `toggle`.
+
+    *   Goal 1: Green Key.
+    *   Position: 1 step forward.
+    *   Tip says: use `toggle` for objects in front.
+    *   Previous action `go forward` resulted in the same observation.
+    *   Conclusion: Use `toggle`.
+
+    *Self-Correction/Double Check:*
+    Does `pick up` require being on top of it?
+    ""pick up: pick up the object below you""
+    Does `toggle` work for picking up?
+    ""Once the desired object you want to interact or pickup in front of you, you can use the 'toggle' action to interact with it.""
+    Yes, it explicitly says ""pickup in front of you ... use the 'toggle' action"".
+
+    So, the action is `toggle`.","a purple ball 2 steps left
+a green key 1 step forward",0,False
+5,turn left,"The agent's goal is to pick up the green key and then go to the purple ball.
+The current observation is:
+- a purple ball 2 steps left
+- a green key 1 step forward
+
+The previous action was `toggle`.
+The observation *before* `toggle` was:
+- a purple ball 2 steps left
+- a green key 1 step forward
+
+The observation *after* `toggle` is exactly the same:
+- a purple ball 2 steps left
+- a green key 1 step forward
+
+Wait, look at the sequence:
+Step 1: Observation (Green key 3 steps left) -> turn left
+Step 2: Observation (Green key 3 steps forward) -> go forward
+Step 3: Observation (Green key 2 steps forward) -> go forward
+Step 4: Observation (Green key 1 step forward) -> go forward
+Step 5: Observation (Green key 1 step forward) -> toggle
+
+Wait, looking at Step 4 and 5:
+Step 4 Observation: a purple ball 2 steps left, a green key 1 step forward.
+Action: go forward.
+Step 5 Observation: a purple ball 2 steps left, a green key 1 step forward.
+
+Wait, if the green key was 1 step forward, and the agent went forward, the green key should now be *below* the agent. But the observation says ""a green key 1 step forward"". This implies the `go forward` action didn't move the agent closer to the key, or the key shifted, or the agent hit a wall? No, if the observation says ""a green key 1 step forward"", it is still in front.
+
+Actually, let's look at the sequence again.
+Observation 4: ""a purple ball 2 steps left, a green key 1 step forward""
+Action: go forward
+Observation 5: ""a purple ball 2 steps left, a green key 1 step forward"" (The observation didn't change).
+
+Observation 5: ""a purple ball 2 steps left, a green key 1 step forward""
+Action: toggle
+Observation 6: ""a purple ball 2 steps left, a green key 1 step forward"" (The observation didn't change).
+
+If the agent is trying to pick up the green key, it needs to be *below* the agent to use the `pick up` action. If it is *in front* of the agent, it can use `toggle`.
+
+Wait, the prompt says: ""Once the desired object you want to interact or pickup in front of you, you can use the 'toggle' action to interact with it."" and ""pick up: pick up the object below you"".
+
+Usually, in these games, to pick up an object, you first need to be on top of it. If the key is ""1 step forward"", the agent needs to `go forward` to be on top of it.
+However, in the previous turn, the agent performed `go forward` and the observation remained ""a green key 1 step forward"". This suggests the agent is stuck or there's an obstacle.
+
+But wait, look at Observation 4 and 5 again.
+Observation 4: ""a purple ball 2 steps left, a green key 1 step forward""
+Action: ""go forward""
+Observation 5: ""a purple ball 2 steps left, a green key 1 step forward""
+
+And then Observation 5: ""a purple ball 2 steps left, a green key 1 step forward""
+Action: ""toggle""
+Observation 6: ""a purple ball 2 steps left, a green key 1 step forward""
+
+If `go forward` didn't move the agent, maybe there's a wall? But the observation doesn't list a wall in front.
+
+Let's reconsider the goal: pick up the green key.
+The green key is 1 step forward.
+The agent tried `go forward` (didn't work) and `toggle` (didn't work).
+
+Wait, if `go forward` didn't change the observation, maybe the agent is already at the target location and the ""1 step forward"" is actually a description of the object's position relative to the agent's facing direction? No, ""1 step forward"" usually means it's in the next cell.
+
+If the agent is at (0,0) facing North, and the key is at (0,1). `go forward` should move the agent to (0,1). Then the key would be ""below you"".
+If the observation still says ""a green key 1 step forward"", it means the agent is still at (0,0). Why? Maybe there's a wall that isn't mentioned? Or maybe the action `go forward` failed.
+
+However, the tips say: ""Once the desired object you want to interact or pickup in front of you, you can use the 'toggle' action to interact with it.""
+The green key is ""1 step forward"" (in front of the agent). So the agent tried `toggle`. But the observation didn't change.
+
+Does the agent need to `pick up`? To `pick up`, the object must be *below* you. To be below you, you must `go forward` until it's no longer ""1 step forward"".
+
+Let's try `go forward` again? The tips say ""It doesn't make sense to repeat the same action over and over if the observation doesn't change.""
+`go forward` didn't change the observation. `toggle` didn't change the observation.
+
+What else can be done?
+The goal is the green key. It's 1 step forward.
+Maybe the agent needs to turn? No, it's already facing it.
+
+Wait, if `go forward` didn't work, and `toggle` didn't work, let's look at the observations again.
+Observation 4: ""a purple ball 2 steps left, a green key 1 step forward""
+Observation 5: ""a purple ball 2 steps left, a green key 1 step forward""
+Observation 6: ""a purple ball 2 steps left, a green key 1 step forward""
+
+This is very strange. If `go forward` doesn't move the agent, the agent is blocked.
+If the agent is blocked, maybe it needs to move around?
+The purple ball is 2 steps left.
+
+But wait, maybe I should try `pick up`? No, the object is 1 step forward, not below.
+
+Let's re-read: ""Once the desired object you want to interact or pickup in front of you, you can use the 'toggle' action to interact with it.""
+The key is in front. The agent toggled. Nothing happened.
+
+Is it possible the agent is already on the key and the observation ""1 step forward"" is a mistake or describes something else? No, that's unlikely.
+
+Let's look at the sequence again.
+Observation 2: a green key 3 steps forward.
+Observation 3: a green key 2 steps forward.
+Observation 4: a green key 1 step forward.
+Observation 5: a green key 1 step forward. (After `go forward`)
+
+This means the agent moved from 3 -> 2 -> 1. But when it tried to move from 1 to 0 (on top of it), it stayed at 1.
+This usually means there is a wall. But the observation doesn't say ""a wall 1 step forward"".
+
+Wait, if the agent is at 1 step forward, and cannot move forward, and `toggle` does nothing, what is left?
+Maybe the key is not ""pick up""-able until it's toggled? But toggle did nothing.
+
+Let's think. Is there any other way to get to the key?
+Observation: ""a purple ball 2 steps left, a green key 1 step forward"".
+If I can't go forward, I can go left.
+Turn left -> go forward -> turn right -> go forward -> turn right -> go forward... no.
+
+Wait! If the `go forward` action didn't change the observation, and `toggle` didn't change the observation, maybe the `pick up` action works?
+No, ""pick up: pick up the object below you"".
+
+Let's try `go forward` one more time? No, the tip says don't repeat.
+What if I `turn left`?
+If I turn left, the green key will be 1 step right.
+Then I can `go forward` (towards the purple ball), then `turn right`, then `go forward`.
+
+Let's check the map.
+Agent is at (0,0) facing North.
+Key is at (0,1).
+Ball is at (-2,0).
+Wall was 4 steps forward at the start? (No, that was when facing North).
+
+Wait, the first observation was:
+a wall 4 steps forward
+a wall 1 step right
+a green key 3 steps left.
+Agent turned left.
+Now facing West.
+New Observation:
+a wall 3 steps left (originally 4 steps forward)
+a purple ball 2 steps left and 2 steps forward (Originally ??)
+a green key 3 steps forward (Originally 3 steps left)
+This matches.
+
+Then agent went forward 3 times.
+Observation 2: key 3 steps forward.
+Observation 3: key 2 steps forward.
+Observation 4: key 1 step forward.
+Observation 5: key 1 step forward. (Agent tried to move forward).
+
+Now the agent is at (-3, 0) facing West.
+The key is at (-4, 0).
+The purple ball is 2 steps left (South) and 1 step forward (West) in Observation 3?
+Wait, let's re-track.
+Start: (0,0) facing North.
+Wall at (0,4), Wall at (1,0), Key at (-3,0).
+Action: turn left.
+Now facing West.
+Observation: Wall at (-3,0) - wait, ""a wall 3 steps left"". If agent is at (0,0) facing West, ""3 steps left"" is South (0,-3).
+Purple ball: ""2 steps left and 2 steps forward"". Left is South, Forward is West. So ball is at (-2, -2).
+Green key: ""3 steps forward"". Forward is West. So key is at (-3, 0).
+
+Agent moves forward 3 times.
+Pos: (-1, 0) -> (-2, 0) -> (-3, 0).
+Observation 4: Agent is at (-3, 0) facing West. Key is at (-4, 0) (1 step forward).
+Ball is at (-2, -2). From (-3, 0) facing West, the ball at (-2, -2) is: 1 step back, 2 steps left.
+Observation 4 says: ""a purple ball 2 steps left"".
+Wait, if the ball is at (-2, -2) and agent is at (-3, 0) facing West:
+West is forward. South is left.
+Ball is at x=-2, y=-2. Agent is at x=-3, y=0.
+Ball is 1 step East (back) and 2 steps South (left).
+Observation says ""a purple ball 2 steps left"". It doesn't mention the 1 step back.
+
+Observation 5: Agent tries `go forward` to get to (-4, 0).
+Observation 5: ""a purple ball 2 steps left, a green key 1 step forward"".
+The agent is still at (-3, 0). This means there is a wall at (-4, 0) or the key is not an object you can stand on? No, that's not how it works.
+Usually, it means there's a wall. But the observation doesn't say ""a wall 1 step forward"".
+
+Wait! ""a green key 1 step forward"".
+If the agent is at (-3, 0) and the key is at (-4, 0), and there is a wall at (-4, 0) as well, the observation should say ""a wall 1 step forward"".
+If it doesn't, then the `go forward` action should have worked.
+
+Why did `go forward` fail?
+Observation 4: `go forward` -> Observation 5: `a purple ball 2 steps left, a green key 1 step forward`.
+Maybe the agent is already on the key?
+If the agent is at (-4, 0) and the key is at (-4, 0), the key is ""below you"".
+But the observation says ""a green key 1 step forward"". This means the key is at (-5, 0).
+But wait, the observation has been ""1 step forward"" for two turns.
+
+Let's look at the sequence again.
+Obs 4: key 1 step forward.
+Action: go forward.
+Obs 5: key 1 step forward.
+Action: toggle.
+Obs 6: key 1 step forward.
+
+If `go forward` doesn't move the agent, and `toggle` doesn't do anything, what can the agent do?
+Is it possible that the `pick up` action is required even if it says ""1 step forward""? No, ""pick up the object below you"".
+
+Maybe the agent needs to `turn left`, `go forward`, `turn right`, `go forward`, `turn right`, `go forward`, `turn left`, `go forward`? That's too complex.
+
+Wait, I just noticed something.
+Observation 4: a purple ball 2 steps left, a green key 1 step forward.
+Observation 5: a purple ball 2 steps left, a green key 1 step forward.
+Observation 6: a purple ball 2 steps left, a green key 1 step forward.
+
+The observation is NOT changing.
+The agent tried `go forward` and `toggle`.
+Neither worked.
+The agent is facing the key.
+The key is 1 step forward.
+
+Could the key be ""toggled"" to be picked up? The agent tried `toggle`.
+Could there be an invisible wall?
+Wait, what if the agent is not at (-3,0) but at (-4,0) and the key is at (-5,0)?
+Then `go forward` would move it to (-5,0).
+But the observation says ""a green key 1 step forward"".
+
+Let's try `pick up`. Even if the observation says ""1 step forward"", maybe it's a bug in the observation and the agent is actually on it?
+Or maybe the `toggle` action was supposed to move the key?
+
+Actually, let's look at the most likely scenario in these games.
+The agent is 1 step away from the key.
+`go forward` should put the agent on the key.
+If `go forward` doesn't change the observation, it means the agent is blocked.
+If the agent is blocked and cannot `toggle` the obstacle, the agent must go around.
+
+However, there's no wall mentioned.
+Is it possible the key *is* the obstacle?
+""Once the desired object you want to interact or pickup in front of you, you can use the 'toggle' action to interact with it.""
+The agent tried `toggle`. It didn't work.
+
+Let's try `pick up`. Maybe the key is ""below"" despite the observation?
+Or maybe the `toggle` action *did* something that isn't reflected in the observation?
+No, the observation is identical.
+
+Let's try `turn left`.
+If the agent turns left, the key will be 1 step right.
+Then the agent can see if the observation changes.
+
+Wait, let's re-read the tips: ""It doesn't make sense to repeat the same action over and over if the observation doesn't change.""
+`go forward` -> no change.
+`toggle` -> no change.
+
+What's left? `turn left`, `turn right`, `pick up`, `drop`.
+`drop` makes no sense.
+`pick up` only works if the object is below.
+`turn left` or `turn right` will change the observation.
+
+If I `turn left`, the purple ball (which was 2 steps left) will now be 2 steps behind me.
+The green key (which was 1 step forward) will now be 1 step right.
+
+Let's try `turn left`. It's the only action that will definitely change the observation and potentially allow a different path.
+
+Actually, wait!
+Is it possible that the `pick up` action is the one to use when the object is 1 step forward?
+No, the description says ""pick up the object below you"".
+
+Wait, I have an idea. Maybe the agent is already on the key, and the ""1 step forward"" is actually the purple ball? No, ""a purple ball 2 steps left"".
+
+Let's try `pick up` just in case. If `go forward` didn't work, maybe the agent is already on top of the key and the observation is just lagging or weird?
+But the observation says ""a green key 1 step forward"".
+
+Let's try `turn left`. If we turn left, we can try to move and see if we are actually blocked or if it was just a weird state.
+
+Wait, I just realized something. In some of these environments, `toggle` is used to open a door or move an object.
+If `toggle` didn't change the observation, maybe it didn't do anything.
+
+Let's try `turn left`.","a wall 3 steps left
+a purple ball 2 steps forward
+a green key 1 step right",0,False
+6,turn right,"*   Goal: Pick up green key $\rightarrow$ Go to purple ball.
+    *   Current Observation:
+        *   Wall: 3 steps left
+        *   Purple ball: 2 steps forward
+        *   Green key: 1 step right
+    *   Previous Action: `turn left`
+    *   Observation sequence summary:
+        1.  Observation: wall 4 fwd, wall 1 right, green key 3 left. Action: `turn left`.
+        2.  Observation: wall 3 left, purple ball 2 left/2 fwd, green key 3 fwd. Action: `go forward`.
+        3.  Observation: wall 3 left, purple ball 2 left/1 fwd, green key 2 fwd. Action: `go forward`.
+        4.  Observation: purple ball 2 left, green key 1 fwd. Action: `go forward`.
+        5.  Observation: purple ball 2 left, green key 1 fwd. Action: `toggle`. (Failed to pick up because it was 1 step forward, not below).
+        6.  Observation: purple ball 2 left, green key 1 fwd. Action: `turn left`.
+        7.  Current Observation: wall 3 left, purple ball 2 forward, green key 1 right.
+
+    *   The agent tried to go to the green key but failed to pick it up because it was 1 step forward (needs to be ""below you"" or ""in front of you"" for toggle, but the prompt says ""pick up the object below you"").
+    *   Wait, the tips say: ""Once the desired object you want to interact or pickup in front of you, you can use the 'toggle' action to interact with it"" AND ""pick up: pick up the object below you"".
+    *   Current state: Green key is 1 step right. Purple ball is 2 steps forward.
+    *   Objective: First, get the green key.
+
+    *   Green key is 1 step right.
+    *   To pick it up, the agent needs to be on top of it.
+    *   Action required: `turn right`, then `go forward`, then `pick up`.
+
+    *   Current: Green key is 1 step right.
+    *   Action: `turn right`.
+
+    *   Is there any reason not to turn right? No.
+    *   Does turning right bring me closer to the key? Yes.
+    *   Next state after `turn right`: Green key should be 1 step forward. Then `go forward`, then `pick up`.","a purple ball 2 steps left
+a green key 1 step forward",0,False
+7,pick up,"*   Goal: Pick up the green key, then
+*   Goal: Pick up the green key, then go to the purple ball.
+    *   Current state:
+        *   Purple ball: 2 steps left.
+        *   Green key: 1 step forward.
+    *   Previous sequence:
+        *   Turn left -> Green key was 3 steps forward.
+        *   Go forward -> Green key was 2 steps forward.
+        *   Go forward -> Green key was 1 step forward.
+        *   Go forward -> Observation didn't change (meaning the agent might have walked *into* the key or the key is *at* the position, but ""1 step forward"" persists).
+        *   Toggle -> Observation didn't change.
+        *   Turn left -> Purple ball 2 steps forward, Green key 1 step right.
+        *   Turn right -> Purple ball 2 steps left, Green key 1 step forward.
+
+    *   Current Observation:
+        *   Purple ball 2 steps left.
+        *   Green key 1 step forward.
+    *   The agent needs the green key first.
+    *   The green key is 1 step forward.
+    *   In the previous attempt to get the key, the agent used `go forward` and then `toggle` (while the key was 1 step forward). However, the prompt says ""Once the desired object... [is] in front of you, you can use the 'toggle' action..."". But the agent needs to *pick up* the key.
+    *   Wait, the available actions are `turn left`, `turn right`, `go forward`, `pick up`, `drop`, `toggle`.
+    *   The goal is to ""pick up the green key"".
+    *   Looking at the previous steps:
+        *   Observation: ""a green key 1 step forward"" -> Action: `go forward`.
+        *   Observation: ""a green key 1 step forward"" (still!) -> Action: `toggle`.
+        *   Observation: ""a green key 1 step forward"" (still!) -> Action: `turn left`.
+    *   It seems `go forward` when the key is 1 step forward should put the agent *on top* of the key.
+    *   Let's re-examine the transition:
+        Observation: `a green key 1 step forward`
+        Action: `go forward`
+        Observation: `a green key 1 step forward`
+    *   Wait, if the observation remains ""a green key 1 step forward"" after ""go forward"", it suggests the agent didn't move or is stuck. Or perhaps the ""1 step forward"" indicates it's *right in front* of the agent, and moving forward puts the agent *on* it.
+    *   Usually, in these grid games:
+        - ""1 step forward"" means it's in the cell immediately ahead.
+        - To pick it up, you usually have to be *on* the cell or *facing* it.
+        - The prompt says ""pick up: pick up the object below you"".
+        - The prompt says ""toggle: manipulate the object in front of you"".
+    *   If the key is 1 step forward, the agent needs to `go forward` to be *on* the key, then `pick up`.
+
+    *   Observation: `a green key 1 step forward`
+    *   Action: `go forward`
+    *   Next Observation: `a purple ball 2 steps left`, `a green key 1 step forward` (Wait, the observation didn't change. This is strange. Let me re-read.)
+
+    *Previous sequence:*
+    1. `go forward` -> Observation: `a green key 2 steps forward`
+    2. `go forward` -> Observation: `a green key 1 step forward`
+    3. `go forward` -> Observation: `a green key 1 step forward` (Observation stayed same)
+    4. `toggle` -> Observation: `a green key 1 step forward` (Observation stayed same)
+    5. `turn left` -> Observation: `a green key 1 step right`
+    6. `turn right` -> Observation: `a green key 1 step forward`
+
+    If ""go forward"" didn't change ""a green key 1 step forward"" to something else (like ""green key below you""), it means the agent is likely facing the key and cannot move further forward (perhaps there is a wall or the key itself acts as a boundary, or the observation ""1 step forward"" is the closest it gets).
+    However, ""pick up"" works for the object *below* you.
+    If ""go forward"" doesn't work to get ""below"" the key, maybe the key is *on* the cell 1 step forward.
+    Wait, if `go forward` while the key is 1 step forward results in the observation `a green key 1 step forward`, it implies the agent didn't move.
+    Let's try `go forward` one more time, or perhaps the `pick up` action is meant to be used when it's 1 step forward? No, ""pick up: pick up the object below you"".
+    What about `toggle`? ""Once the desired object... [is] in front of you, you can use the 'toggle' action to interact with it.""
+    Maybe the green key needs to be ""toggled"" first? But usually, keys are picked up.
+
+    Let's look at the prompt again: ""Once the desired object you want to interact or pickup in front of you, you can use the 'toggle' action to interact with it.""
+    Wait, ""interact or pickup"". This is a huge hint. It says if the object is *in front of you*, you can use `toggle` to *interact or pickup*.
+
+    Let's re-evaluate the sequence:
+    - Observation: `a green key 1 step forward`
+    - Action: `go forward` -> Observation: `a green key 1 step forward` (Didn't move)
+    - Action: `toggle` -> Observation: `a green key 1 step forward` (Didn't work?)
+
+    Wait, if `toggle` didn't change the observation, maybe the agent didn't actually pick it up. Or maybe the observation doesn't say ""holding green key"".
+
+    Let's try `go forward` again. If it didn't move the first time, maybe it was a glitch or I misunderstood. But the instructions say ""It doesn't make sense to repeat the same action over and over if the observation doesn't change.""
+    The observation is currently: `a green key 1 step forward`.
+    Previous action: `turn right`.
+    The action before that was `turn left`.
+    The action before that was `toggle`.
+    The action before that was `go forward`.
+
+    If `go forward` didn't change the observation, and `toggle` didn't change the observation, what's left?
+    The key is ""1 step forward"". To pick it up, I must either be *on* it (`pick up`) or it must be *in front* of me (`toggle`).
+
+    Wait, if I `go forward` and the key is `1 step forward`, I should be *on* it. Then I use `pick up`.
+    If `go forward` resulted in `a green key 1 step forward` again, maybe the key is *not* a block, but the agent is blocked by something else? No, the observation only mentions the ball and the key.
+
+    Let's try `go forward` again. If it still says `1 step forward`, then the only other option to get it is `toggle` (which already failed) or `pick up` (which requires being below it).
+
+    Wait! I just noticed something.
+    Observation: `a green key 1 step forward`
+    Action: `go forward`
+    Observation: `a green key 1 step forward`
+    This is the key. If `go forward` didn't change the distance, the agent is likely *already* on the cell *before* the key, and the key is *in the cell in front*.
+    If the agent `go forward` again and the observation is *still* `a green key 1 step forward`, then the agent is unable to move into that cell.
+    If the agent cannot move into the cell, the only way to get the key is if `toggle` works. But `toggle` was used and the observation didn't change.
+
+    Is it possible that the ""pick up"" action is what I should use when it's 1 step forward? No, ""pick up: pick up the object below you"".
+
+    Let's look at the sequence again.
+    - Observation: `a green key 1 step forward`
+    - Action: `go forward`
+    - Observation: `a green key 1 step forward`
+    - Action: `toggle`
+    - Observation: `a green key 1 step forward`
+
+    This means `go forward` didn't move the agent onto the key, and `toggle` didn't pick it up.
+    Wait, maybe the `toggle` action *did* work, but the observation doesn't explicitly say ""holding green key""?
+    But then why would the agent `turn left` and `turn right`? The agent (the previous turns) was exploring.
+
+    Let's try `go forward` one more time. If I'm at `1 step forward` and I `go forward`, and I'm *not* on it, then I'm still `1 step forward`? That doesn't make sense in a grid.
+    Usually, if you are at (0,0) and the key is at (0,1), and you `go forward`, you are now at (0,1) and the key is at (0,0) (behind you) or the key is ""below you"".
+
+    Wait, I see the observation:
+    `a purple ball 2 steps left`
+    `a green key 1 step forward`
+    If I `go forward`, I should be *on* the key.
+    Then I can `pick up`.
+
+    Wait, look at the history again:
+    User: `go forward`
+    Observation: `a purple ball 2 steps left`, `a green key 1 step forward`
+    User: `toggle`
+    Observation: `a purple ball 2 steps left`, `a green key 1 step forward`
+    This means `go forward` didn't move the agent *past* or *onto* the key.
+    This is very strange. Let me re-read the ""Tips"".
+    ""Once the desired object... [is] in front of you, you can use the 'toggle' action to interact with it.""
+    If the key is ""1 step forward"", it is ""in front of"" the agent.
+    So `toggle` is the correct action to pick it up if you can't move onto it.
+    But the agent already tried `toggle` and the observation didn't change.
+
+    Maybe the agent *did* pick it up?
+    If the agent picked up the key, the goal changes to ""go to the purple ball"".
+    Purple ball is 2 steps left.
+    The agent then `turn left` (Observation: ball 2 steps forward), then `turn right` (Observation: ball 2 steps left).
+    Now the agent is back to the original orientation.
+    If the agent *already* has the key, the next step is to go to the purple ball.
+    Ball is 2 steps left.
+    Action: `turn left`, then `go forward`, `go forward`.
+
+    But how do I know if the agent has the key?
+    The observation doesn't say ""holding green key"".
+    However, the sequence was:
+    1. `go forward` (to get to the key)
+    2. `toggle` (to pick up the key)
+    3. `turn left` (to face the ball)
+    4. `turn right` (to face the key again)
+
+    Why would the agent `turn right` after `turn left`? Maybe it was confused.
+    Current state: `a purple ball 2 steps left`, `a green key 1 step forward`.
+    If the key is still there (""a green key 1 step forward""), then the agent does *not* have the key.
+
+    If the agent does not have the key, and `go forward` and `toggle` didn't work, what now?
+    Is it possible that ""1 step forward"" is the distance, and to pick it up, you must be *on* it?
+    If `go forward` didn't change the observation ""a green key 1 step forward"", it's possible the agent is facing a wall *and* the key is 1 step forward (but the wall is in the way)?
+    No, the observation doesn't mention a wall in front.
+
+    Let's try `go forward` again. If it's a grid, and you're at (0,0) and the object is at (0,1), `go forward` moves you to (0,1). At (0,1), the object is now *below* you.
+    If the observation still says ""a green key 1 step forward"", maybe the agent is not moving?
+    Wait! I just noticed something in the previous turns.
+    Observation: `a purple ball 2 steps left`, `a green key 1 step forward`
+    Action: `go forward`
+    Observation: `a purple ball 2 steps left`, `a green key 1 step forward`
+    This happened. The agent did *not* move.
+    Then the agent tried `toggle`. Observation stayed the same.
+    Then the agent `turn left`, then `turn right`.
+
+    If `go forward` didn't work, and `toggle` didn't work, maybe the agent needs to `turn left` or `turn right` to align themselves differently? No, that doesn't make sense.
+    Wait, ""a green key 1 step forward"". Maybe the agent is *already* on the key and the observation ""1 step forward"" is actually ""below you"" in some weird notation? No, that's unlikely.
+
+    Let's try `pick up`. If the agent is actually *on* the key, `pick up` would work.
+    But the observation says ""1 step forward"".
+
+    Let's think about the `toggle` action again. ""Once the desired object... [is] in front of you, you can use the 'toggle' action to interact with it.""
+    The key is 1 step forward. That is ""in front of you"".
+    If `toggle` didn't change the observation, maybe the key is not something you ""toggle"" but something you ""pick up""?
+    But ""pick up"" requires the object to be ""below you"".
+    To get the object ""below you"", you must `go forward`.
+    If `go forward` didn't change the observation, why?
+    Maybe there's an invisible wall?
+    Or maybe I should just try `go forward` one more time to be absolutely sure?
+    No, the tip says ""It doesn't make sense to repeat the same action over and over if the observation doesn't change.""
+
+    Wait, let's look at the observations again.
+    Observation: `a wall 4 steps forward`, `a wall 1 step right`, `a green key 3 steps left`
+    Action: `turn left`
+    Observation: `a wall 3 steps left`, `a purple ball 2 steps left and 2 steps forward`, `a green key 3 steps forward`
+    (This makes sense: Turn left, the key that was 3 steps left is now 3 steps forward.)
+    Action: `go forward`
+    Observation: `a wall 3 steps left`, `a purple ball 2 steps left and 1 step forward`, `a green key 2 steps forward`
+    (Correct: Key is now 2 steps forward.)
+    Action: `go forward`
+    Observation: `a purple ball 2 steps left`, `a green key 1 step forward`
+    (Correct: Key is now 1 step forward. Also, the ball's position shifted.)
+    Action: `go forward`
+    Observation: `a purple ball 2 steps left`, `a green key 1 step forward`
+    (Wait! Here is the weird part. The agent went forward, but the observation didn't change!)
+    Action: `toggle`
+    Observation: `a purple ball 2 steps left`, `a green key 1 step forward`
+    (Still no change!)
+
+    If `go forward` didn't change the distance from 1 step to 0 steps (below you), then the agent is blocked.
+    If the agent is blocked, they cannot move onto the key.
+    If they cannot move onto the key, they must use `toggle` to pick it up from the cell in front of them.
+    The agent tried `toggle`, and the observation didn't change.
+    Does ""didn't change"" mean it failed, or does it mean the key is now in the agent's inventory and the observation just doesn't mention it?
+
+    If the agent has the key, the goal is to go to the purple ball.
+    Purple ball is 2 steps left.
+    Action: `turn left` -> Ball is 2 steps forward.
+    Action: `go forward` -> Ball is 1 step forward.
+    Action: `go forward` -> Ball is below you.
+
+    Wait, the agent *already* did `turn left` and then `turn right`.
+    Observation after `turn left`: `a wall 3 steps left`, `a purple ball 2 steps forward`, `a green key 1 step right`
+    Observation after `turn right`: `a purple ball 2 steps left`, `a green key 1 step forward`
+
+    Look at the observation after `turn left`: `a green key 1 step right`.
+    If the agent had picked up the key, the key would not be ""1 step right"".
+    So the agent definitely *does not* have the key.
+
+    So, we are back to the problem:
+    - Green key is 1 step forward.
+    - `go forward` doesn't move the agent.
+    - `toggle` doesn't pick up the key.
+
+    What else could be wrong?
+    Could the agent be facing the wrong way? No, the key is 1 step forward.
+    Is there something else they need to do?
+    Let's look at the actions: `turn left`, `turn right`, `go forward`, `pick up`, `drop`, `toggle`.
+    If `go forward` is blocked and `toggle` doesn't work, maybe `pick up` works?
+    Wait, ""pick up: pick up the object below you"".
+    If `go forward` failed, the agent is *not* below the key.
+
+    Wait! I have an idea.
+    Maybe the `go forward` action failed because the agent was already *on* the key, and the observation ""1 step forward"" is actually a bug in the game's reporting, or it means the key is ""at"" that position?
+    No, that's too complex.
+
+    Let's look at the observation again:
+    `a purple ball 2 steps left`
+    `a green key 1 step forward`
+    Could the agent use `pick up` even if it says `1 step forward`?
+    No, that contradicts the description.
+
+    What if the agent needs to `toggle` something else? No other objects are mentioned.
+    What if the agent needs to `turn` and then `go forward` from a different angle?
+    The key is at (0, 1) relative to the agent.
+    The agent is at (0, 0).
+    The agent tried to move to (0, 1) and failed.
+    Is it possible to move to (0, 1) via (1, 0) or (-1, 0)?
+    To do that: `turn right`, `go forward`, `turn left`, `go forward`.
+    But the observation doesn't say there's a wall at (1, 0).
+
+    Wait! Let me re-read the `toggle` tip:
+    ""Once the desired object you want to interact or pickup in front of you, you can use the 'toggle' action to interact with it.""
+    This specifically says you can use `toggle` to *pickup* an object that is *in front of you*.
+    The agent already tried `toggle` when the key was 1 step forward.
+    And the observation didn't change.
+    Wait... maybe the `toggle` action *did* work, but the agent needs to `pick up` after `toggle`?
+    No, ""toggle... to interact or pickup"".
+
+    Let me think. Is there any other way?
+    What if `go forward` didn't work because the agent was *already* on the key?
+    If the agent is already on the key, then `pick up` should work.
+    Let's try the sequence: `go forward` (already tried, failed), `toggle` (already tried, failed).
+    Wait, the agent has tried `go forward` and `toggle`.
+    Now it has tried `turn left` and `turn right`.
+    And it's back to the same observation.
+    If `go forward` and `toggle` failed, the only action left that makes any sense is `pick up`.
+    Why? Because maybe the agent *is* on the key, despite the observation.
+
+    Let's consider another possibility.
+    Maybe the agent needs to `go forward` *twice*?
+    But the observation says ""1 step forward"".
+    Wait, I just noticed something in the history:
+    `go forward` -> `a green key 1 step forward`
+    `go forward` -> `a green key 1 step forward`
+    Wait, that's the *same* observation.
+    If `go forward` doesn't move you, maybe you are *already* at the destination?
+    If you are *on* the key, the observation might still say ""1 step forward"" if the key is located at the edge of the cell? (Unlikely).
+
+    Let's try `pick up`. If `go forward` doesn't move the agent, and `toggle` doesn't pick it up, then `pick up` is the only remaining action to get the key.
+
+    Another possibility:
+    The agent tried `go forward` and the observation didn't change.
+    Then the agent tried `toggle` and the observation didn't change.
+    Maybe the agent is just not moving because they are *already* on the key?
+    If they are on the key, the action should be `pick up`.
+
+    Wait, I just re-read the previous turns again.
+    Observation: `a purple ball 2 steps left`, `a green key 1 step forward`
+    Action: `go forward`
+    Observation: `a purple ball 2 steps left`, `a green key 1 step forward`
+    Wait, I just realized something.
+    If the agent is at (0,0) and the key is at (0,1).
+    The agent does `go forward`.
+    Now the agent is at (0,1).
+    Now, where is the key?
+    The key is at (0,1).
+    So the key is *below* the agent.
+    If the key is *below* the agent, why does the observation say ""a green key 1 step forward""?
+    It *should* say ""a green key below you"" or not mention it as being ""forward"".
+    If the observation *still* says ""1 step forward"", it means the agent *did not move*.
+
+    Why would `go forward` not move the agent?
+    1. There is a wall. (Observation doesn't say so).
+    2. The agent is at the edge of the map. (Observation doesn't say so).
+    3. The key itself is blocking the agent.
+
+    If the key is blocking the agent, the agent cannot move *onto* the key.
+    If the agent cannot move *onto* the key, they must use `toggle` to pick it up.
+    The agent tried `toggle`, and the observation didn't change.
+    Is it possible that `toggle` *did* pick up the key, and the observation just didn't update?
+    But then, when the agent `turn left`, the observation was: `a green key 1 step right`.
+    This *proves* the key was not picked up.
+
+    So:
+    - `go forward` didn't move the agent.
+    - `toggle` didn't pick up the key.
+    - The agent is still facing the key (1 step forward).
+
+    This is a paradox. Let me search for any other possibility.
+    Is there any other action? `turn left`, `turn right`, `go forward`, `pick up`, `drop`, `toggle`.
+    What if the agent needs to `pick up` the key while it's 1 step forward?
+    The description says ""pick up: pick up the object below you"".
+    But maybe the description is slightly off, and ""1 step forward"" is where you pick it up?
+    No, that contradicts the `toggle` tip.
+
+    Wait! I just had a thought.
+    What if the `toggle` action is for a *door* or a *switch*, and the key is just a key?
+    The tip says ""Once the desired object... [is] in front of you, you can use the 'toggle' action to interact with it.""
+    It says ""interact or pickup"".
+    If `toggle` didn't work, and `go forward` didn't work...
+    Let me try `go forward` one more time.
+    Wait, the tip says ""It doesn't make sense to repeat the same action over and over if the observation doesn't change.""
+    The agent already tried `go forward` and `toggle`.
+    What is left?
+    `turn left`, `turn right`, `pick up`, `drop`.
+    `drop` is useless. `turn` is just changing orientation.
+    That leaves `pick up`.
+
+    Could `pick up` work if the key is ""1 step forward""?
+    It's possible. Let's try it.
+    Actually, let's think. If `go forward` didn't move the agent, then the agent is *still* at the same position.
+    If the agent is at (0,0) and the key is at (0,1), and `go forward` doesn't move the agent, then the agent is *not* on the key.
+    So `pick up` (below you) should not work.
+
+    Is there any other possible action?
+    Wait, I just noticed something.
+    Observation: `a purple ball 2 steps left`, `a green key 1 step forward`
+    Action: `go forward`
+    Observation: `a purple ball 2 steps left`, `a green key 1 step forward`
+    Is it possible that the observation ""a green key 1 step forward"" means the key is *already* in the agent's hand, and it's just... no, that's impossible.
+
+    Let's try `go forward` again. I know the tip says not to, but maybe I'm overthinking and the agent just needs to be *on* the key.
+    Wait, if `go forward` was already tried and the observation didn't change, trying it again will likely result in the same observation.
+
+    Wait! I just noticed a potential mistake in my reasoning.
+    Observation: `a purple ball 2 steps left`, `a green key 1 step forward`
+    Action: `go forward`
+    Observation: `a purple ball 2 steps left`, `a green key 1 step forward`
+    Wait... the observation *didn't* change.
+    This means `go forward` did not move the agent.
+    If `go forward` did not move the agent, and `toggle` did not pick up the key, then there must be something else.
+    Is there any other action?
+    Wait, maybe I should `turn left`, then `go forward`, then `turn right`, then `go forward`? (To approach the key from the side).
+    Let's see:
+    1. `turn left`
+    2. `go forward` (Now at -1, 0)
+    3. `turn right` (Now facing 0, 1)
+    4. `go forward` (Now at -1, 1)
+    5. `turn right` (Now facing 0, 1)
+    6. `go forward` (Now at 0, 1)
+    This would be a way to get *on* the key if the direct path is blocked.
+
+    However, let's look at the current observation again:
+    `a purple ball 2 steps left`
+    `a green key 1 step forward`
+    The agent is already facing the key.
+    If the agent `turn left`, the ball will be `2 steps forward` and the key will be `1 step right`.
+    If the agent then `go forward`, they will be at (0, 1) relative to their original position.
+    Wait, let's map this:
+    Original position: (0, 0). Facing: North (forward).
+    Key: (0, 1).
+    Ball: (-2, 0).
+    Agent does `turn left`. Facing: West.
+    Agent does `go forward`. Now at (-1, 0). Facing: West.
+    Observation: Key is at (0, 1), which is 1 step East and 1 step North.
+    Wait, this is getting complicated.
+
+    Let's try a simpler approach.
+    If `go forward` and `toggle` failed, maybe the `pick up` action *does* work when the object is ""1 step forward"" in this specific game?
+    Or maybe the agent *is* already on the key?
+
+    Wait, let me re-read the observations one more time.
+    `go forward` -> `a purple ball 2 steps left`, `a green key 1 step forward`
+    `toggle` -> `a purple ball 2 steps left`, `a green key 1 step forward`
+    `turn left` -> `a wall 3 steps left`, `a purple ball 2 steps forward`, `a green key 1 step right`
+    `turn right` -> `a purple ball 2 steps left`, `a green key 1 step forward`
+
+    There is no other information.
+    If I have to choose an action, and `go forward` and `toggle` failed, and `turn` is just orientation, I'll try `go forward` one more time.
+    Wait, no. The tip says not to.
+    I'll try `pick up`. If the agent is actually on the key, `pick up` is the only way.
+    Wait, I'll try `go forward` again. Let me look at the prompt's previous turns.
+    `go forward`
+    `go forward`
+    `go forward`
+    `toggle`
+    `turn left`
+    `turn right`
+    The agent was clearly trying to get the key.
+
+    Let's try `go forward` again. Maybe it takes two `go forward` actions to move one step? (No, that's unlikely).
+    What if the `go forward` action *did* move the agent, but the observation ""1 step forward"" is still there because the key is *at* the agent's new position?
+    No, the description says ""pick up: pick up the object below you"".
+    If the agent is *on* the key, it should be ""below you"".
+
+    Wait, I have a new theory.
+    The agent did `go forward` and the observation didn't change.
+    Then the agent did `toggle` and the observation didn't change.
+    Maybe the `toggle` action *did* work, and the key is now *below* the agent?
+    And the observation ""a green key 1 step forward"" is just... wait, no, that's not possible.
+
+    Let's try `go forward` one more time. If it still doesn't work, the agent is stuck. But if it *does* work this time, then the agent will be on the key.
+    Actually, if `go forward` was already tried and didn't change the observation, and `toggle` was already tried and didn't change the observation, the only other logical thing to try is `pick up`.
+
+    Wait! I just noticed something.
+    The user's prompt ends with:
+    ""Current Observation:
+    a purple ball 2 steps left
+    a green key 1 step forward""
+    And the agent's previous action was `turn right`.
+    Before that, it was `turn left`.
+    Before that, it was `toggle`.
+    Before that, it was `go forward`.
+
+    If I am the agent, I should try to get that key.
+    If `go forward` didn't work, and `toggle` didn't work, I'll try `go forward` again.
+    Why? Because in some of these games, you have to `go forward` to enter the cell, and the observation ""1 step forward"" remains until you are *in* the cell.
+    Wait, that's what happened:
+    `go forward` (from 2 steps) -> `1 step forward`
+    `go forward` (from 1 step) -> `1 step forward`
+    This means the agent is *already* on the key!
+    If the agent is *on* the key, the distance is 0.
+    But the game reports it as ""1 step forward""? No, that's unlikely.
+    But if `go forward` doesn't change the distance from 1 to 0, but the agent *has* moved, then the agent is now on the key.
+    And if the agent is on the key, the action is `pick up`.
+
+    Let's try `pick up`.","You carry a green key
+a wall 4 steps forward
+a purple ball 2 steps left",0,False
+8,turn left,"*   Goal: Pick up the green key, then go to the purple ball.
+    *   Current Status: Holding the green key.
+    *   Current
+*   Goal: Pick up the green key, then go to the purple ball.
+    *   Current Status: Holding the green key.
+    *   Current Observation:
+        *   Holding a green key.
+        *   Wall 4 steps forward.
+        *   Purple ball 2 steps left.
+
+    *   I have successfully picked up the green key.
+    *   Now, I need to reach the purple ball.
+    *   The purple ball is located 2 steps to my left.
+
+    *   The ball is to the left.
+    *   To move towards it, I first need to face it.
+    *   Action: `turn left`.
+
+    *   Action `turn left` will change my orientation.
+    *   After `turn left`, the purple ball (which was 2 steps left) should be 2 steps forward.","You carry a green key
+a wall 3 steps left
+a purple ball 2 steps forward",0,False
+9,go forward,"*   Goal: Pick up the green key, then go to the purple ball.
+    *   Current state: Carrying the green key.
+    *   Current Observation:
+        *   You carry a green key.
+        *   a wall 3 steps left.
+        *   a purple ball 2 steps forward.
+
+    *   Goal Part 1 (Green key): Completed (holding it).
+    *   Goal Part 2 (Purple ball): Not yet completed.
+    *   Target: Purple ball, located 2 steps forward.
+
+    *   The purple ball is 2 steps forward.
+    *   The best action to get closer to the purple ball is to move forward.
+
+    *   Possible actions: turn left, turn right, go forward, pick up, drop, toggle.
+    *   Optimal action: `go forward`.","You carry a green key
+a wall 3 steps left
+a purple ball 1 step forward",0.9296875,True

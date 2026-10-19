@@ -1,0 +1,225 @@
+Step,Action,Reasoning,Observation,Reward,Done
+0,turn left,"*   Goal: Go to the grey ball.
+    *   Observation:
+        *   Wall 1
+*   Goal: Go to the grey ball.
+    *   Observation:
+        *   Wall 1 step forward.
+        *   Wall 3 steps right.
+    *   Available Actions: `turn left`, `turn right`, `go forward`, `pick up`, `drop`, `toggle`.
+
+    *   Current state: I'm facing a wall (1 step ahead) and there's a wall 3 steps to my right.
+    *   Objective: Locate and reach the grey ball.
+    *   Constraint: I cannot go forward because of the wall.
+
+    *   I can't go forward.
+    *   I can't go right (eventually, but it's limited).
+    *   I don't know where the grey ball is.
+    *   I need to explore. Turning left or turning right are the viable options to change direction.
+
+    *   Turn right? I'll be facing the wall that is 3 steps away. I can move 2 steps forward before hitting it.
+    *   Turn left? I'll be facing a direction with no known obstacles (based on the current observation).
+
+    *   Since I'm blocked in front and have a limited space to the right, turning left or right are the only ways to change my current orientation to find the target.
+    *   Let's try turning right first to see what's there, or turning left to explore the open space. Usually, exploring unknown areas is better. However, turning right is a clear direction. Let's pick `turn left` to explore the opposite direction.
+
+    *   Observation: Wall forward (1), Wall right (3).
+    *   Action: `turn left`.
+    *   Expected outcome: Change orientation to the left.","a wall 4 steps forward
+a wall 1 step right",0,False
+1,go forward,"*   Goal: Go to the grey ball.
+    *   Possible actions: `turn left`, `turn right`, `go forward`, `pick up`, `drop`, `toggle`.
+    *   Current Observation:
+        *   Wall 4 steps forward.
+        *   Wall 1 step right.
+    *   Previous Action: `turn left`.
+    *   Previous Observation:
+        *   Wall 1 step forward.
+        *   Wall 3 steps right.
+
+    *   Initial State: Wall 1 forward, Wall 3 right.
+    *   Action taken: `turn left`.
+    *   New State: Wall 4 forward, Wall 1 right.
+    *   Wait, let's check the geometry:
+        *   Initially: Forward = Wall (1), Right = Wall (3).
+        *   Turn left:
+            *   The old ""left"" is now ""forward"".
+            *   The old ""forward"" is now ""left"".
+            *   The old ""right"" is now ""behind"".
+            *   The old ""behind"" is now ""right"".
+        *   Looking at the new observation: Wall 4 forward, Wall 1 right.
+        *   Since the old ""forward"" was 1 step away, and it's now ""left"", it's not mentioned in the new observation (maybe because the system only reports forward and right?). Let's re-evaluate.
+        *   If I turned left, the wall that was 1 step forward is now 1 step to my left. The wall that was 3 steps right is now 3 steps behind.
+        *   The new observation says ""wall 4 steps forward"" and ""wall 1 step right"". This means in the new direction I'm facing, there is a wall 4 steps away. To my right, there is a wall 1 step away.
+
+    *   Goal: Find the grey ball.
+    *   Current status:
+        *   Forward: 4 steps until a wall.
+        *   Right: 1 step until a wall.
+    *   Since there's clear space ahead (4 steps), the best move is to explore that direction.
+
+    *   Action: `go forward`.","a wall 3 steps forward
+a wall 1 step right",0,False
+2,go forward,"*   Goal: Reach the grey ball.
+    *   Actions: turn left, turn right, go forward, pick up, drop, toggle.
+    *   Current Observation: wall 3 steps forward, wall 1 step right.
+    *   Previous Observation (Step 1): wall 1 step forward, wall 3 steps right
+*   Goal: Reach the grey ball.
+    *   Actions: turn left, turn right, go forward, pick up, drop, toggle.
+    *   Current Observation: wall 3 steps forward, wall 1 step right.
+    *   Previous Observation (Step 1): wall 1 step forward, wall 3 steps right. -> Action: turn left.
+    *   Previous Observation (Step 2): wall 4 steps forward, wall 1 step right. -> Action: go forward.
+    *   Current Observation (Step 3): wall 3 steps forward, wall 1 step right.
+
+    *   Start: Wall 1 forward, 3 right.
+    *   Turn Left: Now facing a direction where there's a wall 4 steps forward and 1 step right.
+    *   Go Forward: Now facing a direction where there's a wall 3 steps forward and 1 step right. (Observation confirms the agent moved forward one step).
+
+    *   Forward: 3 steps to a wall.
+    *   Right: 1 step to a wall.
+    *   Left: No information provided (usually means it's clear or further away).
+    *   Back: No information.
+
+    *   The agent is moving forward. There is still space (3 steps).
+    *   The right is blocked almost immediately (1 step).
+    *   The target (grey ball) hasn't been seen yet.
+
+    *   Continue moving forward to explore the space.
+
+    *   Observation changes (wall distance decreases), so ""go forward"" is a logical progression.
+
+    *   Observation: wall 3 forward, wall 1 right.
+    *   Action: go forward.","a wall 2 steps forward
+a wall 1 step right",0,False
+3,go forward,"*   Goal: Go to the grey ball.
+    *   Available actions: `turn left`, `turn right`, `go forward`, `pick up`, `drop`, `toggle`.
+    *   Previous state 1: wall 4 steps forward, wall 1 step right. Action: `go forward`.
+    *   Previous state 2: wall 3 steps forward, wall 1 step right. Action: `go forward`.
+    *   Current state: wall 2 steps forward, wall 1 step right.
+
+    *   The agent is moving forward in a space where there's a wall 2 steps ahead and a wall 1 step to the right.
+    *   The agent has been moving forward for two turns, reducing the distance to the wall in front from 4 to 2.
+    *   The grey ball hasn't been mentioned in any observation yet.
+    *   The current situation: Forward wall (2 steps), Right wall (1 step).
+
+    *   The agent is moving in a corridor-like environment (walls on front and right).
+    *   To explore and find the grey ball, the agent needs to continue moving or change direction.
+    *   Since the wall in front is still 2 steps away, the agent can continue moving forward.
+
+    *   Option 1: `go forward` (keeps moving toward the wall).
+    *   Option 2: `turn left` (moves away from the right wall).
+    *   Option 3: `turn right` (turns toward the wall 1 step away).
+
+    Moving forward seems the most logical way to navigate the current corridor to find the target.
+
+    *   Observation: wall 2 steps forward, wall 1 step right.
+    *   Last action: `go forward`.
+    *   Result: Decreased distance to the wall in front (3 -> 2).
+    *   Next logical step: `go forward` again to reach the end of this path or find the object.","a wall 1 step forward
+a wall 1 step right",0,False
+4,turn left,"*   Goal: Go to the grey ball.
+    *   Possible Actions: `turn left`, `turn right`, `go forward`, `pick up`, `drop`, `toggle`.
+    *   Current Observation:
+        *   Wall 1 step forward.
+        *   Wall 1 step right.
+    *   Previous Actions & Consequences:
+        *   Turn left.
+        *   Go forward (3 times).
+    *   Observation History:
+        *   Step 1: wall 1 forward, wall 3 right. (Turn left)
+        *   Step 2: wall 4 forward, wall 1 right. (Go forward)
+        *   Step 3: wall 3 forward, wall 1 right. (Go forward)
+        *   Step 4: wall 2 forward, wall 1 right. (Go forward)
+        *   Step 5 (Current): wall 1 forward, wall 1 right.
+
+    *   The agent has been moving forward toward a wall.
+    *   Current state: Wall is 1 step ahead, and a wall is 1 step to the right.
+    *   The agent is essentially in a corner or approaching a dead end in the current direction.
+    *   Since there is a wall 1 step forward and 1 step right, the only available directions to move (without hitting a wall immediately) are to turn left or turn around (turn right twice).
+
+    *   Goal: Find the grey ball.
+    *   The current path is blocked forward and to the right.
+    *   Turning left seems the most logical option to explore new areas.
+
+    *   `turn left`
+
+    *   Check if `turn left` is valid: Yes.
+    *   Does it avoid repeating a failing action? Yes.
+    *   Is it logical? Yes, because forward and right are blocked by walls.","a wall 1 step right
+a grey ball 5 steps forward",0,False
+5,go forward,"*   Goal: Reach the grey ball.
+*   Goal: Reach the grey ball.
+    *   Current Observation:
+        *   A wall 1 step right.
+        *   A grey ball 5 steps forward.
+    *   Previous Actions: The agent has been navigating, turning, and moving forward to avoid walls.
+
+    *   The target (grey ball) is directly in front of the agent, 5 steps away.
+    *   There is a wall to the right, but it doesn't block the path forward.
+
+    *   Objective: Reach the grey ball.
+    *   Action: Move forward to get closer to the ball.
+
+    *   `go forward` is the most logical action since the ball is 5 steps ahead.","a wall 1 step right
+a grey ball 4 steps forward",0,False
+6,go forward,"*   Goal: Reach the grey ball.
+    *   Current Observation:
+        *   Wall 1 step right.
+        *   Grey ball 4 steps forward.
+    *   Previous Action: `go forward` (which reduced the distance to the grey ball from 5 steps to 4 steps).
+
+    *   The grey ball is directly in front of the agent.
+    *   Distance: 4 steps.
+    *   The agent needs to move forward to reach the grey ball.
+
+    *   Immediate Objective: Reduce the distance to the grey ball.
+    *   Chosen Action: `go forward`.","a wall 1 step right
+a grey ball 3 steps forward",0,False
+7,go forward,"*   Goal: Go to the grey ball.
+    *   Current Observation: a wall 1 step right, a grey ball 3 steps forward.
+    *   Previous Actions:
+        *   Turn left (wall 1 step forward, wall 3 steps right)
+        *   Go forward (wall 4 steps forward, wall 1 step right)
+        *   Go forward (wall 3 steps forward, wall 1 step right)
+        *   Go forward (wall 2 steps forward, wall 1 step right)
+        *   Go forward (wall 1 step forward, wall 1 step right)
+        *   Turn left (wall 1 step right, grey ball 5 steps forward)
+        *   Go forward (wall 1 step right, grey ball 4 steps forward)
+        *   Go forward (wall 1 step right, grey ball 3 steps forward)
+
+    *   The agent is facing the grey ball.
+    *   Distance to grey ball: 3 steps forward.
+    *   Obstacle: A wall is 1 step to the right, but it doesn't block the path forward.
+
+    *   The objective is to reach the grey ball.
+    *   Since the grey ball is directly ahead (3 steps forward), the most direct action is to keep moving forward.
+
+    *   Action: go forward.","a wall 1 step right
+a grey ball 2 steps forward",0,False
+8,go forward,"*   Goal: Go to the grey ball.
+    *   Current Observation:
+        *   A wall 1 step right.
+        *   A grey ball 2 steps forward.
+    *   Previous History:
+        *   Initially facing a wall.
+        *   Turned left.
+        *   Moved forward several times
+*   Goal: Go to the grey ball.
+    *   Current Observation:
+        *   A wall 1 step right.
+        *   A grey ball 2 steps forward.
+    *   Previous History:
+        *   Initially facing a wall.
+        *   Turned left.
+        *   Moved forward several times.
+        *   Spotted the grey ball 5 steps forward.
+        *   Moved forward 3 times (currently at 2 steps away).
+
+    *   The grey ball is 2 steps forward.
+    *   The agent needs to move forward to reach it.
+
+    *   Move forward once more. Then, it will be 1 step forward. Then, move forward again to be on top of it (or right in front of it, depending on the game mechanics). Since the goal is to ""go to"" the grey ball, moving forward is the correct action.
+
+    *   Action: `go forward
+`","a wall 1 step right
+a grey ball 1 step forward",0.8734375,True

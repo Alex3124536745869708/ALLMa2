@@ -1,0 +1,78 @@
+Step,Action,Reasoning,Observation,Reward,Done
+0,turn right,"*   Goal: Reach the blue key.
+    *   Actions: `turn left`, `turn right`, `go forward`, `pick up`, `drop`, `toggle`.
+    *   Current Observation:
+        *   A wall 2 steps forward.
+        *   A wall 3 steps left.
+    *   Objective: Find the blue key.
+
+    *   The current observation is very limited. I see walls ahead and to the left.
+    *   There is no mention of a blue key.
+    *   The path forward is limited (2 steps).
+    *   The path left is limited (3 steps).
+    *   The path right is not mentioned, meaning it's either open or there is no wall immediately visible.
+
+    *   I need to explore the environment to find the blue key.
+    *   Going forward for 2 steps will hit a wall.
+    *   Turning left and going for 3 steps will hit a wall.
+    *   Turning right seems like the most open direction for exploration since no wall is specified in that direction.
+
+    *   Alternative: Go forward 1 step to see if the observation changes or if I get closer to something.
+    *   Alternative: Turn right immediately.
+    *   Given the information, turning right is a good strategy to explore unknown areas.
+
+    *   If I turn right, I'll be facing a direction where no wall was reported. This increases the chance of finding a path.
+
+    *   Observation: Wall 2 steps forward, wall 3 steps left.
+    *   Goal: Blue key.
+    *   Action: Turn right.","a wall 4 steps forward
+a wall 2 steps left
+a blue key 3 steps right",0,False
+1,turn right,"*   Goal: Go to the blue key.
+    *   Current Observation:
+        *   Wall 4 steps forward.
+        *   Wall 2 steps left.
+        *   Blue key 3 steps right.
+    *   Previous Action: `turn right` (from the first turn, though not explicitly stated in the second prompt, the state changed from `a wall 2 steps forward, a wall 3 steps left` to the current observation).
+
+    *   The blue key is 3 steps to the right.
+    *   To reach the blue key, I need to face it and then move forward.
+    *   Current orientation: I am facing forward (wall 4 steps away), and the key is to my right.
+
+    *   Immediate objective: Reach the blue key.
+    *   Necessary actions:
+        1.  Turn right to face the key.
+        2.  Go forward 3 times.
+        3.  Pick up the key.
+
+    *   The next action should be `turn right` to face the blue key.","a wall 3 steps right
+a blue key 3 steps forward",0,False
+2,go forward,"*   Goal: Go to the blue key.
+    *   Current Observation:
+        *   A wall 3 steps right.
+        *   A blue key 3 steps forward.
+    *   Previous actions:
+        *   Initial state: Wall 2 steps forward, wall 3 steps left. (Action: turn right)
+        *   Second state: Wall 4 steps forward, wall 2 steps left, blue key 3 steps right. (Action: turn right)
+        *   Current state: Wall 3 steps right, blue key 3 steps forward.
+
+    *   The blue key is directly ahead (3 steps forward).
+    *   The immediate objective is to reach the blue key.
+    *   To reach it, I need to move forward.
+
+    *   Since the blue key is 3 steps forward, I should move forward until I am on top of it.","a wall 3 steps right
+a blue key 2 steps forward",0,False
+3,go forward,"*   Goal: Go to the blue key.
+    *   Current Observation:
+        *   a wall 3 steps right
+        *   a blue key 2 steps forward
+    *   Previous Action: `go forward` (which moved the agent from 3 steps forward to 2 steps forward from the blue key).
+    *   Current Position: 2 steps away from the blue key (forward).
+
+    *   The blue key is directly in front of me (2 steps forward).
+    *   There is a wall to the right (3 steps).
+    *   To reach the blue key, I need to continue moving forward.
+
+    *   Immediate Objective: Get to the blue key.
+    *   Next Step: Move forward again.","a wall 3 steps right
+a blue key 1 step forward",0.94375,True

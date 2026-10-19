@@ -1,0 +1,158 @@
+Step,Action,Reasoning,Observation,Reward,Done
+0,go forward,"*   Goal: Go to the blue key.
+    *   Observation:
+        *   Wall: 6 steps forward.
+        *   Wall: 2 steps right.
+        *   Blue key: 1 step right and 3 steps forward.
+    *   Possible Actions: `turn left`, `turn right`, `go forward`, `pick up`, `drop`, `toggle`.
+
+    *   The blue key is at (x=1, y=3) if the current position is (0, 0) and forward is the y-axis.
+    *   To reach (1, 3), I need to move forward 3 steps and then right 1 step, or right 1 step and then forward 3 steps.
+    *   Current Orientation: Facing forward.
+
+    *   Option 1: `go forward` 3 times, then `turn right`, then `go forward` 1 time.
+    *   Option 2: `turn right`, then `go forward` 1 time, then `turn left`, then `go forward` 3 times.
+
+    *   Since the blue key is 3 steps forward and 1 step right, the most direct way to start moving toward it is to move forward or turn right.
+    *   Let's start by moving forward.
+
+    *   Wait, let me re-evaluate the coordinates. ""1 step right and 3 steps forward"".
+    *   If I move forward first, I'll be 3 steps closer to the y-coordinate of the key.
+    *   Current step: `go forward`.
+
+    *   Observation: wall 6 steps forward, wall 2 steps right, blue key 1 step right and 3 steps forward.
+    *   Target: blue key (1, 3).
+    *   Action: `go forward`. (New relative position of key: 1 step right, 2 steps forward).","a wall 5 steps forward
+a wall 2 steps right
+a blue key 1 step right and 2 steps forward",0,False
+1,go forward,"*   Goal: Go to the blue key.
+    *   Current Observation:
+        *   Wall 5 steps forward.
+        *   Wall 2 steps right.
+        *   Blue key 1 step right and 2 steps forward.
+    *   Previous Action: `go forward`.
+    *   Observation change: Wall forward decreased from 6 to 5, Blue key distance forward decreased from 3 to 2. This confirms the move was successful.
+
+    *   Current position relative to the blue key: 1 step right, 2 steps forward.
+    *   To reach the key, I need to move forward and then right (or right and then forward).
+    *   Moving forward again reduces the distance to the key.
+
+    *   Current: Key is 1 right, 2 forward.
+    *   Action: `go forward`.
+    *   Result: Key should be 1 right, 1 forward.
+
+    *   Alternative: Turn right, then go forward, then turn left, then go forward. (Too long)
+    *   Alternative: Turn right, then go forward 1 step, then turn left, then go forward 2 steps. (Possible)
+    *   Simplest approach: Move forward as much as possible until the key is only a turn and a step away.
+
+    *   Step 1 (done): go forward (now 2 forward, 1 right)
+    *   Step 2 (current): go forward (will be 1 forward, 1 right)
+    *   Step 3: go forward (will be 0 forward, 1 right)
+    *   Step 4: turn right
+    *   Step 5: go forward (will be on the key)
+    *   Step 6: pick up
+
+    *   Action: `go forward
+`","a wall 4 steps forward
+a wall 2 steps right
+a blue key 1 step right and 1 step forward",0,False
+2,go forward,"The goal is to reach and pick up the blue key.
+
+    *   Wall 4 steps forward.
+    *   Wall 2 steps right.
+    *   Blue key 1 step right and 1 step forward.
+
+    *   Previous action was ""go forward"".
+    *   Before that, the key was 1 step right and 3 steps forward; then 1 step right and 2 steps forward; now 1 step right and 1 step forward.
+    *   The agent has been moving forward to get closer to the key's longitudinal position.
+
+    *   The key is currently at (1 step right, 1 step forward).
+    *   To get to the key, I need to move 1 step forward and then turn right and move 1 step, OR turn right, move 1 step, and then turn left and move 1 step.
+    *   Wait, let's re-evaluate: if I move forward one more step, the key will be exactly 1 step to my right.
+    *   If I turn right now, the key will be 1 step forward and 1 step left (which is not a simple move).
+    *   Actually, if I move forward one more step, the key is ""1 step right"". Then I can turn right and go forward 1 step to be on top of it.
+
+    *   Step 1: go forward. (Now the key is 1 step right).
+    *   Step 2: turn right. (Now the key is 1 step forward).
+    *   Step 3: go forward. (Now the key is below me).
+    *   Step 4: pick up.
+
+    Alternative:
+    *   Step 1: turn right.
+    *   Step 2: go forward 1 step.
+    *   Step 3: turn left.
+    *   Step 4: go forward 1 step.
+    *   Step 5: pick up.
+
+    The first path seems more efficient.
+
+    *   Observation: a blue key 1 step right and 1 step forward.
+    *   If I go forward: the key will be 0 steps forward (right in front of my lateral plane) and 1 step right.
+    *   Then I can turn right and go forward 1 step.
+
+    Let's double-check the coordinates:
+    Key: (1 right, 1 forward).
+    Current Position: (0, 0).
+    Action ""go forward"" -> Position (0, 1).
+    Key relative to (0, 1) -> (1 right, 0 forward).
+    Action ""turn right"" -> Facing right.
+    Action ""go forward"" -> Position (1, 1).
+    Key relative to (1, 1) -> (0, 0).
+
+    This works.
+
+    *   Goal: Blue key.
+    *   Key position: 1 step right, 1 step forward.
+    *   Action: go forward.
+
+    Wait, is there a faster way?
+    If I turn right now:
+    Current: (0,0) facing North.
+    Action: turn right.
+    Position: (0,0) facing East.
+    Key: (1,1). Relative to East: 1 step forward, 1 step left.
+    Action: go forward.
+    Position: (1,0) facing East.
+    Key: (1,1). Relative to East: 0 steps forward, 1 step left.
+    Action: turn left.
+    Position: (1,0) facing North.
+    Action: go forward.
+    Position: (1,1).
+
+    Comparison:
+    Path A: go forward -> turn right -> go forward -> pick up. (4 steps)
+    Path B: turn right -> go forward -> turn left -> go forward -> pick up. (5 steps)
+
+    Path A is better.
+
+    Wait, let me check if I can use 'toggle'.
+    Tips say: ""Once the desired object you want to interact or pickup in front of you, you can use the 'toggle' action to interact with it.""
+    Usually, ""pick up"" is for objects below you. ""Toggle"" is for objects in front of you (like doors). The goal is to ""go to the blue key"", and usually, you pick it up.
+    If the key is ""1 step right and 1 step forward"", I first need to get to the position (1, 1) or (1, 0) if toggle works from 1 step away.
+    Actually, if I go forward 1 step, the key is ""1 step right"". If I then turn right, the key is ""1 step forward"". Then I could potentially use 'toggle' or 'go forward' then 'pick up'.
+    Actually, 'pick up' is for the object below you.
+
+    Let's stick to: go forward.","a wall 3 steps forward
+a blue key 1 step right",0,False
+3,turn right,"*   Goal: Go to the blue key
+*   Goal: Go to the blue key.
+    *   Observation:
+        *   Wall 3 steps forward.
+        *   Blue key 1 step right.
+    *   Previous state (from history):
+        *   Blue key was 1 step right and 1 step forward.
+        *   Action taken: `go forward`.
+    *   Current state:
+        *   Blue key is now 1 step right (the distance forward decreased from 1 to 0).
+
+    *   The blue key is exactly 1 step to the right.
+    *   To pick up the blue key, I need to be on top of it.
+    *   Current orientation is forward.
+    *   To move right, I first need to turn right.
+
+    *   Step 1: Turn right to face the blue key.
+    *   Step 2: Go forward to reach the blue key.
+    *   Step 3: Pick up the blue key.
+
+    *   Current action: Turn right.","a wall 3 steps left
+a blue key 1 step forward",0.94375,True

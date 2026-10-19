@@ -1,0 +1,3162 @@
+Step,Action,Reasoning,Observation,Reward,Done
+0,turn left,"*   Goal: Pick up the blue key, then go to the grey ball.
+    *   Current Observation:
+        *   Wall: 6 steps forward
+        *   Wall: 1 step right
+        *   Blue key: 3 steps left and 5 steps forward
+        *   Grey ball: 3 steps left and 1 step forward
+
+    *   The goal is a sequence: Blue Key -> Grey Ball.
+    *   Current priority: Blue key.
+    *   Blue key location: 3 steps left, 5 steps forward.
+
+    *   To get to the blue key (3L, 5F), I need to move left and move forward.
+    *   Current orientation: Facing forward.
+    *   Available actions: turn left, turn right, go forward, pick up, drop, toggle.
+    *   To move ""left"", I first need to `turn left`.
+
+    *   If I turn left, I will be facing the direction that was previously ""left"".
+    *   Then, I will need to move forward 3 steps to reach the column where the key and ball are.
+    *   Then, I will need to turn right (to face the original forward direction) and move forward 5 steps to reach the key.
+    *   Alternatively, I could move forward first, but the key is 3 steps left.
+
+    *   Wait, let's re-evaluate:
+        *   Blue key: (x=-3, y=5) relative to current position (0,0) and facing (0,1).
+        *   Grey ball: (x=-3, y=1) relative to current position (0,0) and facing (0,1).
+    *   The most efficient way to get to (x=-3, y=5) is to turn left, move 3 steps, turn right, and move 5 steps.
+
+    *   Immediate objective: Move towards the blue key.
+    *   Action: turn left.","a wall 6 steps forward
+a wall 1 step left
+a grey ball 1 step right and 3 steps forward",0,False
+1,"** `turn left`.
+    *   The agent was facing North. After turning left, the agent is now facing West.
+    *   The original ""Left"" (West) is now the agent's ""Forward"".
+    *   The original ""Forward"" (North) is now the agent's ""Right"".
+
+3.  **Current Observation Analysis:**
+    *   Wall 6 steps forward (This is unexpected based on the previous map, but we must prioritize the current observation).
+    *   Wall 1 step left.
+    *   Grey ball 1 step right and 3 steps forward. (This matches the logic: the original ""3 steps left"" became ""3 steps forward"" and the original ""1 step forward"" became ""1 step right"").
+
+4.  **Locating the Blue Key:**
+    *   In the original observation, the blue key was at the same ""left"" position as the grey ball (3 steps left) but further ""forward"" (5 steps vs 1 step).
+    *   Using the current coordinate system: the ""left"" (3 steps) is now ""forward"" (3 steps). The ""forward"" difference (5 - 1 = 4 steps) is now a ""right"" difference.
+    *   Therefore, if the grey ball is at 3 forward and 1 right, the blue key should be at 3 forward and (1 + 4) = 5 right.
+
+5.  **Plan to reach the Blue Key:**
+    *   Move forward 3 steps to align with the target's forward distance.
+    *   Turn right and move 5 steps to reach the blue key.
+
+The immediate next step is to move forward.
+
+ACTION: go forward","*   Goal: Pick up the blue key, then go to the grey ball.
+    *   Previous state:
+        *   Wall 6 steps forward.
+        *   Wall 1 step right.
+        *   Blue key 3 steps left, 5 steps forward.
+        *   Grey ball 3 steps left, 1 step forward.
+    *   Previous action: `turn left`.
+
+    *   Wall 6 steps forward.
+    *   Wall 1 step left.
+    *   Grey ball 1 step right, 3 steps forward.
+    *   (Wait, where is the blue key? It was 3 steps left and 5 steps forward in the original state. After turning left, ""left"" becomes ""back"" and ""forward"" becomes ""left"". So the blue key should now be 5 steps left and 3 steps back? Or 5 steps left and 3 steps forward? Let's recalculate coordinates relative to the agent.)
+
+    *Original coordinates (facing North):*
+    Agent: (0, 0) facing North.
+    Wall 1: (0, 6)
+    Wall 2: (1, 0)
+    Blue key: (-3, 5)
+    Grey ball: (-3, 1)
+
+    *Action: `turn left` (Agent now faces West):*
+    New orientation: West.
+    North is now Right, West is Forward, South is Left, East is Back.
+    Wall 1 (0, 6): North is now Right, (0, 6) is 6 steps Right? No.
+    Wait, let's re-evaluate based on the ""Current Observation"" provided.
+
+    *Current Observation (Agent facing West):*
+    Wall 6 steps forward: (Original (0,0) facing North, turning left to West. If the wall was 6 steps forward (0,6), it shouldn't be 6 steps forward now. Let's look at the observation again.)
+
+    Observation says:
+    - wall 6 steps forward
+    - wall 1 step left
+    - grey ball 1 step right and 3 steps forward
+
+    Let's trace the movement/rotation again carefully.
+    Original:
+    Forward: Wall (6 steps)
+    Right: Wall (1 step)
+    Left 3, Forward 5: Blue key
+    Left 3, Forward 1: Grey ball
+
+    Action: `turn left`.
+    New orientation:
+    Original ""Left"" is now ""Forward"".
+    Original ""Forward"" is now ""Right"".
+    Original ""Right"" is now ""Back"".
+    Original ""Back"" is now ""Left"".
+
+    Recalculating coordinates based on this rotation:
+    - Original wall 6 forward (0,6) -> Now 6 steps Right.
+    - Original wall 1 right (1,0) -> Now 1 step Back.
+    - Blue key (-3, 5) -> Now 3 steps Forward, 5 steps Right.
+    - Grey ball (-3, 1) -> Now 3 steps Forward, 1 step Right.
+
+    Checking the ""Current Observation"" given:
+    - ""a wall 6 steps forward"" -> This contradicts my rotation. Let me re-read.
+    Wait, maybe the agent is not where I think. Let's trust the Current Observation provided in the prompt more than my manual trace.
+
+    *Current Observation:*
+    - wall 6 steps forward
+    - wall 1 step left
+    - grey ball 1 step right and 3 steps forward
+
+    Goal: Pick up blue key, then go to grey ball.
+    Wait, the observation doesn't mention the blue key anymore!
+    Looking at the original observation:
+    - Blue key: 3 steps left and 5 steps forward.
+    - Grey ball: 3 steps left and 1 step forward.
+
+    After `turn left`:
+    The original ""left"" (where the blue key and grey ball were) is now ""forward"".
+    The blue key was 3 steps left and 5 forward.
+    The grey ball was 3 steps left and 1 forward.
+
+    If the agent turned left, ""left"" becomes ""forward"" and ""forward"" becomes ""right"".
+    Blue key: 3 steps forward, 5 steps right.
+    Grey ball: 3 steps forward, 1 step right.
+
+    This matches the ""grey ball 1 step right and 3 steps forward"" part of the current observation!
+    But why does it say ""wall 6 steps forward""?
+    Original observation: ""a wall 6 steps forward"".
+    If the agent turned left, that wall is now 6 steps right.
+    Current observation says: ""a wall 6 steps forward"".
+    This implies the wall that was 6 steps forward *is still* 6 steps forward? No, that would mean the agent didn't turn or the map changed.
+
+    Let's re-examine the Current Observation:
+    ""a wall 6 steps forward""
+    ""a wall 1 step left""
+    ""a grey ball 1 step right and 3 steps forward""
+
+    Wait, let's look at the original observation again:
+    ""a wall 6 steps forward""
+    ""a wall 1 step right""
+    ""a blue key 3 steps left and 5 steps forward""
+    ""a grey ball 3 steps left and 1 step forward""
+
+    If the agent turned left:
+    Forward (old) -> Right (new)
+    Right (old) -> Back (new)
+    Left (old) -> Forward (new)
+    Back (old) -> Left (new)
+
+    So:
+    Wall (0,6) -> (6,0) (6 steps right)
+    Wall (1,0) -> (0,-1) (1 step back)
+    Blue key (-3,5) -> (3,5) ? No.
+    Let's use coordinates (x, y). North is +y, East is +x.
+    Agent at (0,0), facing North.
+    Wall 1: (0, 6)
+    Wall 2: (1, 0)
+    Blue key: (-3, 5)
+    Grey ball: (-3, 1)
+
+    Agent turns left. Now facing West (-x).
+    New forward is -x.
+    New right is +y.
+    New left is -y.
+    New back is +x.
+
+    Wall 1 (0, 6): x=0, y=6. In new system: forward=0, right=6. (6 steps right)
+    Wall 2 (1, 0): x=1, y=0. In new system: forward=-1, right=0. (1 step back)
+    Blue key (-3, 5): x=-3, y=5. In new system: forward=3, right=5. (3 forward, 5 right)
+    Grey ball (-3, 1): x=-3, y=1. In new system: forward=3, right=1. (3 forward, 1 right)
+
+    Compare with Current Observation:
+    - wall 6 steps forward (Mismatch: should be 6 right)
+    - wall 1 step left (Mismatch: should be 1 back)
+    - grey ball 1 step right and 3 steps forward (Match!)
+
+    Why the discrepancy? Maybe ""a wall 6 steps forward"" refers to a different wall not mentioned in the first observation? Or maybe the agent's perception of ""forward"" changed. Let's focus on the most important information: the goal.
+
+    Goal: Blue key first, then grey ball.
+    Blue key coordinates (relative to current observation):
+    If grey ball is 3 forward, 1 right, and the blue key was 4 steps further ""forward"" relative to the grey ball (5 vs 1 in original), then the blue key should be 3 forward, 5 right (since 5-1=4, and the grey ball is at 1 right).
+    Wait:
+    Original:
+    Grey ball: (-3, 1)
+    Blue key: (-3, 5)
+    Difference: Blue key is 4 units North of Grey ball.
+    Current Orientation: West.
+    North is now Right.
+    So Blue key should be 4 units Right of Grey ball.
+    Grey ball is at (3 forward, 1 right).
+    Blue key should be at (3 forward, 1+4 right) = (3 forward, 5 right).
+
+    Now, the blue key is not mentioned in the current observation. Why?
+    Maybe it's out of sight? Or maybe I should just move towards where it should be.
+    But the current observation *only* mentions the grey ball and walls.
+    If I can't see the blue key, I can't pick it up.
+
+    Wait, let me re-read the current observation carefully:
+    ""a wall 6 steps forward""
+    ""a wall 1 step left""
+    ""a grey ball 1 step right and 3 steps forward""
+
+    If the blue key is not listed, maybe I need to move to see it?
+    Actually, if the blue key was at 3 forward, 5 right, and the grey ball is at 3 forward, 1 right, the blue key is simply further to the right.
+
+    Let's think about the movement.
+    The blue key is the priority.
+    Current pos: (0,0) facing West.
+    Blue key: (3 forward, 5 right).
+    Grey ball: (3 forward, 1 right).
+
+    To get to (3 forward, 5 right):
+    1. go forward 3 steps.
+    2. turn right.
+    3. go forward 5 steps.
+    (Or turn right first, etc.)
+
+    Wait, the current observation says there is a wall 6 steps forward.
+    If I go forward 3 steps, I will be at (3, 0) in the current system.
+    Then I need to go 5 steps right to reach the blue key.
+
+    Let's try to reach the blue key.
+    Immediate step: `go forward`.
+
+    Wait, is there a better way?
+    If I go forward 3 steps, I'll be aligned with both the grey ball (1 step right) and the blue key (5 steps right).
+
+    Let's double check the coordinates again.
+    Original: Blue key (-3, 5), Grey ball (-3, 1).
+    Turn left (facing West):
+    Forward = -x direction.
+    Right = +y direction.
+    Left = -y direction.
+    Back = +x direction.
+
+    Blue key (-3, 5):
+    -x direction: 3 steps (Forward 3)
+    +y direction: 5 steps (Right 5)
+    Correct.
+
+    Grey ball (-3, 1):
+    -x direction: 3 steps (Forward 3)
+    +y direction: 1 step (Right 1)
+    Correct.
+
+    So, the plan to get the blue key:
+    - go forward 3 steps.
+    - turn right.
+    - go forward 5 steps.
+    - pick up.
+
+    Then go to the grey ball:
+    - turn around (turn right, turn right).
+    - go forward 4 steps (from blue key at 5 right to grey ball at 1 right).
+    - pick up? No, the goal is just to ""go to"" the grey ball.
+
+    Current action: `go forward`.
+
+    Wait, let me re-read the current observation one more time.
+    ""a wall 6 steps forward""
+    ""a wall 1 step left""
+    ""a grey ball 1 step right and 3 steps forward""
+
+    Is there any other interpretation?
+    If I go forward 3 steps, I'll be at the same ""forward"" distance as the grey ball.
+    Then I turn right and go 1 step to get the grey ball or 5 steps to get the blue key.
+    Since I need the blue key first, I should aim for the 5-step mark.
+
+    Wait, let me check the ""a wall 1 step left"" part.
+    Original walls: (0,6) and (1,0).
+    After turning left (facing West):
+    (0,6) is 6 steps right.
+    (1,0) is 1 step back.
+    But the observation says ""a wall 6 steps forward"" and ""a wall 1 step left"".
+    This is very confusing. If ""wall 6 steps forward"" is true, then my coordinate system is wrong.
+    Let's re-evaluate the rotation.
+
+    Original:
+    W1: 6 forward
+    W2: 1 right
+    Key: 3 left, 5 forward
+    Ball: 3 left, 1 forward
+
+    Action: `turn left`
+
+    If the new observation is:
+    W1: 6 forward
+    W2: 1 left
+    Ball: 3 forward, 1 right
+
+    Let's see if this is a consistent rotation.
+    Original Forward (0, 1) -> Now Forward (0, 1) ?? No.
+    Original Right (1, 0) -> Now Left (0, -1) ? That would be a 180-degree turn.
+    Original Left (-1, 0) -> Now Forward (0, 1) ? That's a 90-degree turn.
+
+    Wait! Let's look at the ball.
+    Original Ball: (-3, 1)
+    Current Ball: (1, 3) (1 right, 3 forward)
+    If the new Forward is (0, 1) and Right is (1, 0), then the ball is at (1, 3).
+    Original: (-3, 1).
+    To get from (-3, 1) to (1, 3), the transformation is:
+    NewX = OldY
+    NewY = -OldX
+    Let's check:
+    Ball: NewX = 1, NewY = -(-3) = 3. (1, 3) - MATCH!
+    W1 (0, 6): NewX = 6, NewY = 0. (6 right, 0 forward) - NO MATCH (Obs says 6 forward)
+    W2 (1, 0): NewX = 0, NewY = -1. (0 right, -1 forward) - NO MATCH (Obs says 1 left)
+    Key (-3, 5): NewX = 5, NewY = -(-3) = 3. (5 right, 3 forward)
+
+    Let's try another rotation.
+    What if the agent turned left, but the ""forward"" in the observation always means ""in the direction the agent is facing""? (Which is how it usually works).
+    Original: Agent facing North.
+    Turn left: Agent facing West.
+    New Forward = West.
+    New Right = North.
+    New Left = South.
+    New Back = East.
+
+    Ball: (-3, 1)
+    West component: -3 (3 steps forward)
+    North component: 1 (1 step right)
+    Ball is at (3 forward, 1 right). MATCH!
+
+    W1: (0, 6)
+    West component: 0
+    North component: 6
+    W1 is at (0 forward, 6 right). NO MATCH (Obs says 6 forward)
+
+    W2: (1, 0)
+    West component: -1 (1 step back)
+    North component: 0
+    W2 is at (1 back, 0 right). NO MATCH (Obs says 1 left)
+
+    This is very strange. Let's look at the walls again.
+    Obs 1: wall 6 forward, wall 1 right.
+    Obs 2: wall 6 forward, wall 1 left.
+    It's as if the agent is still facing the same wall (6 steps forward), but the wall that was to the right is now to the left. That would happen if the agent turned 180 degrees. But the action was `turn left`.
+
+    Wait! ""a wall 6 steps forward"" and ""a wall 1 step left"" and ""a grey ball 1 step right and 3 steps forward"".
+    Let's ignore the walls for a moment and focus on the ball.
+    The ball is at (3 forward, 1 right).
+    The blue key (originally) was 4 steps ""further"" than the ball in the forward direction.
+    In the original:
+    Ball: 3 left, 1 forward
+    Key: 3 left, 5 forward
+    So the key is 4 steps further forward than the ball.
+    In the current observation:
+    Ball: 3 forward, 1 right.
+    If we maintain that relative position, the key should be:
+    (3+4) forward, 1 right = 7 forward, 1 right.
+    OR (3) forward, (1+4) right = 3 forward, 5 right.
+
+    Let's re-examine the original:
+    Key is at (-3, 5), Ball is at (-3, 1).
+    They both have the same ""left"" value (-3).
+    So the key is only different from the ball in the ""forward"" direction.
+    After turning left:
+    Original ""forward"" (y) becomes ""right"".
+    Original ""left"" (x) becomes ""forward"".
+    So the key and ball should now have the same ""forward"" value (3 steps).
+    And the key should be further ""right"" than the ball.
+    Ball: 3 forward, 1 right.
+    Key: 3 forward, (1 + 4) right = 3 forward, 5 right.
+
+    This confirms: Blue Key is at 3 forward, 5 right.
+
+    Now, how to get there?
+    - Current position: (0,0), facing West.
+    - Target: (3 forward, 5 right).
+    - Option 1: go forward 3, turn right, go forward 5.
+    - Option 2: turn right, go forward 5, turn left, go forward 3.
+
+    Wait, if I go forward 3 steps, I'll be at (3, 0). Then I turn right and go 5 steps to the key.
+    Is there any obstacle?
+    Observation says ""wall 6 steps forward"". I only need to go 3 steps. No problem.
+    Observation says ""wall 1 step left"". I'm turning right. No problem.
+
+    So the first action should be `go forward`.
+
+    Wait, let me double-check the Goal again: ""pick up the blue key, then go to the grey ball.""
+    I must get the blue key first.
+    Blue key is at (3 forward, 5 right).
+    Action: `go forward`.","
+
+Your previous output did not contain a valid action. Defaulted to action: go forward
+
+Observation:
+a wall 5 steps forward
+a wall 1 step left
+a grey ball 1 step right and 2 steps forward",0,False
+2,,"*   Goal: Pick up the blue key, then go to the grey ball.
+    *
+*   Goal: Pick up the blue key, then go to the grey ball.
+    *   Current state:
+        *   Observation:
+            *   Wall 5 steps forward.
+            *   Wall 1 step left.
+            *   Grey ball 1 step right and 2 steps forward.
+    *   Previous action: `go forward`.
+    *   Previous state:
+        *   Observation:
+            *   Wall 6 steps forward.
+            *   Wall 1 step left.
+            *   Grey ball 1 step right and 3 steps forward.
+    *   Result: The agent moved forward 1 step. The distance to the wall forward decreased (6 -> 5), and the distance to the grey ball forward decreased (3 -> 2).
+
+    *   The agent is currently facing a direction where the grey ball is at (2 forward, 1 right).
+    *   The blue key was previously observed (from the first observation) at 3 steps left and 5 steps forward.
+    *   Let's re-map everything to a coordinate system (x, y) where the agent starts at (0,0) facing North.
+        *   Start: (0,0), Facing: North.
+        *   Wall: (0, 6)
+        *   Wall: (1, 0)
+        *   Blue Key: (-3, 5)
+        *   Grey Ball: (-3, 1)
+    *   Action 1: `turn left`.
+        *   Facing: West.
+        *   New coordinates: x is forward, y is right.
+        *   Wait, it's easier to keep the global map.
+        *   Agent at (0,0), facing West.
+        *   Wall (0, 6) is now 6 steps Right.
+        *   Wall (1, 0) is now 1 step Behind.
+        *   Blue Key (-3, 5) is now 3 steps Forward, 5 steps Right.
+        *   Grey Ball (-3, 1) is now 3 steps Forward, 1 step Right.
+    *   Action 2: `go forward`.
+        *   Agent at (-1, 0), facing West.
+        *   Wall (0, 6) is now 1 step Right, 6 steps Forward? No, wait.
+        *   Let's re-calculate the distances based on the agent's current position (-1, 0) facing West.
+        *   Wall (0, 6): distance forward is -1 (it's behind), distance right is 6.
+        *   Wait, the observation said ""a wall 5 steps forward"". Let's re-read the original observations.
+
+    *   Observation 1:
+        *   Wall 6 fwd, Wall 1 right. (0, 6) and (1, 0)
+        *   Blue key 3 left, 5 fwd. (-3, 5)
+        *   Grey ball 3 left, 1 fwd. (-3, 1)
+    *   Action 1: `turn left`.
+        *   Facing: West.
+    *   Observation 2:
+        *   Wall 6 fwd. (Wait, the observation said ""a wall 6 steps forward"").
+        *   If facing West, 6 steps forward would be (-6, 0). This is different from my map.
+        *   Let's re-evaluate the original observation. Maybe ""a wall 6 steps forward"" was always there, and turning left shifted the perspective.
+        *   If I was at (0,0) facing North:
+            *   Wall North: (0, 6)
+            *   Wall East: (1, 0)
+            *   Key: (-3, 5)
+            *   Ball: (-3, 1)
+        *   Turn Left (Facing West):
+            *   Forward: West (-x)
+            *   Right: North (+y)
+            *   Left: South (-y)
+            *   Back: East (+x)
+            *   Observation 2 says: ""a wall 6 steps forward"". This means there is a wall at (-6, 0).
+            *   Observation 2 says: ""a wall 1 step left"". This means there is a wall at (0, -1).
+            *   Observation 2 says: ""a grey ball 1 step right and 3 steps forward"".
+                *   3 steps forward (West) = -3.
+                *   1 step right (North) = 1.
+                *   Grey ball = (-3, 1). (Matches!)
+    *   Action 2: `go forward`.
+        *   Agent at (-1, 0), facing West.
+    *   Observation 3 (Current):
+        *   Wall 5 steps forward. (-6, 0) is 5 steps from (-1, 0). (Matches!)
+        *   Wall 1 step left. (0, -1) is not 1 step left. If I am at (-1, 0) facing West, Left is South. (0, -1) is 1 step East and 1 step South. This is confusing.
+        *   Let's look at the ""wall 1 step left"" in Observation 2 again.
+            *   Observation 2: ""a wall 1 step left"". Facing West, Left is South. So there's a wall at (0, -1) or (-1, -1)?
+            *   Wait, if the agent is at (0,0) facing West, ""1 step left"" is (0, -1).
+            *   If the agent is at (-1, 0) facing West, ""1 step left"" is (-1, -1).
+        *   Grey ball 1 step right and 2 steps forward.
+            *   Forward (West) 2 steps: -1 - 2 = -3.
+            *   Right (North) 1 step: 0 + 1 = 1.
+            *   Grey ball = (-3, 1). (Matches!)
+
+    *   Goal: Blue key, then grey ball.
+    *   Blue key position: (-3, 5).
+    *   Current position: (-1, 0), facing West.
+    *   To get to (-3, 5):
+        *   Need to move 2 more steps forward (West) to reach x = -3.
+        *   Then need to move 5 steps right (North) to reach y = 5.
+    *   Wait, I'm already facing West.
+    *   Forward 2 steps -> reach (-3, 0).
+    *   Turn right (facing North).
+    *   Forward 5 steps -> reach (-3, 5).
+
+    *   Current position: (-1, 0), facing West.
+    *   Target: Blue Key (-3, 5).
+    *   Next logical steps:
+        1.  `go forward` (to -2, 0)
+        2.  `go forward` (to -3, 0)
+        3.  `turn right` (face North)
+        4.  `go forward` (to -3, 1) ... `go forward` (to -3, 5)
+        5.  `pick up`.
+
+    *   Current Observation:
+        *   Wall 5 steps forward.
+        *   Wall 1 step left.
+        *   Grey ball 1 step right and 2 steps forward.
+    *   To reach the blue key (-3, 5), I need to keep moving forward until I align with the x-coordinate of the key (-3).
+    *   Since the grey ball is at 2 steps forward and 1 step right, and the blue key is further north (right), I should move forward to the same x-column.
+
+    *   The blue key is at (-3, 5).
+    *   The grey ball is at (-3, 1).
+    *   Current pos: (-1, 0), facing West.
+    *   Distance to x = -3 is 2 steps forward.
+    *   Action: `go forward`.","
+
+Your previous output did not contain a valid action. Defaulted to action: go forward
+
+Observation:
+a wall 4 steps forward
+a wall 1 step left
+a grey ball 1 step right and 1 step forward",0,False
+3,go forward,"*   Goal: Pick up the blue key, then go to the grey ball.
+    *   Initial observation:
+        *   Wall 6 forward.
+        *   Wall 1 right.
+        *   Blue key 3 left, 5 forward.
+        *   Grey ball 3 left, 1 forward.
+    *   First action: `turn left`.
+    *   Observation after `turn left`:
+        *   Wall 6 forward.
+        *   Wall 1 left.
+        *   Grey ball 1 right, 3 forward.
+        *   (Blue key would be 5 right, 3 forward).
+    *   Second action (automatic/default): `go forward`.
+    *   Observation after 1st `go forward`:
+        *   Wall 5 forward.
+        *   Wall 1 left.
+        *   Grey ball 1 right, 2 forward.
+    *   Third action (automatic/default): `go forward`.
+    *   Observation after 2nd `go forward`:
+        *   Wall 4 forward.
+        *   Wall 1 left.
+        *   Grey ball 1 right, 1 forward.
+
+    *   Current state:
+        *   Wall 4 forward.
+        *   Wall 1 left.
+        *   Grey ball 1 right, 1 forward.
+    *   Where is the blue key?
+        *   Looking back: Blue key was 3 left and 5 forward from the very start.
+        *   Grey ball was 3 left and 1 forward from the very start.
+        *   Difference: Blue key is 4 steps *further forward* than the grey ball (relative to the start).
+        *   In the current orientation (having turned left), the start's ""left"" is now ""forward"".
+        *   Start: Grey ball (3 left, 1 forward) -> Current: Grey ball (3 forward, 1 right).
+        *   Start: Blue key (3 left, 5 forward) -> Current: Blue key (3 forward, 5 right).
+        *   Current position: I've moved forward twice.
+        *   The grey ball is now 1 right, 1 forward.
+        *   The blue key is now 1 forward and (5 - 1) = 4 right? No, wait.
+        *   Let's re-calculate:
+            *   T0: Ball (X=-3, Y=1), Key (X=-3, Y=5). Agent (0,0, facing North).
+            *   T1: Agent turns left. Now facing West.
+            *   T2: Agent go forward. (X=-1, Y=0, facing West).
+            *   T3: Agent go forward. (X=-2, Y=0, facing West).
+            *   Current: Agent (X=-2, Y=0, facing West).
+            *   Ball: (X=-3, Y=1). Relative to agent: X=-1 (Forward), Y=1 (Right). -> ""1 step right, 1 step forward"". Matches observation!
+            *   Key: (X=-3, Y=5). Relative to agent: X=-1 (Forward), Y=5 (Right). -> ""5 steps right, 1 step forward"".
+
+    *   The goal is: Blue Key -> Grey Ball.
+    *   Blue Key location: 1 step forward, 5 steps right.
+    *   To get to the key:
+        1.  Move forward 1 step.
+        2.  Turn right.
+        3.  Move forward 5 steps.
+        4.  Pick up.
+
+    *   Current action: `go forward`. (This gets the agent to X=-3, Y=0).
+
+    *   [THOUGHT] I have moved forward twice from my starting position after turning left. The grey ball is now 1 step right and 1 step forward. Based on the initial coordinates, the blue key is at the same X-coordinate as the ball but further ""right"" in my current orientation. Specifically, if the ball is 1 right and 1 forward, the blue key should be 5 right and 1 forward. To reach the blue key, I first need to move forward one step to align my X-coordinate with the targets.
+    *   [ACTION] go forward.","a wall 3 steps forward
+a wall 1 step left
+a grey ball 1 step right",0,False
+4,turn right,"*   Goal: Pick up the blue key, then go to the grey ball.
+    *   Current state:
+        *   Wall 3 steps forward.
+        *   Wall 1 step left.
+        *   Grey ball 1 step right.
+    *   Previous steps:
+        *   Initial state: Blue key at 3 left, 5 forward; Grey ball at 3 left, 1 forward.
+        *   Action 1: `turn left`. (Now facing original West).
+        *   Action 2: `go forward`.
+        *   Action 3: `go forward`.
+        *   Action 4: `go forward`.
+    *   Let's re-verify positions:
+        *   Start: (0,0), facing North. Key: (-3, 5), Ball: (-3, 1).
+        *   Turn left: Facing West.
+        *   Go forward 1: (-1, 0).
+        *   Go forward 2: (-2, 0).
+        *   Go forward 3: (-3, 0).
+    *   Current observation:
+        *   Grey ball is 1 step right. (Coordinate: -3, 1). This matches!
+        *   Blue key: (Original -3, 5). Since I am at (-3, 0) facing West, the blue key is at (-3, 5).
+        *   Wait, let's check direction again.
+        *   Facing West at (-3, 0).
+        *   North (original forward) is now Right.
+        *   The blue key is at (-3, 5). That is 5 steps North from (-3, 0).
+        *   So the blue key is 5 steps to my right.
+
+    *   Target 1: Blue Key.
+    *   Target 2: Grey Ball.
+    *   Current location: (-3, 0), facing West.
+    *   Blue key location: (-3, 5).
+    *   Grey ball location: (-3, 1).
+    *   To get the blue key, I need to turn right (to face North) and move forward 5 steps.
+
+    *   The grey ball is at 1 step right.
+    *   The blue key is at 5 steps right (because it was at 5 forward in original coords, and I am at 0 forward in original coords).
+    *   Wait, let's look at the observation again: ""a wall 3 steps forward, a wall 1 step left, a grey ball 1 step right"".
+    *   If I turn right, I will be facing North.
+    *   The grey ball will be 1 step forward.
+    *   The blue key will be 5 steps forward.
+
+    *   Action: `turn right`.","a wall 3 steps left
+a blue key 5 steps forward
+a grey ball 1 step forward",0,False
+5,go forward,"*   Goal: Pick up the blue key, then go to the grey ball.
+    *   Current Observation:
+        *   Wall 3 steps left.
+        *   Blue key 5 steps forward.
+        *   Grey ball 1 step forward.
+    *   Previous Action: `turn right`.
+
+    *   The agent is now facing the direction where the blue key and grey ball are located (both are ""forward"").
+    *   The grey ball is 1 step forward.
+    *   The blue key is 5 steps forward.
+    *   Wait, the goal is to pick up the blue key *first*, then go to the grey ball.
+    *   The blue key is 5 steps forward.
+
+    *   Move forward to reach the blue key.
+    *   The blue key is at 5 steps forward.
+    *   I need to `go forward` 5 times, then `pick up`.
+
+    *   Action: `go forward`.","a wall 3 steps left
+a blue key 5 steps forward
+a grey ball 1 step forward",0,False
+6,go forward,"*   Goal: Pick up the blue key, then go to the grey ball.
+    *   Current Observation:
+        *   Wall 3 steps left.
+        *   Blue key 5 steps forward.
+        *   Grey ball 1 step forward.
+    *   Previous action: `go forward` (from a state where the grey ball was 1 step right and the agent had turned right).
+
+    *   Current Position: Facing the blue key and grey ball.
+    *   Blue key: 5 steps forward.
+    *   Grey ball: 1 step forward.
+    *   Since the goal is to pick up the blue key *first*, the priority is to reach the blue key.
+    *   The grey ball is in the path to the blue key.
+
+    *   The blue key is 5 steps forward.
+    *   The grey ball is 1 step forward.
+    *   The agent needs to move forward to reach the blue key.
+    *   *Wait*, the grey ball is at 1 step forward. If I move forward, I will be on top of (or right in front of) the grey ball. The goal says ""pick up the blue key, then go to the grey ball."" I should not pick up or interact with the grey ball yet.
+    *   To reach the blue key (5 steps forward), I must pass the grey ball.
+
+    *   If I `go forward` once, I will be at the location of the grey ball.
+    *   Then I need to `go forward` 4 more times to reach the blue key.
+
+    *   Observation: `a blue key 5 steps forward`
+    *   Observation: `a grey ball 1 step forward`
+    *   Action: `go forward`
+
+    *   Will moving forward 1 step lead to the blue key? Yes, it's on the way.
+    *   Is the grey ball an obstacle? The description says ""a grey ball 1 step forward"". Usually, in these games, objects are either something you pick up or toggle. If I'm on the grey ball, I can still move forward unless it's a wall.
+
+    1.  Move forward 5 steps to reach the blue key.
+    2.  Pick up the blue key.
+    3.  Return to the grey ball.
+    4.  Go to the grey ball.
+
+    Action: `go forward` (1st step of 5).","a wall 3 steps left
+a blue key 5 steps forward
+a grey ball 1 step forward",0,False
+7,,"*   Goal: Pick up the blue
+*   Goal: Pick up the blue key, then go to the grey ball.
+    *   Current Observation:
+        *   Wall 3 steps left.
+        *   Blue key 5 steps forward.
+        *   Grey ball 1 step forward.
+    *   Previous action: `go forward`.
+    *   Observation after previous action: No change in the distance of the blue key or the grey ball? Wait, looking at the history:
+        *   Observation (T-2): `a wall 3 steps left, a blue key 5 steps forward, a grey ball 1 step forward`
+        *   Action (T-1): `go forward`
+        *   Observation (T): `a wall 3 steps left, a blue key 5 steps forward, a grey ball 1 step forward`
+    *   Wait, if I moved forward, the distance to the blue key and grey ball should have decreased. Since the observation hasn't changed, it suggests I might have hit an obstacle (though none are listed directly in front) or there's a glitch. However, the prompt says ""It doesn't make sense to repeat the same action over and over if the observation doesn't change.""
+
+    *   Wait, let me re-read the history.
+    *   T-3: Observation: `a wall 3 steps left, a blue key 5 steps forward, a grey ball 1 step forward`. Action: `go forward`.
+    *   T-2: Observation: `a wall 3 steps left, a blue key 5 steps forward, a grey ball 1 step forward`. Action: `go forward`.
+    *   T-1: Current Observation: `a wall 3 steps left, a blue key 5 steps forward, a grey ball 1 step forward`.
+
+    *   If `go forward` didn't change the position of the key or ball, I'm stuck. Why?
+    *   Let's look at the observations before this.
+    *   Before `turn right`: `a wall 3 steps forward, a wall 1 step left, a grey ball 1 step right`.
+    *   Action `turn right` -> Observation: `a wall 3 steps left, a blue key 5 steps forward, a grey ball 1 step forward`. (Correct, the grey ball was 1 step right, now it's 1 step forward).
+
+    *   Now, I have been trying to `go forward` to reach the blue key (5 steps ahead), but the observation stays identical.
+    *   Is there something blocking me? The observation doesn't list a wall forward (except for the one 3 steps left).
+    *   If `go forward` is not working, and I'm supposed to pick up the blue key first, but the grey ball is in the way (1 step forward), maybe I need to move the grey ball or go around it?
+    *   Wait, the goal is ""pick up the blue key, then go to the grey ball"".
+    *   The grey ball is 1 step forward. The blue key is 5 steps forward.
+    *   If I `go forward` once, I should be on top of the grey ball.
+    *   Wait, if I am on top of the grey ball, the observation might change.
+    *   Let's look at the previous transitions again:
+        *   Observation A: `a blue key 5 steps forward, a grey ball 1 step forward`. Action: `go forward`.
+        *   Observation B: `a blue key 5 steps forward, a grey ball 1 step forward`.
+    *   This is very strange. If I moved forward, the ball should be ""below me"" or the key should be ""4 steps forward"".
+    *   Could the grey ball be blocking me? If the grey ball is an object, maybe I need to `toggle` it or just `go forward` and it's treated as a wall? But usually, you can step on objects or they are listed as being ""in front"".
+    *   Actually, looking at the observation ""a grey ball 1 step forward"", if I `go forward`, I will be at the position of the grey ball.
+
+    *   If `go forward` is not working, maybe I should try to move around?
+    *   Wall is 3 steps left.
+    *   Maybe turn right, go forward, turn left, go forward?
+    *   But wait, the instructions say: ""It doesn't make sense to repeat the same action over and over if the observation doesn't change.""
+    *   I have tried `go forward` twice and the observation didn't change.
+    *   This means `go forward` is currently ineffective.
+
+    *   Target: Blue Key (5 steps forward).
+    *   Obstacle: Grey Ball (1 step forward).
+    *   Maybe I can't pass through the grey ball? If I can't pass through it, I must go around it.
+    *   Current state: Wall 3 steps left. Nothing mentioned to the right.
+    *   Plan to go around:
+        1.  Turn right.
+        2.  Go forward.
+        3.  Turn left.
+        4.  Go forward.
+        5.  Turn left.
+        6.  Go forward.
+        7.  Turn right.
+
+    *   Let's try turning right first to see if I can bypass the ball.
+
+    *   *Self-Correction:* Wait, is it possible the grey ball is ""below me"" now? No, the observation says ""a grey ball 1 step forward"".
+    *   Could the agent be facing a wall that isn't listed? Unlikely.
+    *   Is it possible I need to `toggle` the grey ball to move it? ""Once the desired object you want to interact or pickup in front of you, you can use the 'toggle' action to interact with it.""
+    *   The grey ball is not the *desired* object yet (the key is). But maybe I need to toggle the ball to get it out of the way?
+
+    *   Let's try `turn right` to bypass.
+
+    *   Observation: Wall 3 steps left, Blue key 5 steps forward, Grey ball 1 step forward.
+    *   Action: `go forward` (T-2) -> No change.
+    *   Action: `go forward` (T-1) -> No change.
+    *   Conclusion: `go forward` is blocked.
+    *   Hypothesis: The grey ball is blocking the path.
+    *   Action: Turn right to navigate around.","
+
+Your previous output did not contain a valid action. Defaulted to action: go forward
+
+Observation:
+a wall 3 steps left
+a blue key 5 steps forward
+a grey ball 1 step forward",0,False
+8,,"*   Goal: Pick up the blue key, then go to the grey ball.
+    *   Current Goal: Pick up the blue key.
+    *
+*   Goal: Pick up the blue key, then go to the grey ball.
+    *   Current Goal: Pick up the blue key.
+    *   Current Observation:
+        *   Wall 3 steps left.
+        *   Blue key 5 steps forward.
+        *   Grey ball 1 step forward.
+    *   Previous Actions:
+        *   Turn left.
+        *   Go forward (multiple times).
+        *   Turn right.
+        *   Go forward (multiple times).
+    *   Current State: The agent is facing the blue key (5 steps forward) and the grey ball (1 step forward).
+
+    *   The blue key is 5 steps forward.
+    *   The grey ball is 1 step forward.
+    *   The agent needs to pick up the blue key first.
+    *   The agent is currently moving forward towards both objects.
+
+    *   The agent is already facing the blue key.
+    *   The agent needs to reach the blue key's position.
+    *   The blue key is 5 steps forward.
+    *   The agent has been going forward.
+    *   Current distance to blue key: 5 steps.
+    *   Current distance to grey ball: 1 step.
+    *   Since the goal is to get the blue key *first*, the agent must pass the grey ball and continue to the blue key.
+
+    *   Action: `go forward`
+    *   This will bring the agent closer to the blue key (and potentially over the grey ball).
+
+    *   The prompt indicates the agent has been repeating `go forward` but the observation isn't changing much or the system is repeating the same observation?
+    *   Wait, looking at the observation history:
+        *   Observation: `a wall 3 steps left, a blue key 5 steps forward, a grey ball 1 step forward`
+        *   Action: `go forward`
+        *   Observation: `a wall 3 steps left, a blue key 5 steps forward, a grey ball 1 step forward` (This repeated several times).
+    *   If `go forward` is not changing the distance to the blue key or the grey ball, there might be an obstacle or the agent is stuck. However, the observation says `a wall 3 steps left`. There is no wall in front.
+    *   Let's check the logic again. If I go forward and the observation stays the same, maybe I'm not moving? No, the game usually updates.
+    *   Actually, looking at the prompt history provided by the user:
+        `Observation: a wall 3 steps left, a blue key 5 steps forward, a grey ball 1 step forward`
+        `Action: go forward`
+        `Observation: a wall 3 steps left, a blue key 5 steps forward, a grey ball 1 step forward`
+        This happened three times.
+    *   If `go forward` is not changing the distance, it's possible the agent is hitting something or the environment is lagging. But based on the observation, there's only a wall to the left.
+    *   Wait, looking at the most recent observation provided in the ""Current Observation"" block: `a wall 3 steps left, a blue key 5 steps forward, a grey ball 1 step forward`.
+    *   Maybe the agent needs to move past the grey ball?
+    *   Let's try `go forward` again. If the state doesn't change, I might need to investigate, but usually, in these simulations, `go forward` is the only way to close the distance.
+
+    *   Goal: Blue Key -> Grey Ball.
+    *   Blue Key: 5 steps forward.
+    *   Grey Ball: 1 step forward.
+    *   Current action: go forward.
+    *   Wait, I see a pattern in the provided text. The user says ""Your previous output did not contain a valid action. Defaulted to action: go forward"". This suggests the agent's previous response format was incorrect, not that the action itself failed.
+    *   Now I must use the `[THOUGHT]` and `[ACTION]` format.
+
+    *   The blue key is 5 steps ahead.
+    *   The grey ball is 1 step ahead.
+    *   I need the blue key first.
+    *   I will continue moving forward.
+
+    *   Action: `go forward`.","
+
+Your previous output did not contain a valid action. Defaulted to action: go forward
+
+Observation:
+a wall 3 steps left
+a blue key 5 steps forward
+a grey ball 1 step forward",0,False
+9,,"*   Goal: Pick up the blue key, then go to the grey ball.
+    *   Current Observation:
+        *   A wall 3 steps left.
+        *   A blue key 5 steps forward.
+        *   A grey ball 1 step forward.
+
+    *   Previous actions seem to have been ""go forward"" several times.
+    *   Wait, look at the sequence:
+        *   Start: Blue key (3L, 5F), Grey ball (3L, 1F).
+        *   Turn left: Now facing West. Grey ball is (1R, 3F).
+        *   Go forward (x3): Moved 3 steps forward. Now Grey ball is (1R, 0F) -> ""a grey ball 1 step right"".
+        *   Turn right: Now facing North. Grey ball is (1F). Blue key is (5F).
+        *   Go forward (repeatedly): The observation keeps saying ""a blue key 5 steps forward"" and ""a grey ball 1 step forward"".
+
+    *   Wait, the observations ""a blue key 5 steps forward"" and ""a grey ball 1 step forward"" have been repeated multiple times. This means the agent is moving, but the observation is NOT updating the distances.
+    *   Actually, looking at the logs provided by the user:
+        *   ""Observation: a wall 3 steps left, a blue key 5 steps forward, a grey ball 1 step forward"" (repeated several times).
+        *   This implies that the ""go forward"" action did not move the agent closer to the key or ball, OR the agent is stuck, OR the observations provided in the prompt are slightly glitched/repeating.
+    *   Wait, if the observation says ""a grey ball 1 step forward"" and ""a blue key 5 steps forward"" multiple times after ""go forward"", it means either:
+        1.  The agent hasn't moved.
+        2.  The environment is not updating.
+        3.  The agent is moving but the distance to the items remains constant (unlikely in a grid game).
+
+    *   Let's re-examine the logic.
+        *   Start: Key(3L, 5F), Ball(3L, 1F).
+        *   T Left: Key(5R, 3F), Ball(1R, 3F).
+        *   Go Forward 3: Key(5R, 0F), Ball(1R, 0F).
+        *   T Right: Key(5F, 0R), Ball(1F, 0R).
+        *   Observation now: ""blue key 5 steps forward, grey ball 1 step forward"".
+        *   Next action was ""go forward"".
+        *   Observation *should* be: ""blue key 4 steps forward, grey ball 0 steps forward (below you)"".
+
+    *   However, the logs say:
+        ""Observation: a wall 3 steps left, a blue key 5 steps forward, a grey ball 1 step forward""
+        (followed by a few ""Defaulted to action: go forward"" messages)
+        ""Observation: a wall 3 steps left, a blue key 5 steps forward, a grey ball 1 step forward""
+
+    *   This suggests the ""go forward"" action is not changing the distance. If the agent moves forward 1 step and the grey ball is 1 step forward, the agent should be ON the grey ball.
+
+    *   Let's look at the current state:
+        - Grey ball: 1 step forward.
+        - Blue key: 5 steps forward.
+        - Goal: Blue key first, then grey ball.
+
+    *   To get the blue key, I need to go forward 5 steps.
+    *   Since I'm at ""blue key 5 steps forward"" and ""grey ball 1 step forward"", I must move past the grey ball to get the blue key.
+
+    *   Wait, if I go forward 1 step, I will be on top of the grey ball.
+    *   If I go forward 5 steps, I will be on top of the blue key.
+
+    *   Wait, why is the observation repeating? ""a wall 3 steps left, a blue key 5 steps forward, a grey ball 1 step forward"".
+    *   If the action ""go forward"" was taken and the observation didn't change, the agent might be facing a wall or blocked. But the observation says ""a wall 3 steps left"", not ""a wall 1 step forward"".
+
+    *   Let's ignore the repeated logs for a moment and focus on the current objective: **Pick up the blue key**.
+    *   The blue key is 5 steps forward.
+    *   The grey ball is 1 step forward.
+    *   Action: `go forward`.
+
+    *   Wait, if the previous actions were `go forward` and the observation stayed the same, repeating `go forward` is useless according to the tips: ""It doesn't make sense to repeat the same action over and over if the observation doesn't change.""
+
+    *   Why would ""go forward"" not change the observation ""blue key 5 steps forward, grey ball 1 step forward""?
+        *   Possibility A: There is an invisible obstacle.
+        *   Possibility B: The agent is actually moving but the provided text is looping/incorrect.
+        *   Possibility C: The agent is already at the limit of the map.
+
+    *   Let's try `go forward` again. If it really doesn't move, I might need to turn or interact. But the goal is the blue key.
+
+    *   Re-reading the observation:
+        ""a wall 3 steps left""
+        ""a blue key 5 steps forward""
+        ""a grey ball 1 step forward""
+
+    *   If I go forward 1 step, I'll be on the grey ball.
+    *   If I go forward 5 steps, I'll be on the blue key.
+
+    *   Since the goal is Key -> Ball, I must go to the key first.
+    *   Action: `go forward`.
+
+    *   Wait, let's look at the history again.
+        Action: `go forward`
+        Observation: `blue key 5 steps forward, grey ball 1 step forward`
+        Action: `go forward`
+        Observation: `blue key 5 steps forward, grey ball 1 step forward`
+        Action: `go forward`
+        Observation: `blue key 5 steps forward, grey ball 1 step forward`
+
+    *   If the observation is not changing, maybe I need to `toggle` something? No, nothing is in front of me except the ball (1 step away) and the key (5 steps away).
+    *   Could I be facing the wrong way? The observation says they are ""forward"".
+
+    *   Let's try `go forward` one more time, but if the environment is stuck, this is tricky. However, in these navigation games, usually, you just keep moving. If ""go forward"" is failing, maybe there's a wall I can't see? But ""a wall 3 steps left"" is the only wall mentioned.
+
+    *   Let's try `go forward`.
+
+    *   Wait! I just noticed something.
+        Observation:
+        a wall 3 steps left
+        a blue key 5 steps forward
+        a grey ball 1 step forward
+
+        Previous actions:
+        - turn right
+        - go forward (observation repeated)
+        - go forward (observation repeated)
+        - go forward (observation repeated)
+
+        If the agent is not moving, maybe they are blocked by the grey ball? ""a grey ball 1 step forward"". Can the agent move *through* the ball? Usually, yes, unless the ball is an obstacle. If the ball is an obstacle, I'd have to go around it.
+
+        To go around the ball (1 step forward):
+        1. Turn right.
+        2. Go forward.
+        3. Turn left.
+        4. Go forward 2 steps.
+        5. Turn left.
+        6. Go forward 1 step.
+        7. Turn right.
+        8. Go forward.
+
+        But the prompt says ""pick up the blue key, then go to the grey ball"". It doesn't say the ball is a wall.
+
+        Let's assume the ""Defaulted to action: go forward"" messages are system errors and the actual state is that the agent *is* moving.
+
+        Current Observation:
+        a wall 3 steps left
+        a blue key 5 steps forward
+        a grey ball 1 step forward
+
+        Target: Blue key.
+        Action: go forward.
+
+    *   *Self-Correction*: If the observation truly isn't changing, I should try something else. But I'll try `go forward` once more as it's the only logical way to reach a target that is ""forward"". If the ball is blocking me, I will find out when I'm 0 steps from it.
+
+    *   *Refined Plan*:
+        1. Move forward to reach the blue key (5 steps).
+        2. Pick up the blue key.
+        3. Move back to the grey ball (which is currently 1 step forward, so it will be 4 steps behind me).
+        4. Go to the grey ball.
+
+    *   Current step: Move forward.
+
+    *   *Wait*, the prompt says ""You are an intelligent game-playing agent... follow this structured reasoning process: [THOUGHT] ... [ACTION]"".
+
+    *   Thought: The blue key is 5 steps forward and the grey ball is 1 step forward. To achieve the goal, I must first collect the blue key. I will move forward.
+
+    *   *Wait*, one more check on the observation:
+        ""a wall 3 steps left""
+        ""a blue key 5 steps forward""
+        ""a grey ball 1 step forward""
+        If I go forward 1 step, I'll be on the grey ball. If I go forward 5 steps, I'll be on the blue key.
+
+        Let's go.","
+
+Your previous output did not contain a valid action. Defaulted to action: go forward
+
+Observation:
+a wall 3 steps left
+a blue key 5 steps forward
+a grey ball 1 step forward",0,False
+10,go forward,"The goal is to pick up the blue key, then go to the grey ball.
+
+    *   Wall: 3 steps left.
+    *   Blue key: 5 steps forward.
+    *   Grey ball
+The goal is to pick up the blue key, then go to the grey ball.
+
+    *   Wall: 3 steps left.
+    *   Blue key: 5 steps forward.
+    *   Grey ball: 1 step forward.
+    *   Wait, the observation hasn't changed for several steps. Let's look back.
+    *   Previous observations repeatedly said: ""a wall 3 steps left, a blue key 5 steps forward, a grey ball 1 step forward"".
+    *   The system says ""Your previous output did not contain a valid action. Defaulted to action: go forward"". This implies that for the last few turns, the action taken was `go forward`.
+
+    *   Turn 1: `turn left`
+    *   Turn 2: `go forward`
+    *   Turn 3: `go forward`
+    *   Turn 4: `go forward`
+    *   Turn 5: `turn right`
+    *   Turn 6: `go forward` (Observation: blue key 5 forward, grey ball 1 forward)
+    *   Turn 7: `go forward` (Observation: blue key 5 forward, grey ball 1 forward)
+    *   Turn 8: `go forward` (Observation: blue key 5 forward, grey ball 1 forward)
+    *   Wait, if I'm moving forward but the distance to the objects isn't decreasing, I might be hitting a wall or the environment is stuck.
+    *   Actually, look at the observation again:
+        *   Turn 5 observation: Grey ball 1 step right.
+        *   Turn 5 action: `turn right`.
+        *   Turn 6 observation: Blue key 5 steps forward, Grey ball 1 step forward. (Wait, if I turned right, the ball was at my right, now it's forward. Correct.)
+        *   Turn 6 action: `go forward`.
+        *   Turn 7 observation: Blue key 5 steps forward, Grey ball 1 step forward.
+        *   Wait! If I go forward and the distance doesn't change, I am not moving. Why am I not moving?
+        *   Observation says ""a wall 3 steps left"".
+        *   Observation says ""a blue key 5 steps forward"".
+        *   Observation says ""a grey ball 1 step forward"".
+        *   If I `go forward` and the grey ball stays ""1 step forward"", I am either blocked or the distance is relative to my *current* position, but something is preventing movement. Or perhaps I already walked *past* the grey ball? No, it says it's *forward*.
+        *   Wait, let's re-read: ""a grey ball 1 step forward"". If I `go forward`, I should be *on* the grey ball. Then the observation should change to ""a grey ball below you"" or something similar.
+
+    *   Current Goal: Pick up blue key.
+    *   Current position: Blue key is 5 steps forward. Grey ball is 1 step forward.
+    *   Last few actions were `go forward`, but the observation remained the same. This is a red flag. ""It doesn't make sense to repeat the same action over and over if the observation doesn't change.""
+    *   Maybe I need to `toggle` something? No, the blue key is 5 steps away.
+    *   Let's check the observation again:
+        *   ""a wall 3 steps left""
+        *   ""a blue key 5 steps forward""
+        *   ""a grey ball 1 step forward""
+    *   If I `go forward` and nothing happens, maybe I'm hitting a wall? But the wall is to the left.
+    *   Could there be an invisible obstacle?
+    *   Let's try to move to the blue key. The grey ball is in the way (1 step forward).
+    *   If I `go forward` once more, and the grey ball is at 1 step forward, I should arrive at the grey ball's position.
+    *   Wait, the system says ""Your previous output did not contain a valid action. Defaulted to action: go forward"" several times. This means the agent actually executed `go forward` multiple times.
+    *   If `go forward` was executed and the grey ball is *still* 1 step forward, I am not moving.
+    *   Wait, maybe I'm *on* the grey ball? No, it says ""1 step forward"".
+    *   Let's try a different direction to see if I can move.
+    *   Or, perhaps the `go forward` action is failing because of some reason.
+    *   Let's re-evaluate:
+        *   Goal: Blue key, then Grey ball.
+        *   Blue key is 5 steps forward.
+        *   Grey ball is 1 step forward.
+    *   If `go forward` isn't working, maybe I need to move around the grey ball?
+    *   Try `turn left`? (Wall is 3 steps left).
+    *   Wait, let's look at the very first observation.
+        *   Wall 6 forward.
+        *   Wall 1 right.
+        *   Blue key 3 left, 5 forward.
+        *   Grey ball 3 left, 1 forward.
+    *   Current state: facing ""West"" (the original left).
+        *   Original Left (West) is now Forward.
+        *   Original Forward (North) is now Right.
+        *   Grey ball was (3 left, 1 forward). Now it's (3 forward, 1 right).
+        *   Blue key was (3 left, 5 forward). Now it's (3 forward, 5 right).
+    *   My history:
+        *   `turn left` (Facing West)
+        *   `go forward` x 3 (Now at original 3 left, 0 forward).
+        *   Observation now: ""Grey ball 1 step right"" (Correct: it was 1 forward, now it's 1 right).
+        *   `turn right` (Facing North)
+        *   Observation now: ""Grey ball 1 step forward, Blue key 5 steps forward"". (Correct: Grey ball was 1 right, now 1 forward. Blue key was 5 right, now 5 forward).
+        *   `go forward` (Attempting to reach key).
+    *   Now, I've been doing `go forward` multiple times, and the observation says ""Grey ball 1 step forward, Blue key 5 steps forward"".
+    *   This is extremely strange. If I go forward, the distance should decrease.
+    *   If it's not decreasing, maybe there is a wall in front of me that isn't listed? ""a wall 3 steps left"". No wall forward mentioned.
+    *   Let's try `turn left`, `go forward`, `turn right`, `go forward` to see if I can bypass the grey ball? No, the grey ball is just an object, not a wall.
+    *   Wait, I might be stuck in a loop or the simulation is glitching. But as an agent, I must try a different action.
+    *   If `go forward` doesn't work, let's try `turn left`.
+
+    *   Blue key is 5 steps forward.
+    *   Grey ball is 1 step forward.
+    *   If `go forward` doesn't move me, maybe I need to `pick up` the grey ball first?
+    *   Observation: ""a grey ball 1 step forward"".
+    *   Can I `pick up` something 1 step forward? No, ""pick up the object below you"".
+    *   Can I `toggle` something 1 step forward? ""Once the desired object ... in front of you, you can use the 'toggle' action"".
+    *   The grey ball is in front of me. Let's try `toggle`? No, the goal is the blue key.
+    *   Let's try `go forward` one more time, but be very explicit. If it fails, I'll try `turn left`.
+    *   Actually, if the observation has not changed for 4-5 turns of `go forward`, `go forward` is clearly not working.
+    *   Let's try `turn left`.
+
+    *   Maybe the grey ball is blocking me? (Though the rules don't say objects are obstacles).
+    *   If `go forward` isn't working, I'll try to move around.
+    *   Observation: Wall 3 steps left.
+    *   Action: `turn left`.
+    *   Then I'll see if I can move forward.
+
+    *   Wait, let me look at the prompt again. ""Your previous output did not contain a valid action. Defaulted to action: go forward"".
+    *   This means the *LLM* failed to provide a valid action, and the *game engine* defaulted to `go forward`.
+    *   If the game engine executed `go forward` and the observation didn't change, it means the agent is hitting a wall or is blocked.
+    *   But the observation says: ""a wall 3 steps left"". It does *not* say ""a wall 0 steps forward"".
+    *   Could the ""grey ball 1 step forward"" be the obstacle?
+    *   If I can't move forward, I must turn.
+    *   Let's try `turn left`.
+
+    *   Wait, if I `turn left`, I'll be facing the wall (3 steps away).
+    *   If I `turn right`, I'll be facing away from the wall.
+    *   Let's try `turn left` to see if the observation changes.
+
+    *   Actually, let's try `go forward` one more time, but ensure the format is perfect. If the previous failures were due to ""invalid action"" (formatting), then `go forward` might actually work if formatted correctly.
+
+    *   Format:
+        [THOUGHT] ...
+        [ACTION] ...
+        ACTION: <action>
+
+    *   Let's try `go forward` again, ensuring correct formatting. If the distance to the grey ball (1 step forward) doesn't change to ""below you"", I'll know I'm blocked.
+
+    *   Wait, the goal is: Pick up blue key, then go to grey ball.
+    *   Current position: Blue key is 5 steps forward, Grey ball is 1 step forward.
+    *   If I move forward 1 step, I'll be on the grey ball.
+    *   If I move forward 5 steps, I'll be on the blue key.
+    *   I need the blue key first.
+
+    *   Let's try `go forward`.","a wall 3 steps left
+a blue key 5 steps forward
+a grey ball 1 step forward",0,False
+11,,"*   Goal: Pick up the blue key, then go to the grey ball.
+    *   Current Observation:
+*   Goal: Pick up the blue key, then go to the grey ball.
+    *   Current Observation:
+        *   Wall 3 steps left.
+        *   Blue key 5 steps forward.
+        *   Grey ball 1 step forward.
+    *   Previous Action: `go forward` (multiple times).
+    *   Current State: I am moving towards the blue key, but I just passed/am about to pass the grey ball. Wait, the grey ball is 1 step forward and the blue key is 5 steps forward.
+
+    *   I need the blue key *first*.
+    *   The blue key is 5 steps forward.
+    *   The grey ball is 1 step forward. If I keep going forward, I will pass the grey ball and eventually reach the blue key.
+
+    *   If I move forward 1 step, I'll be on top of the grey ball.
+    *   If I move forward 5 steps, I'll be on top of the blue key.
+    *   I must get the blue key first.
+
+    *   Action: `go forward`.
+    *   Expected result: The distance to the blue key will decrease (from 5 to 4), and the distance to the grey ball will decrease (from 1 to 0).
+
+    *Wait*, looking at the previous turn history:
+    The agent has been sending `go forward` repeatedly.
+    The observation ""a wall 3 steps left, a blue key 5 steps forward, a grey ball 1 step forward"" has repeated several times.
+    Why is the observation not changing?
+    - Maybe the agent is stuck?
+    - Maybe the `go forward` command is not working?
+    - Or maybe I'm hallucinating the repetitions?
+    Actually, looking at the prompt history provided by the user:
+    Observation: ... blue key 5 steps forward, grey ball 1 step forward
+    Action: go forward
+    Observation: ... blue key 5 steps forward, grey ball 1 step forward
+    Action: go forward
+    Observation: ... blue key 5 steps forward, grey ball 1 step forward
+    (repeated several times)
+
+    If `go forward` is not changing the observation, there might be an obstacle or a glitch, but according to the observation, there is nothing in front of me except the grey ball (1 step) and the blue key (5 steps).
+
+    However, usually, if you are on top of an object, the observation changes. If the agent is *at* the grey ball (1 step forward), it needs to go past it to get to the blue key.
+
+    Wait, if the observation ""blue key 5 steps forward, grey ball 1 step forward"" keeps appearing despite `go forward`, it means the agent isn't moving. But the rules say ""It doesn't make sense to repeat the same action over and over if the observation doesn't change.""
+
+    Let's re-examine the prompt.
+    Observation:
+    a wall 3 steps left
+    a blue key 5 steps forward
+    a grey ball 1 step forward
+
+    Previous actions were `go forward`. If the observation hasn't changed, I should try something else or re-evaluate. But if the goal is the blue key and it's 5 steps forward, the only logical move is `go forward`.
+
+    Wait, looking closely at the repeated blocks:
+    `Observation: ... blue key 5 steps forward, grey ball 1 step forward`
+    `go forward`
+    `Observation: ... blue key 5 steps forward, grey ball 1 step forward`
+    ... and so on.
+
+    If the agent is stuck, maybe it's because it's *on* the grey ball and needs to interact with it? No, the goal is the blue key first. The grey ball is just an object in the way.
+
+    Could there be an invisible wall? The observation says ""a wall 3 steps left"". Nothing says there is a wall in front.
+
+    Let's assume the simulation is just lagging or the prompt is showing a history of failed attempts. The objective remains: get the blue key. To do that, I must move forward.
+
+    Is it possible the agent is actually *on* the grey ball and that's why the observation is weird?
+    If the ball is ""1 step forward"", I am not on it.
+
+    Let's try `go forward` one more time, as it is the only path to the blue key.
+
+    Wait, is it possible the grey ball is blocking the path? The rules say ""Once the desired object... is in front of you, you can use the 'toggle' action"". I don't want the grey ball yet.
+
+    Let's re-read the goals: ""pick up the blue key, then go to the grey ball.""
+    Current location:
+    Blue key: 5 steps forward.
+    Grey ball: 1 step forward.
+
+    If I `go forward` once, I will be at the position of the grey ball.
+    Then I need to `go forward` 4 more times to reach the blue key.
+
+    If `go forward` wasn't working, maybe I should try to `toggle` the grey ball to move it? But the ball isn't the goal yet.
+
+    Let's assume the agent *must* move forward.
+
+    Wait, I just noticed the prompt says: ""Your previous output did not contain a valid action. Defaulted to action: go forward"". This happened multiple times. This means the model previously provided responses that weren't just a single action (likely including reasoning or formatting errors), and the system defaulted to `go forward`.
+
+    Now, the current observation is:
+    a wall 3 steps left
+    a blue key 5 steps forward
+    a grey ball 1 step forward
+
+    This is the same observation as before. If the system defaulted to `go forward` and the observation didn't change, it means `go forward` is not moving the agent.
+
+    Why would `go forward` not work?
+    1.  Wall in front? (Observation says wall is 3 steps left).
+    2.  At the edge of the map?
+    3.  Object in the way? (Grey ball is 1 step forward).
+
+    If the grey ball is ""1 step forward"", and `go forward` doesn't move the agent, maybe the agent is *colliding* with the grey ball? In some games, you can't move into a space occupied by an object. If the grey ball is an obstacle, I might need to move around it.
+
+    Let's check the surroundings:
+    Wall 3 steps left.
+    Right: Nothing mentioned (so presumably clear).
+
+    To get around the grey ball:
+    1.  Turn right.
+    2.  Go forward.
+    3.  Turn left.
+    4.  Go forward (past the ball).
+    5.  Turn left.
+    6.  Go forward.
+    7.  Turn right.
+
+    Or more simply:
+    1.  Turn right.
+    2.  Go forward.
+    3.  Turn left.
+    4.  Go forward (now I am alongside the ball).
+    5.  Go forward again (now I am past the ball).
+    6.  Turn left.
+    7.  Go forward.
+    8.  Turn right.
+
+    But wait, the observation says ""a blue key 5 steps forward"". If I turn right and move, the blue key will no longer be ""forward"".
+
+    Let's think about the coordinates.
+    Current: (0,0), Facing North.
+    Grey Ball: (0, 1)
+    Blue Key: (0, 5)
+    Wall: (-3, 0) to (-3, 6)?
+
+    If `go forward` doesn't work, the ball at (0,1) must be blocking the path.
+    To get to (0,5):
+    - Turn right (Facing East)
+    - Go forward (Position: 1,0)
+    - Turn left (Facing North)
+    - Go forward (Position: 1,1) - *Past the ball*
+    - Go forward (Position: 1,2)
+    - Go forward (Position: 1,3)
+    - Go forward (Position: 1,4)
+    - Go forward (Position: 1,5)
+    - Turn left (Facing West)
+    - Go forward (Position: 0,5) - *At the key*
+
+    However, before I assume it's blocked, let me check if there's any other reason.
+    The prompt says: ""It doesn't make sense to repeat the same action over and over if the observation doesn't change.""
+    Since `go forward` has been called (via default) multiple times and the observation hasn't changed, I *must* try a different action.
+
+    If `go forward` is blocked by the grey ball:
+    Action: `turn right`
+
+    Let's verify the ""wall 3 steps left"". If I turn right, the wall will be 3 steps behind me.
+
+    Wait, let me double-check the observation again.
+    ""a grey ball 1 step forward""
+    ""a blue key 5 steps forward""
+    If I can't go forward, I must go around.
+
+    Alternative: Maybe I should `toggle` the ball? ""Once the desired object... is in front of you, you can use the 'toggle' action"". The ball isn't the *desired* object yet (the key is), but maybe toggling it moves it?
+
+    Usually, in these games, ""toggle"" is for doors or switches. For a ball, it might be ""push"".
+
+    Let's try `turn right` to move around the obstacle.
+
+    One more thought: is the blue key *inside* the grey ball? No, that's unlikely.
+
+    Let's try `turn right`.
+
+    Wait, looking at the previous history again:
+    `Observation: a wall 3 steps left, a blue key 5 steps forward, a grey ball 1 step forward`
+    `go forward` (Action)
+    `Observation: a wall 3 steps left, a blue key 5 steps forward, a grey ball 1 step forward`
+    This happened 4 times. The agent is definitely stuck.
+
+    Reasoning:
+    - Goal: Blue key (5 steps forward).
+    - Obstacle: Grey ball (1 step forward).
+    - `go forward` failed multiple times.
+    - Conclusion: The grey ball is blocking the path.
+    - Strategy: Move around the grey ball.
+    - Next step: `turn right`.","
+
+Your previous output did not contain a valid action. Defaulted to action: go forward
+
+Observation:
+a wall 3 steps left
+a blue key 5 steps forward
+a grey ball 1 step forward",0,False
+12,,"*   Goal: Pick up the blue key, then go to the grey ball.
+    *   Current State:
+        *   Wall: 3 steps left.
+        *   Blue key: 5 steps forward.
+        *   Grey ball: 1 step forward.
+    *   Recent History:
+        *   The agent has been trying to move forward.
+        *   The observation remains the same: ""a wall 3 steps left, a blue key 5 steps forward, a grey ball 1 step forward"".
+        *   Wait, the observations seem stuck. Let's re-examine.
+        *   Previous turns showed `go forward` but the distances didn't decrease. This usually means the agent is bumping into something or the simulation is stuck, OR I misinterpreted the movement.
+        *   Looking closer:
+            *   Obs 1: wall 3 left, blue key 5 forward, grey ball 1 forward.
+            *   Action: `go forward`
+            *   Obs 2: wall 3 left, blue key 5 forward, grey ball 1 forward. (No change)
+            *   Action: `go forward`
+            *   Obs 3: wall 3 left, blue key 5 forward, grey ball 1 forward. (No change)
+        *   Wait, if the distance to the blue key (5 forward) and grey ball (1 forward) doesn't change after `go forward`, it implies the agent is unable to move forward.
+        *   But looking at the observation again: ""a wall 3 steps left"". There is no wall in front.
+        *   Is there something blocking the path? The grey ball is 1 step forward.
+        *   If the agent is 1 step away from the grey ball, and they `go forward`, they should be *on top* of the grey ball or the distance should become 0.
+        *   If the distance stays 1, maybe the grey ball is an obstacle?
+        *   Wait, the instructions say: ""Once the desired object you want to interact or pickup in front of you, you can use the 'toggle' action to interact with it.""
+        *   However, the goal is the blue key *first*. The grey ball is in the way.
+
+    *   Observation: `a wall 3 steps left`, `a blue key 5 steps forward`, `a grey ball 1 step forward`.
+    *   The agent has attempted `go forward` multiple times, but the state hasn't changed.
+    *   Possibility 1: The agent is blocked by the grey ball.
+    *   Possibility 2: The agent needs to ""toggle"" or ""pick up"" something? No, the grey ball is not the primary goal yet.
+    *   Possibility 3: The agent needs to go *around* the grey ball.
+    *   Let's check the surroundings:
+        *   Wall 3 steps left.
+        *   Right side: No wall mentioned.
+    *   If the agent turns right, they can move around the grey ball.
+
+    *   Current goal: Get the blue key (5 steps forward).
+    *   Obstacle: Grey ball (1 step forward).
+    *   Path: Turn right, move forward, turn left, move forward (passing the ball), turn left, move forward to align with the key, turn right, move to the key. Or more simply: turn right, move, turn left, move, then adjust.
+    *   Actually, if the agent is at (0,0) facing North, the ball is at (0,1) and the key is at (0,5).
+    *   The agent is blocked at (0,0) because the ball is at (0,1).
+    *   Action: Turn right. Then go forward. Then turn left. Then go forward.
+
+    *   Wait, let me re-read the rules. ""Once the desired object... is in front of you, you can use the 'toggle' action"". ""pick up: pick up the object below you"".
+    *   Is the grey ball a ""toggleable"" object or just a landmark? Usually, in these games, if an object is in the way, you can't just walk through it.
+    *   Let's try to navigate around it.
+    *   Action: Turn right.","
+
+Your previous output did not contain a valid action. Defaulted to action: go forward
+
+Observation:
+a wall 3 steps left
+a blue key 5 steps forward
+a grey ball 1 step forward",0,False
+13,go forward,"*   Goal: Pick up the blue key, then go to the grey ball.
+    *   Current Observation:
+        *   Wall 3 steps left.
+        *   Blue key 5 steps forward.
+        *   Grey ball 1 step forward.
+    *   Previous Action: `go forward` (multiple times, as indicated by the logs).
+
+    *   Initial Observation (Start):
+        *   Wall 6 forward, wall 1 right.
+        *   Blue key: 3 left, 5 forward.
+        *   Grey ball: 3 left, 1 forward.
+    *   Action 1: `turn left`. (Now facing West)
+    *   Observation: Wall 6 forward, wall 1 left, grey ball 1 right, 3 forward.
+    *   Action 2, 3, 4: `go forward` (3 times).
+    *   Observation: Wall 3 forward, wall 1 left, grey ball 1 right.
+    *   Action 5: `turn right`. (Now facing North)
+    *   Observation: Wall 3 left, blue key 5 forward, grey ball 1 forward.
+    *   Action 6+: `go forward` (repeatedly).
+
+    *   The agent is facing North.
+    *   The grey ball is 1 step forward.
+    *   The blue key is 5 steps forward.
+    *   *Crucially*, the goal is: Blue Key FIRST, then Grey Ball.
+    *   The agent has been moving forward, which is moving it closer to the grey ball and the blue key.
+    *   The current observation shows the grey ball is 1 step forward and the blue key is 5 steps forward.
+
+    *   Objective: Reach the blue key.
+    *   Current position relative to blue key: 5 steps forward.
+    *   Current position relative to grey ball: 1 step forward.
+    *   Wait, if I move forward 1 step, I'll be on top of the grey ball. But I need the blue key first.
+    *   The blue key is further ahead (5 steps forward).
+
+    *   The agent must move forward to reach the blue key.
+    *   The grey ball is in the way (at 1 step forward). I can just move past it or stay on it; the prompt doesn't say I can't move through the ball, only that I need to pick up the key first.
+    *   Since the key is 5 steps forward, the agent needs to continue moving forward.
+
+    *   Observation remains constant: ""a wall 3 steps left, a blue key 5 steps forward, a grey ball 1 step forward"".
+    *   This suggests the ""go forward"" action is not moving the agent, OR there's some bug in the simulation environment presented in the prompt history.
+    *   Wait, looking at the history: ""Your previous output did not contain a valid action. Defaulted to action: go forward"". This happened several times. It seems the agent's responses were formatted incorrectly (not following the `ACTION: <action>` format), so the system defaulted to `go forward`.
+    *   If the observation is *still* ""a blue key 5 steps forward, a grey ball 1 step forward"" after multiple `go forward` attempts, why is it not changing?
+    *   Possibility A: The agent is blocked.
+    *   Possibility B: The agent is moving, but the observation is stuck.
+    *   Possibility C: The agent is not moving because it's colliding with something (though no wall is mentioned forward).
+
+    *   Let's assume the environment is working now and the agent just needs to keep moving forward to reach the key.
+    *   Target: Blue key (5 steps forward).
+    *   Action: `go forward`.
+
+    *   Goal: Blue Key -> Grey Ball.
+    *   Key is 5 steps forward.
+    *   Ball is 1 step forward.
+    *   Action: `go forward`.","a wall 3 steps left
+a blue key 5 steps forward
+a grey ball 1 step forward",0,False
+14,go forward,"*   Goal: Pick up the blue key, then go to the grey ball.
+    *   Current Observation:
+        *   a wall 3 steps left
+        *   a blue key 5 steps forward
+*   Goal: Pick up the blue key, then go to the grey ball.
+    *   Current Observation:
+        *   a wall 3 steps left
+        *   a blue key 5 steps forward
+        *   a grey ball 1 step forward
+    *   Previous state analysis:
+        *   The agent has been trying to move forward.
+        *   The observation has remained static: ""a wall 3 steps left, a blue key 5 steps forward, a grey ball 1 step forward"".
+        *   Wait, the previous logs say ""Your previous output did not contain a valid action. Defaulted to action: go forward"". This means there might be a communication or formatting error, but the internal state shows the agent is stuck or the environment isn't updating as expected.
+        *   However, looking at the current observation: the grey ball is 1 step forward and the blue key is 5 steps forward.
+
+    *   Objective 1: Get the blue key.
+    *   Objective 2: Get the grey ball.
+    *   The blue key is further ahead (5 steps) than the grey ball (1 step).
+    *   I need to pick up the blue key *first*.
+
+    *   Current location: Agent is facing forward.
+    *   Blue key: 5 steps forward.
+    *   Grey ball: 1 step forward.
+    *   Action: Move forward.
+
+    *   Observation: ""a blue key 5 steps forward""
+    *   Action: `go forward` (1 step)
+    *   Expected Observation: ""a blue key 4 steps forward"" (if it moves)
+
+    *   The user prompt says ""Observation: a wall 3 steps left, a blue key 5 steps forward, a grey ball 1 step forward"" repeatedly.
+    *   It seems I've been sending `go forward` but the observation isn't changing, or there's a loop.
+    *   If the observation isn't changing, I should check if there's an obstacle. But the observation says ""a wall 3 steps left"". Nothing is in front.
+    *   Maybe I need to move past the grey ball?
+    *   Grey ball is at 1 step forward.
+    *   Blue key is at 5 steps forward.
+    *   I will move forward again. If the observation stays the same, there might be a bug in the environment or I'm not actually moving. But as an agent, I must try to move toward the target.
+
+    Wait, let's look at the history again.
+    Observation: a blue key 5 steps forward, a grey ball 1 step forward.
+    I send `go forward`.
+    The observation remains: a blue key 5 steps forward, a grey ball 1 step forward.
+    This is strange. If I move forward 1 step, the grey ball should be *below* me or behind me, and the blue key should be 4 steps forward.
+
+    Wait, is the grey ball *blocking* me? The rules say ""Once the desired object you want to interact or pickup in front of you, you can use the 'toggle' action"". The grey ball is 1 step forward. If I go forward, I will be *on top* of the grey ball.
+
+    Let's try `go forward` again. If it doesn't work, I might be stuck. But the only way to get the blue key (5 steps forward) is to pass the grey ball (1 step forward).
+
+    1.  Go forward (now at grey ball).
+    2.  Go forward (now 3 steps from blue key).
+    3.  Go forward.
+    4.  Go forward.
+    5.  Go forward (now at blue key).
+    6.  Pick up.
+    7.  Turn around.
+    8.  Go forward to grey ball.
+
+    Since I am at ""blue key 5 steps forward"" and ""grey ball 1 step forward"", I must `go forward`.
+
+    *Self-Correction:* In the previous turns, the ""Defaulted to action: go forward"" messages suggests the model's output format was wrong. Now I must use the specified format:
+    [THOUGHT]
+    [ACTION]
+    ACTION: <action>
+
+    Observation: blue key 5 steps forward, grey ball 1 step forward.
+    Action: go forward.","a wall 3 steps left
+a blue key 5 steps forward
+a grey ball 1 step forward",0,False
+15,toggle,"*   Goal: Pick up blue key, then go to grey ball.
+    *   Current Observation:
+        *   Wall: 3 steps left.
+        *   Blue key: 5 steps forward.
+        *   Grey ball: 1 step forward.
+    *   Previous sequence
+*   Goal: Pick up blue key, then go to grey ball.
+    *   Current Observation:
+        *   Wall: 3 steps left.
+        *   Blue key: 5 steps forward.
+        *   Grey ball: 1 step forward.
+    *   Previous sequence: I have been moving forward for several turns.
+    *   Wait, look at the observations closely:
+        *   Observation (previous): `a wall 3 steps left, a blue key 5 steps forward, a grey ball 1 step forward`
+        *   Observation (previous): `a wall 3 steps left, a blue key 5 steps forward, a grey ball 1 step forward`
+        *   Observation (current): `a wall 3 steps left, a blue key 5 steps forward, a grey ball 1 step forward`
+    *   The distance to the blue key and grey ball is *not* changing. This implies that `go forward` is either not working or there's something blocking the movement.
+    *   Wait, let's re-examine the situation. I've been outputting `go forward` repeatedly, and the observation remains identical.
+    *   Let's look at the most recent observation again: `a grey ball 1 step forward`.
+    *   The grey ball is in front of me. I cannot pick up the blue key if I am standing on or blocked by the grey ball.
+    *   The goal is: Blue key -> Grey ball.
+    *   The blue key is 5 steps forward. The grey ball is 1 step forward.
+    *   If I `go forward`, I should reach the grey ball. But the observation isn't updating.
+    *   Wait, the prompt says ""It doesn't make sense to repeat the same action over and over if the observation doesn't change.""
+    *   If I am 1 step away from the grey ball, and I `go forward`, I should be *on top of* the grey ball.
+    *   If I'm *on* the grey ball, it should no longer be ""1 step forward"".
+    *   Why isn't the observation changing? Maybe I can't move forward because the grey ball is in the way? Or maybe the `go forward` actions were invalid/ignored?
+    *   Let's re-read the observation: `a grey ball 1 step forward`.
+    *   Can I `toggle` the grey ball? The tips say: ""Once the desired object you want to interact or pickup in front of you, you can use the 'toggle' action to interact with it.""
+    *   But the goal is to pick up the *blue key* first.
+    *   If the grey ball is blocking my path to the blue key (which is 5 steps forward), I might need to `toggle` the grey ball to move it or interact with it to pass.
+
+    *   Let's check the state:
+        *   Target 1: Blue key (5 steps forward).
+        *   Obstacle: Grey ball (1 step forward).
+    *   Action: `go forward`. Result: Observation stays the same.
+    *   Hypothesis: The grey ball is an obstacle. I need to `toggle` it.
+
+    *   Wait, let's check the previous turns again.
+        Observation: `a grey ball 1 step forward`
+        Action: `go forward`
+        Observation: `a grey ball 1 step forward`
+        Action: `go forward` ...
+    *   The observation is absolutely frozen. This usually means the action is not moving the agent.
+    *   If `go forward` doesn't work when an object is 1 step forward, maybe I have to `toggle` it to clear the path.
+
+    *   Let's try `toggle` since the ball is ""in front of"" me (1 step forward).
+
+    *   Wait, maybe I'm already on the ball? No, it says ""1 step forward"".
+    *   Maybe the `go forward` actions were just formatted incorrectly in the previous turns (as seen in the ""Your previous output did not contain a valid action"" messages), but the most recent one should have worked.
+    *   If the last `go forward` didn't change the state, and the ball is 1 step away, it's likely a block.
+
+    *   Let's try `toggle`.
+
+    *   Wait, could I go around?
+        Wall is 3 steps left.
+        Right is clear.
+        I could `turn right`, `go forward`, `turn left`, `go forward` (several times), `turn left`, `go forward`, `turn right`.
+        But `toggle` is the intended interaction for objects in front.
+
+    *   Let's try `toggle` to see if it clears the grey ball.
+
+    *   Check Goal: Blue Key then Grey Ball.
+    *   Current: Grey ball is in the way of Blue key.
+    *   Observation: `a grey ball 1 step forward`.
+    *   Action: `toggle`.
+
+    *   Wait, let's re-read the observation one more time.
+        `a wall 3 steps left`
+        `a blue key 5 steps forward`
+        `a grey ball 1 step forward`
+    *   If I `go forward` once, I should be on the grey ball.
+    *   If I `go forward` again, I should be 4 steps from the blue key.
+    *   Since the observation hasn't changed, `go forward` is failing.
+    *   Conclusion: The grey ball must be toggled to be moved or interacted with to allow passage.
+
+    *   Wait, what if the grey ball is a button? Or a door?
+    *   ""toggle: manipulate the object in front of you.""
+    *   It's the only way to interact with an object that is not ""below"" you.
+
+    *   Let's try `toggle`.
+
+    *   Hold on, let me double check the movement again.
+        Observation: `a grey ball 1 step right`
+        Action: `turn right`
+        Observation: `a grey ball 1 step forward` (This confirms turn right worked).
+        Action: `go forward`
+        Observation: `a grey ball 1 step forward` (Wait, it should be 0 steps or ""below you"").
+        If I was at `a grey ball 1 step forward` and I `go forward`, I should now be at `a grey ball below you`.
+        But the observation stayed `a grey ball 1 step forward`.
+        This means the `go forward` command failed to move the agent.
+        Why? Because the grey ball is an object. You can't just walk ""through"" an object. You must `toggle` it or move around it.
+
+    *   Since the goal is the blue key (further ahead), I need to get past the grey ball.
+    *   Action: `toggle`.","a wall 3 steps left
+a blue key 5 steps forward
+a grey ball 1 step forward",0,False
+16,go forward,"*   Goal: Pick up the blue key, then go to the grey ball.
+    *   Current Observation:
+        *   Wall 3 steps left.
+        *   Blue key 5 steps forward.
+        *   Grey ball 1 step forward.
+    *   Previous Action: `toggle` (which did nothing because nothing was in front of the agent).
+
+    *   The agent is facing the grey ball (1 step forward) and the blue key (5 steps forward).
+    *   The agent *must* pick up the blue key first.
+    *   The blue key is 5 steps forward.
+    *   The grey ball is 1 step forward.
+
+    *   Objective: Reach the blue key.
+    *   Path: Move forward until the blue key is reached.
+    *   Current distance to blue key: 5 steps.
+    *   Current distance to grey ball: 1 step.
+    *   If I move forward 1 step, I'll be on top of the grey ball.
+    *   If I move forward 5 steps, I'll be on top of the blue key.
+
+    *   Action: `go forward`.
+
+    *   The agent has been stuck in a loop of ""go forward"" and ""Observation: a wall 3 steps left, a blue key 5 steps forward, a grey ball 1 step forward"". This suggests a potential issue with the environment or the agent's movements, but as an agent, I must keep trying to move toward the goal.
+    *   Wait, the observation is *identical* across multiple turns despite `go forward` being called.
+    *   If `go forward` isn't changing the observation, maybe there's an obstacle? But the observation says ""blue key 5 steps forward"" and ""grey ball 1 step forward"". There is no wall in front.
+    *   Let's re-examine: ""a wall 3 steps left"", ""a blue key 5 steps forward"", ""a grey ball 1 step forward"".
+    *   If `go forward` didn't work, perhaps I am blocked? Or perhaps the game simulation is lagged?
+    *   Actually, looking at the prompt history, the agent repeatedly sent `go forward` and the observation stayed exactly the same.
+    *   Wait, looking closer at the prompt: ""Your previous output did not contain a valid action. Defaulted to action: go forward"". This suggests the agent provided something the system didn't recognize as a command.
+    *   Regardless, the current observation is:
+        *   Blue key 5 steps forward.
+        *   Grey ball 1 step forward.
+    *   The goal is the blue key. I must move forward.
+
+    *   Action: `go forward`.
+
+    (Self-Correction): If `go forward` is repeatedly failing to change the observation, is it possible I am facing a wall not mentioned? No, the observation says ""a wall 3 steps left"". Forward is clear.
+    Maybe I need to move *past* the grey ball?
+    Distance to grey ball: 1.
+    Distance to blue key: 5.
+    Move forward 1 step -> I am at the grey ball.
+    Move forward 4 more steps -> I am at the blue key.
+
+    Let's try `go forward` again.","a wall 3 steps left
+a blue key 5 steps forward
+a grey ball 1 step forward",0,False
+17,turn right,"*   Goal: Pick up blue key, then go to grey ball.
+    *   Current Observation:
+        *   Wall: 3 steps left.
+        *   Blue key: 5 steps forward.
+        *   Grey ball: 1 step forward.
+    *   Previous Action: `go forward`.
+    *   Issue: The observations for the last several steps have been identical (""a wall 3 steps left, a blue key 5 steps forward, a grey ball 1 step forward""). This suggests I am either stuck or the `go forward` action is not moving me closer to the blue key (which is 5 steps forward). Wait, if I move forward, the distance to the blue key should decrease. If it remains 5 steps forward, I'm not moving.
+
+    *   Looking at the history:
+        *   `go forward` -> Observation stays the same.
+        *   `go forward` -> Observation stays the same.
+        *   `toggle` -> Observation stays the same.
+        *   `go forward` -> Observation stays the same.
+    *   This indicates a problem. Why isn't the agent moving?
+    *   Possible reasons:
+        1.  Blocked by an invisible object?
+        2.  At the edge of the map?
+        3.  The ""grey ball"" is actually in the way? The grey ball is 1 step forward. Maybe I need to interact with it or move around it?
+        4.  The environment is not updating?
+
+    *   Wait, if the grey ball is 1 step forward, it might be blocking the path to the blue key (which is 5 steps forward).
+    *   If `go forward` is not working, maybe I need to move around the grey ball.
+    *   Let's try to turn right or left to see if I can bypass the grey ball.
+
+    *   Goal 1: Get the blue key.
+    *   Observation: Blue key is 5 steps forward. Grey ball is 1 step forward.
+    *   Obstacle: Grey ball.
+    *   Action tried: `go forward`. Result: No change.
+    *   Hypothesis: Grey ball blocks forward movement.
+    *   Proposed solution: Move around the grey ball.
+    *   Current State:
+        *   Forward: Grey ball (1), Blue key (5).
+        *   Left: Wall (3).
+        *   Right: ?
+    *   Strategy: Turn right, go forward one step, turn left, go forward until past the ball, turn left, go forward one step, turn right.
+
+    *   Let's try `turn right` to see the environment from a different angle.
+
+    *   Observation:
+        - Wall 3 steps left
+        - Blue key 5 steps forward
+        - Grey ball 1 step forward
+    *   `go forward` failed to change the observation.
+    *   `toggle` did nothing.
+    *   The grey ball is 1 step forward. It is likely the obstacle.
+    *   Try `turn right`.","a wall 4 steps forward
+a wall 1 step right
+a grey ball 1 step left",0,False
+18,go forward,"*   Goal: Pick up the blue key, then go to the grey ball.
+    *   Current Status: I have not yet picked up the blue key (based on previous turns, I was attempting to reach it but seemed stuck in a loop or facing issues).
+    *   Current Observation:
+        *   Wall: 4 steps forward.
+        *   Wall: 1 step right.
+        *   Grey ball: 1 step left.
+
+    *   Wait, looking back at the history:
+        *   The agent was facing a direction where a blue key was 5 steps forward and a grey ball was 1 step forward.
+        *   The agent tried `go forward` multiple times, but the observation didn't change (""a blue key 5 steps forward, a grey ball 1 step forward"").
+        *   This suggests the agent might have hit an invisible wall or was blocked.
+        *   Then the agent tried `toggle` (no change).
+        *   Then the agent tried `go forward` (no change).
+        *   Then the agent tried `turn right`.
+    *   Now the observation is:
+        *   Wall: 4 steps forward.
+        *   Wall: 1 step right.
+        *   Grey ball: 1 step left.
+
+    *   Goal 1: Blue Key.
+    *   Goal 2: Grey Ball.
+    *   The blue key is not mentioned in the current observation. I need to find it.
+    *   Previous observation (before `turn right`): Blue key 5 steps forward, grey ball 1 step forward.
+    *   After `turn right`:
+        *   Original Forward (where blue key was 5 steps away) is now Right.
+        *   Original Left (where wall was 3 steps away) is now Forward.
+        *   Original Right (where nothing was mentioned) is now Left.
+        *   Wait, if I turned right:
+            *   Forward -> Right
+            *   Right -> Back
+            *   Back -> Left
+            *   Left -> Forward
+        *   Observation says: Wall 4 steps forward, wall 1 step right, grey ball 1 step left.
+        *   If the grey ball was 1 step forward before turning right, it should now be 1 step right. But it's 1 step left. This implies the previous state's ""forward"" is now the agent's ""left"". This matches a `turn right` action.
+        *   If the blue key was 5 steps forward before turning right, it should now be 5 steps right.
+        *   The current observation doesn't list the blue key. This might mean it's blocked by the wall at 1 step right.
+
+    *   I need to get to the blue key. It should be to my right (based on the logic above), but there's a wall 1 step right.
+    *   I can't go through the wall.
+    *   I should probably move forward to get around the wall or turn back.
+    *   Let's check the observation again: ""a wall 4 steps forward, a wall 1 step right, a grey ball 1 step left"".
+    *   If I want to reach the blue key (which was 5 steps forward, now 5 steps right), and there's a wall at 1 step right, I need to move forward first to bypass the wall.
+
+    *   Current Observation: Wall 4 forward, Wall 1 right, Grey ball 1 left.
+    *   Goal: Blue key.
+    *   Strategy: Move forward to clear the wall on the right, then turn right to find the key.
+
+    *   Action: `go forward`.","a wall 3 steps forward
+a wall 1 step right",0,False
+19,turn left,"The goal is to pick up the blue key, then go to the grey ball.
+
+    *   Current Observation: a wall 3 steps forward, a wall 1 step right.
+    *   Previous Action: `go forward`.
+    *   Prior History (from logs):
+        *   The agent was moving towards the blue key.
+        *   The agent saw a blue key 5 steps forward and a grey ball 1 step forward.
+        *   The agent tried `go forward` multiple times, but the observation didn't change (stuck?).
+        *   The agent tried `toggle` (no effect).
+        *   The agent tried `turn right` (new observation: wall 4 forward, wall 1 right, grey ball 1 left).
+        *   The agent then tried `go forward` (current observation: wall 3 forward, wall 1 right).
+
+    *   Previous state: Wall 4 forward, wall 1 right, grey ball 1 left.
+    *   Action: `go forward`.
+    *   New state: Wall 3 forward, wall 1 right. (The grey ball is no longer mentioned, meaning it's now behind or to the side, likely still to the left).
+
+    *   I haven't picked up the blue key yet.
+    *   I need to find the blue key.
+    *   Wait, let's look back at the state before `turn right`.
+        *   State: `a wall 3 steps left`, `a blue key 5 steps forward`, `a grey ball 1 step forward`.
+        *   The agent tried `go forward` but the observation didn't change for several turns. This usually means the agent is blocked by something (maybe the grey ball?).
+        *   Then the agent tried `turn right`. Now facing a different direction.
+
+    *   Current observation: `a wall 3 steps forward`, `a wall 1 step right`.
+    *   The grey ball was 1 step left (relative to the state before the last `go forward`).
+    *   The blue key was 5 steps forward (relative to the state before the last `turn right`).
+
+    Let's re-orient:
+    1.  Initial (last stable): Forward -> Blue Key (5), Forward -> Grey Ball (1), Left -> Wall (3).
+    2.  Action: `turn right`.
+    3.  Observation: Forward -> Wall (4), Right -> Wall (1), Left -> Grey Ball (1).
+    4.  Action: `go forward`.
+    5.  Observation: Forward -> Wall (3), Right -> Wall (1). (Grey ball is now behind/side).
+
+    The agent is currently walking away from the grey ball and the blue key.
+    The blue key was ""forward"" before the `turn right`. After `turn right`, that ""forward"" direction became ""left"".
+    So, the blue key should be to the left.
+
+    Current position:
+    - Wall 3 forward.
+    - Wall 1 right.
+    - (Implicitly) Grey ball is behind/left.
+    - Blue key is likely to the left (since it was forward before the turn right).
+
+    Let's check the directions again.
+    Before `turn right`: Blue Key 5 forward.
+    After `turn right`: The direction that was forward is now left.
+    So Blue Key is to the left.
+
+    Wait, the agent has been stuck in a loop of `go forward` without the observation changing.
+    Observation: `a wall 3 steps left, a blue key 5 steps forward, a grey ball 1 step forward`.
+    `go forward` -> no change.
+    `go forward` -> no change.
+    This implies the agent cannot move forward because the grey ball (1 step forward) is blocking the path.
+
+    To get to the blue key (5 steps forward), the agent must first deal with the grey ball (1 step forward).
+    The agent can `toggle` the grey ball or move around it.
+    However, the goal is to pick up the blue key *first*, then go to the grey ball.
+    If the grey ball is blocking the way, the agent needs to go around it.
+
+    Let's evaluate the current state again:
+    The agent turned right and moved forward one step.
+    Relative to the ""blocking"" grey ball:
+    - Agent was at (0,0) facing North. Grey ball at (0,1). Blue key at (0,5).
+    - Agent `turn right`. Now facing East.
+    - Agent `go forward`. Now at (1,0) facing East.
+    - Now, the Grey ball is at (-1, 1) relative to the agent? No.
+    - Let's use coordinates:
+        - Start: Agent(0,0), Facing: N. Grey Ball: (0,1). Blue Key: (0,5).
+        - Action: `turn right`. Facing: E.
+        - Action: `go forward`. Agent(1,0), Facing: E.
+        - Observation: Wall 3 forward (at 4,0), Wall 1 right (at 1,-1).
+        - Grey Ball is at (0,1). Relative to Agent(1,0) facing E: it is 1 step back, 1 step left.
+
+    To get to the Blue Key (0,5):
+    From (1,0) facing E:
+    - Turn left (now facing N).
+    - Go forward 5 steps? No, (0,5) is 1 step left and 5 steps forward from (1,0) facing N.
+    - Wait, if Agent is at (1,0) facing N: Blue key is at (0,5). That's 1 step left and 5 steps forward.
+
+    Is there a simpler way?
+    If the agent turns left now (facing North):
+    Observation might be: Blue key 5 steps forward, Wall 1 step left? Or Grey ball 1 step forward?
+    Wait, if the agent is at (1,0) facing North, the Grey ball is at (0,1). That's 1 step left and 1 step forward.
+    The Blue key is at (0,5). That's 1 step left and 5 steps forward.
+
+    Let's try to get back to the line where the key is.
+    Current: (1,0) facing East.
+    Action: `turn left`. (Facing North).
+    Action: `go forward` 5 times.
+    Action: `turn left`. (Facing West).
+    Action: `go forward` 1 time.
+    Action: `pick up`.
+
+    Alternative:
+    Current: (1,0) facing East.
+    Action: `turn left`. (Facing North).
+    Action: `turn left`. (Facing West).
+    Action: `go forward` 1 time. (Now at 0,0 facing West).
+    Action: `turn right`. (Facing North).
+    Action: `go forward` 5 times. (Now at 0,5).
+    Action: `pick up`.
+
+    But wait, the grey ball was at (0,1). If I go to (0,0) and face North, I'll hit the grey ball again at (0,1).
+    I need to go *around* the grey ball.
+
+    Current: (1,0) facing East.
+    1. `go forward` (towards the wall at 4,0). Let's say I move to (2,0).
+    2. `turn left` (Facing North).
+    3. `go forward` 5 steps (to 2,5).
+    4. `turn left` (Facing West).
+    5. `go forward` 2 steps (to 0,5).
+    6. `pick up`.
+
+    Let's see if I can just move forward more.
+    Current observation: `a wall 3 steps forward, a wall 1 step right`.
+    If I `go forward` 3 times, I hit a wall.
+    If I `turn left`, I face North.
+
+    Let's try `turn left` first to see where I am.
+
+    Wait, the agent already did `turn right` then `go forward`.
+    Observation was: `a wall 3 steps forward, a wall 1 step right`.
+    Let's try `go forward` again to get further away from the blocking grey ball.
+
+    Wait, if I just `turn left` now:
+    Current: (1,0) facing East.
+    `turn left` -> facing North.
+    Blue key is at (0,5). Grey ball at (0,1).
+    Observation would likely be: Grey ball 1 step left, 1 step forward. Blue key 1 step left, 5 steps forward.
+
+    Actually, the most direct way to avoid the ball at (0,1) while at (1,0) is to keep moving East, then North, then West.
+
+    Let's try `go forward` again to clear the x-coordinate of the grey ball.
+    Current: (1,0). Grey ball: (0,1).
+    I am already at x=1. I can just move North.
+    If I move North from (1,0), I'll be at (1,1), (1,2)... (1,5).
+    Then turn West and move to (0,5).
+
+    Let's try `turn left` and see the observation.
+
+    Wait, look at the prompts. The agent has been stuck in a loop.
+    `go forward` (no change)
+    `go forward` (no change)
+    `turn right`
+    `go forward`
+    Observation: `a wall 3 steps forward, a wall 1 step right`.
+
+    Let's try to move further forward to be safe, then turn left.
+    Actually, `turn left` is a good way to probe the environment.
+
+    Let's re-verify:
+    Initial: Grey Ball (0,1), Blue Key (0,5), Agent (0,0) facing N.
+    Action: `turn right` -> Facing E.
+    Action: `go forward` -> Agent (1,0) facing E.
+    Action: `go forward` (current action candidate) -> Agent (2,0) facing E.
+    Action: `turn left` -> Facing N.
+    Action: `go forward` 5 times -> Agent (2,5) facing N.
+    Action: `turn left` -> Facing W.
+    Action: `go forward` 2 times -> Agent (0,5) facing W.
+    Action: `pick up`.
+
+    This seems like a solid plan to bypass the grey ball.
+
+    Is there a shorter way?
+    At (1,0) facing E:
+    `turn left` (Facing N)
+    `go forward` 5 times (Agent 1,5)
+    `turn left` (Facing W)
+    `go forward` 1 time (Agent 0,5)
+    `pick up`.
+
+    This is shorter. Let's try `turn left` first.
+
+    Wait, look at the last observation again: `a wall 3 steps forward, a wall 1 step right`.
+    If I `turn left`, I'll face North.
+    If I `go forward`, I'm moving East.
+
+    Let's try `turn left`.
+
+    One more check: The goal is Blue Key then Grey Ball.
+    The agent must pick up the key first.
+    The grey ball is currently blocking the path.
+
+    [THOUGHT]
+    The agent is currently facing East (after a `turn right` and `go forward`).
+    The blue key was previously 5 steps forward (North).
+    The grey ball was 1 step forward (North) and is currently blocking the path.
+    The agent has moved to the right (East) to bypass the grey ball.
+    The agent is now at a position where it can move North, then West, to reach the blue key without being blocked by the grey ball.
+    The current observation is: `a wall 3 steps forward, a wall 1 step right`.
+    The best next move is to turn left to face North.
+
+    [ACTION] turn left","a wall 6 steps forward
+a wall 3 steps right
+a blue key 1 step left and 5 steps forward
+a grey ball 1 step left and 1 step forward",0,False
+20,turn left,"The goal is to pick up the blue key first, then go to the grey ball.
+
+    *   Wall: 6 steps forward.
+    *   Wall: 3 steps right.
+    *   Blue key: 1 step left AND 5 steps forward.
+    *   Grey ball: 1 step left AND 1 step forward.
+
+    *   To reach the blue key (1 step left, 5 steps forward), I need to move towards it.
+    *   Since the blue key is 1 step left and 5 steps forward, the most efficient way to get there is to turn left first or go forward first.
+    *   If I turn left, the blue key will be 1 step forward and 5 steps right.
+    *   If I go forward, the blue key will be 1 step left and 4 steps forward.
+
+    *   Objective: Reach the blue key.
+    *   Path: Turn left, go forward 1 step, turn right, go forward 5 steps.
+    *   Alternatively: Go forward 5 steps, turn left, go forward 1 step.
+    *   Or: Turn left, go forward 1 step, turn right, go forward 5 steps.
+    *   Let's try turning left first to align with the offset.
+
+    *   Blue key position: (Left: 1, Forward: 5)
+    *   Action: `turn left`
+    *   New position of Blue key: (Forward: 1, Right: 5)
+
+    Wait, if I go forward 5 steps first:
+    *   Action: `go forward`
+    *   New position of Blue key: (Left: 1, Forward: 4)
+    *   ... repeat until Forward is 0, then Turn Left, Go Forward 1.
+
+    Let's start by turning left.","a wall 4 steps forward
+a wall 1 step left
+a grey ball 1 step right and 1 step forward",0,False
+21,go forward,"The objective is to pick up the blue key and then go to the grey ball.
+
+    *   A wall is 4 steps forward.
+    *   A wall is 1 step left.
+    *   A grey ball is 1 step right and 1 step forward.
+    *   (Note: The blue key is not mentioned in the current observation, but I need to find it first).
+
+    *   Previous actions involved moving forward and turning.
+    *   The agent seems to have been moving around and is now facing a wall 4 steps ahead, with a grey ball nearby (1 right, 1 forward).
+    *   Crucially, I haven't picked up the blue key yet.
+
+    *   The current observation does not list the blue key.
+    *   Looking back at previous observations:
+        *   Earlier, it was ""a blue key 5 steps forward"".
+        *   Later, it was ""a blue key 1 step left and 5 steps forward"".
+    *   The agent has been turning and moving.
+
+    *   Goal 1: Pick up blue key.
+    *   Goal 2: Go to grey ball.
+    *   Since the blue key is not in the immediate vicinity (not mentioned in the current observation), I need to locate it or return to where it was seen.
+    *   Current observation:
+        *   Wall: 4 steps forward.
+        *   Wall: 1 step left.
+        *   Grey ball: 1 step right, 1 step forward.
+    *   Wait, if the blue key is not visible, I need to explore or remember its location.
+    *   Previous state: ""a blue key 1 step left and 5 steps forward"" (when facing a specific direction).
+    *   Last action was `turn left`.
+    *   Current state is after that `turn left`.
+    *   If the blue key was 1 step left and 5 steps forward, and I just turned left, it should now be roughly 1 step forward and 5 steps left? No, let's re-calculate.
+    *   Before `turn left`:
+        - Forward: Wall (6 steps)
+        - Right: Wall (3 steps)
+        - Left: Blue key (1 step left, 5 steps forward)
+        - Left: Grey ball (1 step left, 1 step forward)
+    *   After `turn left`:
+        - The previous ""Left"" becomes the new ""Forward"".
+        - Previous ""Forward"" becomes the new ""Right"".
+        - Previous ""Right"" becomes the new ""Back"".
+        - Previous ""Back"" becomes the new ""Left"".
+    *   Wait, if the blue key was (1 left, 5 forward), then turning left makes it (5 forward, 1 right)? Let's check the observation.
+    *   Current Observation: ""a wall 4 steps forward, a wall 1 step left, a grey ball 1 step right and 1 step forward"".
+    *   The grey ball was (1 left, 1 forward). After turning left, it should be (1 forward, 1 right). This matches the observation: ""a grey ball 1 step right and 1 step forward"".
+    *   The blue key was (1 left, 5 forward). After turning left, it should be (5 forward, 1 right).
+    *   The current observation says ""a wall 4 steps forward"". This means there's a wall blocking the path to where the blue key might be (at 5 forward, 1 right).
+
+    *   The blue key was 1 step left and 5 steps forward before the turn. Now it's (most likely) 5 steps forward and 1 step right. But there's a wall at 4 steps forward.
+    *   To get to (5 forward, 1 right), I should go forward and then right, or right and then forward.
+    *   Let's try to move towards the area where the key is.
+    *   Since the key is roughly to the right (1 step right, 5 steps forward), I should try to move in that direction.
+    *   Action: Go forward or Turn right.
+    *   If I go forward, I'll be at (1 forward, 0 right). The ball is at (1 forward, 1 right).
+    *   Let's move forward to get closer to the key's general area.
+
+    *   Blue key: (roughly) 5 forward, 1 right.
+    *   Grey ball: 1 forward, 1 right.
+    *   Wall: 4 forward.
+    *   Wall: 1 left.
+    *   If I go forward 3 steps, I'll be 1 step away from the wall and 2 steps away from the key's depth.
+
+    *   Wait, if the blue key is 5 forward and 1 right, and there is a wall 4 forward, I cannot go forward 5 steps. I must move right first or move forward and then right.
+    *   Let's try `turn right` to see if the key becomes more visible or to move towards it. Or just `go forward`.
+    *   Let's check the distance again. Ball is 1 right, 1 forward. Key was 1 left, 5 forward (before turn). Now key is 5 forward, 1 right.
+    *   Wait, if I go forward, I get closer to both. Let's try `go forward`.
+
+    *Self-Correction:* If I go forward, I move towards the wall. If the key is at (5, 1) and wall is at (4, 0), the wall is not necessarily blocking the key at (5, 1).
+
+    Let's try `go forward`.","a wall 3 steps forward
+a wall 1 step left
+a grey ball 1 step right",0,False
+22,,,"
+
+Your previous output did not contain a valid action. Defaulted to action: go forward
+
+Observation:
+a wall 2 steps forward
+a wall 1 step left",0,False
+23,,,"
+
+Your previous output did not contain a valid action. Defaulted to action: go forward
+
+Observation:
+a wall 1 step forward
+a wall 1 step left",0,False
+24,turn right,"The goal is to pick up the blue key and then go to the grey ball.
+
+    *   Observation: a wall 1 step forward, a wall 1 step left.
+    *   Wait, the history shows a sequence of moves. Let's trace back where I am.
+    *   Previous states (roughly):
+        *   Observation: a wall 3 steps left, blue key 5 forward, grey ball 1 forward.
+        *   I moved forward multiple times.
+        *   Eventually, I turned right.
+        *   Then I turned left.
+        *   Then I turned left again.
+        *   Then I moved forward.
+        *   Now I'm at: a wall 1 step forward, a wall 1 step left.
+
+    *   Goal 1: Blue key.
+    *   Goal 2: Grey ball.
+    *   Last known location of blue key: ""a blue key 1 step left and 5 steps forward"" (when facing a wall 6 steps forward).
+    *   Last known location of grey ball: ""a grey ball 1 step right"" (when facing a wall 3 steps forward, 1 step left).
+
+    *   Current Observation: ""a wall 1 step forward, a wall 1 step left"".
+    *   I am currently stuck against a wall in front and a wall to the left.
+    *   I need to find the blue key.
+    *   I don't have the key yet.
+    *   Looking at the walls, I can't go forward or left.
+    *   I can turn right or go back (though there's no 'go back' action, only turn and go forward).
+
+    *   The environment seems to be a grid.
+    *   I need to navigate to the blue key.
+    *   Let's try turning right to see where I am.
+
+    *   Action: `turn right`
+
+    *   Is there a better action?
+    *   Turn left? No, wall is there.
+    *   Go forward? No, wall is there.
+    *   Toggle? No object in front.
+    *   Pick up? No object below.
+    *   Turn right is the only logical movement.","a wall 6 steps forward
+a wall 1 step left
+a blue key 2 steps right and 5 steps forward
+a grey ball 2 steps right and 1 step forward",0,False
+25,turn right,"*   Goal: Pick up the blue key, then go to the grey ball.
+    *   Current Observation:
+        *   Wall: 6 steps forward
+        *   Wall: 1 step left
+        *   Blue key: 2 steps right and 5 steps forward
+        *   Grey ball: 2 steps right and 1 step forward
+    *   Current Status: Not holding the blue key.
+
+    *   Priority 1: Find and pick up the blue key.
+    *   Priority 2: Go to the grey ball.
+
+    *   The blue key is at (2 right, 5 forward).
+    *   The grey ball is at (2 right, 1 forward).
+    *   To get to the blue key, I need to move right and then move forward (or vice versa).
+
+    *   Since the key is 2 steps right and 5 steps forward:
+        *   Option 1: Turn right, move forward 2 steps, turn left, move forward 5 steps.
+        *   Option 2: Move forward 5 steps, turn right, move forward 2 steps. (Wait, if I move forward 5 steps, I might hit a wall or the ball is in the way).
+    *   Check surroundings: There is a wall 1 step left. No wall mentioned directly to the right (except the general surroundings).
+    *   Action: Turn right to start moving towards the coordinate (2 right).
+
+    *   Is ""turn right"" the best first step? Yes, it orientates the agent towards the direction of the key.
+
+    *   [THOUGHT] I need to pick up the blue key first. The blue key is 2 steps right and 5 steps forward. I will turn right to move in that direction.
+    *   [ACTION] turn right","a wall 6 steps forward
+a wall 1 step right
+a grey ball 1 step left and 2 steps forward",0,False
+26,,,"
+
+Your previous output did not contain a valid action. Defaulted to action: go forward
+
+Observation:
+a wall 5 steps forward
+a wall 1 step right
+a grey ball 1 step left and 1 step forward",0,False
+27,turn right,"*   Goal: Pick up the blue key, then go to the grey ball.
+    *   Current status: Haven't picked up
+*   Goal: Pick up the blue key, then go to the grey ball.
+    *   Current status: Haven't picked up the blue key yet.
+    *   Current observation:
+        *   Wall 5 steps forward.
+        *   Wall 1 step right.
+        *   Grey ball 1 step left and 1 step forward.
+    *   Wait, where is the blue key? Looking back at the previous observations:
+        *   Observation before last: ""a wall 6 steps forward, a wall 1 step left, a blue key 2 steps right and 5 steps forward, a grey ball 2 steps right and 1 step forward"".
+        *   Last action: `turn right` (then a default `go forward` happened).
+        *   Now: ""a wall 5 steps forward, a wall 1 step right, a grey ball 1 step left and 1 step forward"".
+    *   If I am facing forward and the grey ball is 1 step left and 1 step forward, the blue key (which was 2 steps right and 5 steps forward relative to the *previous* orientation) should now be relative to the *new* orientation.
+    *   Previous orientation (facing North-ish): Key at (+2, +5).
+    *   Action: `turn right` (facing East-ish). New relative: Key at (+5, -2).
+    *   Action: `go forward` (moved 1 step East). New relative: Key at (+4, -2).
+    *   Wait, the observation provided now says: ""a wall 5 steps forward, a wall 1 step right, a grey ball 1 step left and 1 step forward"". It doesn't mention the blue key. This suggests the blue key might be behind me or out of sight, or the observation is incomplete.
+    *   Let's re-examine the map.
+        *   Obs 1: Blue key (0, 5), Grey ball (0, 1). (Facing North)
+        *   Action: `go forward` (x3). Pos: (0, 3). Key (0, 2), Ball (0, -2).
+        *   Action: `toggle`. (No change)
+        *   Action: `go forward`. Pos: (0, 4). Key (0, 1), Ball (0, -3).
+        *   Action: `turn right`. (Facing East)
+        *   Observation: Wall (4, 0), Wall (0, 1), Ball (-4, 0). Wait, the prompt says ""a grey ball 1 step left"". Let's re-read.
+        *   Observation: ""a wall 4 steps forward, a wall 1 step right, a grey ball 1 step left"". (Facing East). Ball is at (-1, 0).
+        *   Action: `go forward`. Pos: (1, 4). Wall (3, 0), Wall (0, 1). (Facing East).
+        *   Action: `turn left`. (Facing North).
+        *   Observation: ""a wall 6 steps forward, a wall 3 steps right, a blue key 1 step left and 5 steps forward, a grey ball 1 step left and 1 step forward"". (Facing North). Pos: (1, 4). Key: (0, 9), Ball: (0, 5).
+        *   Action: `turn left`. (Facing West).
+        *   Observation: ""a wall 4 steps forward, a wall 1 step left, a grey ball 1 step right and 1 step forward"". (Facing West). Pos: (1, 4). Ball: (2, 5). Wait, this is confusing. Let's just stick to the immediate observation.
+
+    *   Current Observation:
+        *   Wall 5 steps forward.
+        *   Wall 1 step right.
+        *   Grey ball 1 step left and 1 step forward.
+    *   Goal: Blue key first.
+    *   The blue key isn't in the current observation. Let's look at the previous one: ""a wall 6 steps forward, a wall 1 step left, a blue key 2 steps right and 5 steps forward, a grey ball 2 steps right and 1 step forward"".
+    *   Then I turned right and went forward.
+    *   If I was facing North, and the key was at (2, 5), and I turned right (now facing East) and went forward 1 step, the key is now at (x=4, y=-2) relative to me.
+    *   Looking at current obs: ""a wall 5 steps forward, a wall 1 step right, a grey ball 1 step left and 1 step forward"".
+    *   Wait, the grey ball is at (-1, 1).
+    *   I need to find the blue key. If I turned right and the ball is now at (-1, 1), it means I'm facing roughly towards the ball's area but the key is likely behind me or to my right.
+    *   Let's try to orient myself to find the key. I'll turn around or turn right to see if the key appears.
+    *   Actually, let's re-read the ""turn right"" observation: ""a wall 6 steps forward, a wall 1 step left, a blue key 2 steps right and 5 steps forward, a grey ball 2 steps right and 1 step forward"".
+    *   Then I `turn right`. Now I'm facing the direction where the key was ""right"".
+    *   So the key should be roughly in front of me (since ""right"" became ""forward"").
+    *   Observation after `turn right` and `go forward`: ""a wall 5 steps forward, a wall 1 step right, a grey ball 1 step left and 1 step forward"".
+    *   If I turned right, the ""right"" (where the key was) is now ""forward"". So the key should be forward. But the observation says ""a wall 5 steps forward"". This means the key is either behind the wall or the wall is the key? No.
+    *   Let's try to find the key again. I'll turn left to face the previous direction.
+
+    *   Current Observation:
+        *   Wall 5 steps forward.
+        *   Wall 1 step right.
+        *   Grey ball 1 step left and 1 step forward.
+    *   If the ball is 1 left, 1 forward, and I want the key, and the key was ""2 steps right and 5 steps forward"" relative to the orientation *before* the last `turn right`...
+    *   Previous: North. Key: (+2, +5). Ball: (+2, +1).
+    *   Action: `turn right`. Now facing East. Relative Key: (+5, -2). Relative Ball: (+1, -2).
+    *   Action: `go forward`. Now at (1, 0) relative to old. Relative Key: (+4, -2). Relative Ball: (+0, -2).
+    *   Current Observation: Ball is 1 left, 1 forward. This contradicts my mental map.
+    *   Let's ignore the mental map and look at the provided observations.
+    *   Last Observation: ""a wall 5 steps forward, a wall 1 step right, a grey ball 1 step left and 1 step forward"".
+    *   Blue key is missing. I must find the blue key.
+    *   I will turn right to see if the key is in that direction.
+
+    *   Wait, if the ball is ""1 step left and 1 step forward"", and in the previous observation the ball was ""2 steps right and 1 step forward"" and I turned right...
+    *   Previous (Facing North): Ball at (2, 1).
+    *   Turn Right (Facing East): Ball at (1, -2).
+    *   Go Forward (1 step): Ball at (0, -2).
+    *   The current observation says ""grey ball 1 step left and 1 step forward"". This implies my facing has changed again or the ball moved.
+    *   Let's try turning right.
+
+    *   Wait, look at the pattern: the agent has been wandering. Let's try to find the blue key.
+    *   If I turn right, I might see the key.
+
+    *   Observation: Wall 5 forward, Wall 1 right, Grey ball 1 left, 1 forward.
+    *   Action: turn right.","a wall 1 step forward
+a wall 2 steps right",0,False
+28,turn left,"*   Goal: Pick up the blue key, then go to the grey ball.
+    *   Current Observation:
+        *   Wall 1 step forward.
+        *   Wall 2 steps right.
+    *   Previous sequence of events:
+        *   I have been wandering/turning.
+        *   I haven't picked up the blue key yet.
+        *   The blue key was seen previously at ""2 steps right and 5 steps forward"" and ""1 step left and 5 steps forward"" relative to various positions.
+    *   Current state: Facing a wall 1 step ahead and another wall 2 steps to the right.
+
+    *   Immediate Goal: Find and pick up the blue key.
+    *   Current position relative to targets: Not explicitly stated in the *Current Observation*, but looking at the *Current Observation*, I'm blocked in front and right.
+
+    *   Forward: Wall (1 step).
+    *   Right: Wall (2 steps).
+    *   Left: Open (presumably).
+    *   Backward: Open (presumably).
+
+    *   I need to explore to find the blue key.
+    *   Since forward and right are blocked, turning left or turning around (turn right twice or turn left twice) is necessary.
+    *   Turning left seems like the best move to see what's in that direction.
+
+    *   Observation: a wall 1 step forward, a wall 2 steps right.
+    *   If I turn left, I will face the direction that was previously to my left.
+    *   If I turn right, I'll face the wall that is 2 steps right.
+
+    Let's try turning left to open up the space.","a wall 5 steps forward
+a wall 1 step right
+a grey ball 1 step left and 1 step forward",0,False
+29,,,"
+
+Your previous output did not contain a valid action. Defaulted to action: go forward
+
+Observation:
+a wall 4 steps forward
+a wall 1 step right
+a grey ball 1 step left",0,False
+30,,,"
+
+Your previous output did not contain a valid action. Defaulted to action: go forward
+
+Observation:
+a wall 3 steps forward
+a wall 1 step right",0,False
+31,turn left,"The goal is to pick up the blue key first, then
+The goal is to pick up the blue key first, then go to the grey ball.
+
+    *   Current observation: ""a wall 3 steps forward"", ""a wall 1 step right"".
+    *   Recent history: The agent has been wandering and seems lost. It previously saw a blue key and a grey ball but failed to reach them.
+    *   The most recent observations before the ""invalid action"" loop were:
+        *   ""a wall 4 steps forward"", ""a wall 1 step right"", ""a grey ball 1 step left"".
+        *   Now: ""a wall 3 steps forward"", ""a wall 1 step right"". (It seems it moved forward one step).
+
+    *   Blue Key: Not currently in observation.
+    *   Grey Ball: Not currently in observation (it was 1 step left in the previous valid observation, but after moving forward, it's gone from the current immediate vicinity, or the agent moved past it).
+
+    *   The agent needs the blue key.
+    *   Let's look back at where the blue key was last seen:
+        *   Observation: ""a wall 6 steps forward"", ""a wall 1 step left"", ""a blue key 2 steps right and 5 steps forward"", ""a grey ball 2 steps right and 1 step forward"".
+    *   The agent is currently facing a wall 3 steps forward and a wall 1 step right.
+
+    *   Since the key is not visible, the agent needs to explore or turn to find it.
+    *   Current state: Wall 3 steps forward, Wall 1 step right.
+    *   If I turn left, I might see more of the room.
+
+    *   Action: `turn left`
+
+    *   Wall ahead (3 steps), wall to the right (1 step).
+    *   Turning left will change the orientation to see what's on the left side.","a wall 6 steps forward
+a wall 3 steps right
+a blue key 1 step left and 5 steps forward
+a grey ball 1 step left and 1 step forward",0,False
+32,,,"
+
+Your previous output did not contain a valid action. Defaulted to action: go forward
+
+Observation:
+a wall 5 steps forward
+a wall 3 steps right
+a blue key 1 step left and 4 steps forward
+a grey ball 1 step left",0,False
+33,,,"
+
+Your previous output did not contain a valid action. Defaulted to action: go forward
+
+Observation:
+a wall 4 steps forward
+a wall 3 steps right
+a blue key 1 step left and 3 steps forward",0,False
+34,,,"
+
+Your previous output did not contain a valid action. Defaulted to action: go forward
+
+Observation:
+a wall 3 steps forward
+a wall 3 steps right
+a blue key 1 step left and 2 steps forward",0,False
+35,go forward,"The objective is to pick up the blue key, then go to the grey ball.
+
+    *   Wall 3 steps forward.
+    *   Wall 3 steps right.
+    *   Blue key: 1 step left and 2 steps forward.
+    *   (Grey ball position not mentioned in the latest observation, but it was previously 1 step left and 1 step forward in a similar position).
+
+    *   Target: Blue key (1 step left and 2 steps forward).
+    *   Current orientation: Facing forward.
+    *   To reach the blue key, I need to turn left and move.
+
+    *   Turn left.
+    *   Then move forward (eventually) to reach the blue key.
+    *   Wait, if the blue key is 1 step left and 2 steps forward, turning left first puts it in front of me (2 steps forward and 1 step right? No).
+    *   Let's re-calculate:
+        *   Current position: (0,0), Facing: North.
+        *   Blue key: (-1, 2).
+        *   If I turn left, I face West. The key is at (1 step forward, 2 steps right) relative to West? No.
+        *   If I turn left, I face West. Relative to West, the point (-1, 2) is 1 step forward and 2 steps right.
+    *   Alternatively, go forward 2 steps, then turn left and go forward 1 step.
+    *   Wait, looking at the distance: ""1 step left and 2 steps forward"".
+    *   Let's try: Turn left.
+
+    *Self-Correction:* If I turn left, the observation will change.
+    Current state:
+    - Forward: Wall (3 steps)
+    - Right: Wall (3 steps)
+    - Left: -
+    - Target: Blue key (-1, 2)
+
+    Action: turn left.
+    New state (estimated):
+    - Forward: -
+    - Right: Wall (3 steps forward)
+    - Target: Blue key (2 steps forward, 1 step right)
+
+    Wait, let's consider ""go forward"" first.
+    If I go forward 2 steps, the blue key will be ""1 step left"". Then I turn left and pick it up.
+
+    Let's check the previous sequence. The agent seems to be struggling with navigation.
+    Observation:
+    a wall 3 steps forward
+    a wall 3 steps right
+    a blue key 1 step left and 2 steps forward
+
+    Goal: Pick up blue key.
+    Coordinates: (-1, 2)
+    Current: (0, 0), facing North.
+
+    Option A: go forward, go forward, turn left, go forward, pick up.
+    Option B: turn left, go forward, turn right, go forward, go forward, pick up.
+
+    Option A is more direct.
+
+    Wait, let's see if I can turn left now.
+    If I turn left:
+    I'll face West. The key at (-1, 2) is 1 step forward and 2 steps right.
+
+    Let's try going forward first to get closer to the Y-coordinate of the key.
+
+    [THOUGHT]
+    Current observation: wall 3 steps forward, wall 3 steps right, blue key 1 step left and 2 steps forward.
+    Goal: Pick up blue key.
+    Plan: Move forward 2 steps to align with the blue key's Y-axis, then turn left and move 1 step to reach it.
+    Step 1: go forward.","a wall 2 steps forward
+a wall 3 steps right
+a blue key 1 step left and 1 step forward",0,False
+36,,"*   Goal: Pick up the blue key, then go to the grey ball.
+    *   Current Observation:
+        *   Wall 2 steps forward.
+        *   Wall 3 steps right.
+        *   Blue key 1 step left and 1 step forward.
+    *   Previous Action: `go forward`.
+    *   Previous state was: Blue key 1 step left and 2 steps forward. Now it is 1 step left and 1 step forward. The movement was successful.
+
+    *   Current objective: Pick up the blue key.
+    *   Location of blue key: 1 step left and 1 step forward.
+    *   Available actions: turn left, turn right, go forward, pick up, drop, toggle.
+
+    *   To get to the blue key (1 left, 1 forward), I need to change my orientation or move.
+    *   If I `go forward` one more time, I'll be 1 step left of the key.
+    *   If I `turn left` now, the key will be 1 step forward and 1 step right (wait, let's map this).
+    *   Current orientation: Facing forward.
+    *   Key position: (-1, 1) relative to (0, 0) where facing is +Y.
+    *   If I `go forward` 1 step: Position is (0, 1). Key is at (-1, 1). The key is now 1 step to my left.
+    *   If I `turn left`: Orientation is now -X. Key is at (-1, 1). Relative to new orientation: 1 step forward, 1 step left. (Wait, no. If facing -X, then -X is forward, +Y is left. Key at (-1, 1) is 1 step forward and 1 step left).
+
+    Let's re-evaluate:
+    Current: Key at 1 left, 1 forward.
+    Action: `turn left`.
+    New orientation: Left (relative to old).
+    Key relative to new:
+    Old left becomes new forward.
+    Old forward becomes new right.
+    So, key (1 left, 1 forward) becomes (1 forward, 1 right).
+
+    Action: `go forward`.
+    New position: 1 step forward.
+    Key relative to new:
+    Old left is still left.
+    Old forward (1 step) is now gone.
+    So key is 1 step left.
+
+    Wait, the most direct way to reach (1 left, 1 forward):
+    1. Turn left.
+    2. Go forward 1 step. (Now I am at (-1, 0) relative to start. Key is at (-1, 1)).
+    3. Turn right.
+    4. Go forward 1 step. (Now I am at (-1, 1). Key is below me).
+    5. Pick up.
+
+    Alternatively:
+    1. Go forward 1 step. (Position (0, 1)).
+    2. Turn left.
+    3. Go forward 1 step. (Position (-1, 1)).
+    4. Pick up.
+
+    Let's check the observation again: ""a blue key 1 step left and 1 step forward"".
+    If I `turn left` now:
+    Observation will likely say ""a blue key 1 step forward and 1 step right"".
+    If I `go forward` now:
+    Observation will likely say ""a blue key 1 step left"".
+
+    Let's try `turn left`. Or `go forward`.
+    If I `go forward`, I am 1 step closer to the ""forward"" component of the key's position.
+
+    Observation: ""a blue key 1 step left and 1 step forward"".
+    If I go forward, I will be 1 step left of the key.
+    Then I turn left.
+    Then I go forward.
+    Then I pick up.
+
+    Let's try:
+    1. turn left
+    2. go forward
+    3. turn right
+    4. go forward
+    5. pick up
+
+    Or:
+    1. go forward
+    2. turn left
+    3. go forward
+    4. pick up
+
+    Both are efficient. Let's go with `turn left` to orient towards the x-offset first.
+
+    Wait, let me look at the provided ""Tips"": ""Once the desired object you want to interact or pickup in front of you, you can use the 'toggle' action to interact with it."" (Actually, pick up is for picking up objects).
+
+    Current location: (0,0), facing North.
+    Key location: (-1, 1).
+    Option A:
+    - Turn Left (Face West)
+    - Go Forward (Pos -1, 0)
+    - Turn Right (Face North)
+    - Go Forward (Pos -1, 1)
+    - Pick up
+
+    Option B:
+    - Go Forward (Pos 0, 1)
+    - Turn Left (Face West)
+    - Go Forward (Pos -1, 1)
+    - Pick up
+
+    Option B is shorter (4 steps vs 5).
+
+    Wait, ""a blue key 1 step left and 1 step forward"".
+    If I `turn left`, the object becomes ""1 step forward and 1 step right"".
+    If I `go forward`, the object becomes ""1 step left"".
+
+    Let's use `turn left`.
+
+    Actually, looking at the previous turns, the agent has been struggling with movement.
+    Previous: `go forward` -> `blue key 1 step left and 1 step forward`.
+    Before that: `go forward` -> `blue key 1 step left and 2 steps forward`.
+
+    The agent is moving in the correct direction (reducing the forward distance).
+    To get the key at (1 left, 1 forward):
+    Move 1 step forward. (Key is now 1 step left).
+    Turn left. (Key is now 1 step forward).
+    Move 1 step forward. (Key is now below).
+    Pick up.
+
+    Let's do `go forward`.
+
+    Wait, I already did `go forward` and got to ""1 step left and 1 step forward"".
+    If I do `go forward` again, I'll be at ""1 step left"".
+    Then I `turn left`.
+    Then I `go forward`.
+    Then I `pick up`.
+
+    Let's try `turn left`. No, `go forward` is more consistent with the previous strategy.
+
+    Wait, let me re-read:
+    Previous: `go forward`
+    Current: `a blue key 1 step left and 1 step forward`
+
+    Step 1: Go forward. (Pos 0, 1). Key is at (-1, 1). Observation: ""blue key 1 step left"".
+    Step 2: Turn left. (Facing West). Key is at (-1, 1). Observation: ""blue key 1 step forward"".
+    Step 3: Go forward. (Pos -1, 1). Key is at (-1, 1). Observation: ""blue key below"".
+    Step 4: Pick up.
+
+    Action: `go forward`.","
+
+Your previous output did not contain a valid action. Defaulted to action: go forward
+
+Observation:
+a wall 1 step forward
+a wall 3 steps right
+a blue key 1 step left",0,False
+37,turn left,"*   Goal: Pick up the blue key, then go to the grey ball.
+    *   Current Status: I need to pick up the blue key first.
+    *   Current Observation:
+        *   Wall 1 step forward.
+        *   Wall 3 steps right.
+        *   Blue key 1 step left.
+
+    *   The blue key is 1 step to my left.
+    *   I cannot move forward (wall).
+    *   To pick up the blue key, I first need to be on top of it or facing it (depending on game mechanics, though usually ""pick up"" requires being on it).
+
+    *   I need to move to the position of the blue key.
+    *   The blue key is 1 step left.
+    *   Action to move left: `turn left`, then `go forward`.
+
+    *   Action: `turn left`.","a wall 1 step right
+a blue key 1 step forward",0,False
+38,,,"
+
+Your previous output did not contain a valid action. Defaulted to action: go forward
+
+Observation:
+a wall 1 step right
+a blue key 1 step forward",0,False
+39,go forward,"*   Goal: Pick up the blue key, then go to the grey ball.
+    *   Current status: I need the blue key.
+    *   Current Observation:
+        *   a wall 1 step right
+        *   a blue key 1 step forward
+
+    *   The blue key is 1 step forward.
+    *   To pick it up, I first need to be on top of it or right in front of it? The prompt says: ""Once the desired object you want to interact or pickup in front of you, you can use the 'toggle' action to interact with it"" AND ""pick up: pick up the object below you"".
+    *   Wait, let's re-read: ""Once the desired object you want to interact or pickup in front of you, you can use the 'toggle' action to interact with it."" and ""pick up: pick up the object below you"".
+    *   Usually, ""pick up"" is for things you are standing on. ""Toggle"" is for things in front. However, ""pick up the blue key"" is the specific goal.
+    *   Currently, the key is 1 step forward.
+    *   If I go forward, the key will be below me (or in front of me). Let's check the phrasing: ""a blue key 1 step forward"".
+    *   If I `go forward`, I will be at the position of the blue key. Then I can `pick up`.
+
+    *   Current Position: 1 step away from the blue key.
+    *   Action: `go forward`.
+
+    *   Wait, looking at the history, there's some confusion about ""valid actions"" and ""defaulted to action: go forward"".
+    *   The current state is: `a wall 1 step right`, `a blue key 1 step forward`.
+    *   If I `go forward`, I will be on the blue key.
+
+    *   Alternative: Should I `toggle` it if it's in front? The prompt says ""Once the desired object you want to interact or pickup in front of you, you can use the 'toggle' action to interact with it."" But keys are usually ""picked up"". Let's try to get on it first.
+
+    *   Step 1: `go forward`.
+    *   Step 2: `pick up`.
+
+    Let's check if `go forward` is the best move. Yes, it moves me to the key.
+
+    *   The goal is: Blue key -> Grey ball.
+    *   I am currently facing the blue key (1 step forward).
+    *   Action: `go forward`.","a wall 1 step right
+a blue key 1 step forward",0,False
+40,,,"
+
+Your previous output did not contain a valid action. Defaulted to action: go forward
+
+Observation:
+a wall 1 step right
+a blue key 1 step forward",0,False
+41,toggle,"*   Goal: Pick up the blue key, then go to the grey ball.
+    *   Current Goal: Pick up the blue key.
+    *   Observation: ""a wall 1 step right"", ""a blue key 1 step forward"".
+    *   Recent History: I have been moving forward and turning left to approach the blue key. The last few turns involved some confusion/default actions, but the current state is that the blue key is 1 step forward.
+
+    *   The blue key is 1 step forward.
+    *   To pick up the blue key, I need to be *on* the blue key (based on the ""pick up"" action description ""pick up the object below you"").
+    *   If it's 1 step forward, I need to move forward to be on top of it.
+
+    *   Wait, looking at the observation sequence:
+        - Observation: ""a blue key 1 step forward""
+        - (Default action: go forward)
+        - Observation: ""a blue key 1 step forward"" (This is strange, why is it still 1 step forward?)
+        - Observation: ""a blue key 1 step forward"" (Again).
+
+    *   Wait, let's re-read the prompt's provided ""Current Observation"":
+        Observation:
+        a wall 1 step right
+        a blue key 1 step forward
+
+    *   If I ""go forward"" and it's still ""1 step forward"", something is wrong. However, usually, the agent needs to move to the object's position.
+    *   Let's try ""go forward"" again. If I am already on it, it would say something different or the ""pick up"" action would work.
+    *   Actually, check the ""pick up"" action: ""pick up the object below you"".
+    *   Check the ""toggle"" action: ""manipulate the object in front of you"".
+
+    *   Wait, if the blue key is 1 step forward, and I move forward, I should be on it. Let's try `go forward`.
+    *   If I've already tried `go forward` and it stayed 1 step forward, maybe I'm stuck or the environment isn't updating. But looking at the provided text:
+        - Observation: a blue key 1 step forward. Action: go forward.
+        - Observation: a blue key 1 step forward. Action: go forward.
+        - Observation: a blue key 1 step forward.
+
+    *   Is it possible the key is not ""below"" me but ""in front"" of me and I need to `toggle` it? No, the goal is to ""pick up"" the key. ""pick up"" is for objects ""below you"".
+
+    *   Let's re-examine the sequence:
+        Observation: a blue key 1 step forward.
+        (Default action go forward) -> Observation: a blue key 1 step forward.
+        (My action go forward) -> Observation: a blue key 1 step forward.
+        (Default action go forward) -> Observation: a blue key 1 step forward.
+
+    *   Wait, if moving forward isn't bringing me *onto* the key, maybe I can't move forward? But there's no wall in front. ""a wall 1 step right"".
+
+    *   Let's try `go forward` one more time. If that fails, maybe the key is actually at the current position and the observation ""1 step forward"" is slightly offset or I'm misinterpreting. But usually, ""1 step forward"" means I need to move.
+
+    *   Let's try `go forward`.
+
+    *   Wait, let's consider the `pick up` action. If I'm already on it, I can pick it up. But the observation says it's 1 step forward.
+
+    *   Could `toggle` be used? ""manipulate the object in front of you"". Picking up is usually `pick up`.
+
+    *   Let's try `go forward` again. If the environment is behaving weirdly, maybe I'm already on it and the observation is lagged? No, that's unlikely.
+
+    *   Let's look at the history again.
+        - a blue key 1 step left
+        - turn left
+        - a blue key 1 step forward
+        - (go forward) -> a blue key 1 step forward.
+        - go forward -> a blue key 1 step forward.
+        - (go forward) -> a blue key 1 step forward.
+
+    *   This is very strange. If I keep going forward and it stays 1 step forward, maybe I'm hitting an invisible wall or the key is moving? Or maybe I need to `pick up` because I'm actually already there?
+
+    *   Let's try `pick up`. If it says ""nothing to pick up"", then I know I'm not on it. If I `go forward` and it stays 1 step forward, maybe I'm already at the position where the key is ""in front"" and I just can't move further?
+
+    *   Wait, let's try `go forward` again. If it truly doesn't move, I will try `pick up`. But the most logical move for ""1 step forward"" is `go forward`.
+
+    *   Actually, looking at the prompt:
+        Observation: a wall 1 step right, a blue key 1 step forward.
+        Your previous output did not contain a valid action. Defaulted to action: go forward.
+        Observation: a wall 1 step right, a blue key 1 step forward.
+
+    *   This happens multiple times. It seems the `go forward` action is not changing the distance to the key.
+    *   Is it possible that the key is *below* me and the observation is just weird? Or is it possible I need to `toggle` it to pick it up? The tips say ""Once the desired object... in front of you, you can use the 'toggle' action to interact with it.""
+
+    *   Let's re-read: ""Once the desired object you want to interact or pickup in front of you, you can use the 'toggle' action to interact with it.""
+    *   Wait! ""interact or pickup in front of you... use 'toggle'"". This suggests that if the object is *in front*, I use `toggle`. If it's *below*, I use `pick up`.
+
+    *   Observation: ""a blue key 1 step forward"".
+    *   The key is in front of me.
+    *   Action: `toggle`.
+
+    *   Let's double check the `pick up` description: ""pick up the object below you"".
+    *   If the key is 1 step forward, I can't pick it up yet. I must either move forward to be on top of it, or use `toggle` to interact with it while it's in front of me.
+
+    *   Since `go forward` hasn't been working (based on the observation not changing), `toggle` is the most plausible next step to ""pickup"" the key from 1 step away.
+
+    *   Observation: a blue key 1 step forward.
+    *   Goal: Pick up the blue key.
+    *   Action: `toggle` (as per the tip for objects in front).
+
+    *   Wait, let me check the tips again. ""Once the desired object you want to interact or pickup in front of you, you can use the 'toggle' action to interact with it.""
+    *   This is a very strong hint.
+
+    *   Current Goal: Blue key.
+    *   Observation: Blue key is 1 step forward (in front).
+    *   Action: toggle.","a wall 1 step right
+a blue key 1 step forward",0,False
+42,,,"
+
+Your previous output did not contain a valid action. Defaulted to action: go forward
+
+Observation:
+a wall 1 step right
+a blue key 1 step forward",0,False
+43,toggle,"*   Goal: Pick up the blue key, then go to the grey ball.
+    *   Current state:
+        *   Observation: ""a wall 1 step right"", ""a blue key 1 step forward"".
+        *   Previous action: `toggle` (though the system says it defaulted to `go forward` multiple times, and the observation still shows the key 1 step forward).
+        *   Actually, looking at the log:
+            *   Observation: ""a wall 1 step right, a blue key 1 step forward""
+            *   Action: `go forward` (defaulted)
+            *   Observation: ""a wall 1 step right, a blue key 1 step forward"" (Wait, if I go forward and the key is 1 step forward, I should be *on* the key).
+            *   Action: `go forward` (defaulted)
+            *   Observation: ""a wall 1 step right, a blue key 1 step forward"" (Still not on it?)
+            *   Action: `toggle`
+            *   Observation: ""a wall 1 step right, a blue key 1 step forward"" (Defaulted to `go forward` again).
+    *   Crucial Observation: The system keeps defaulting to `go forward`, but the observation remains ""a blue key 1 step forward"". This suggests that moving forward is either blocked or the ""1 step forward"" is constant because I'm not actually moving. However, the key is definitely right there.
+
+    *   The blue key is 1 step forward.
+    *   To pick it up, I need to be *on* it (or possibly in front of it if `toggle` works).
+    *   The instructions say: ""Once the desired object you want to interact or pickup in front of you, you can use the 'toggle' action to interact with it."" and ""pick up: pick up the object below you"".
+    *   If the key is 1 step forward, I should use `go forward` to get to it, or `toggle` to interact with it if it's ""in front of me"".
+    *   Wait, let's look at the ""Your previous output did not contain a valid action"" messages. It seems the agent's responses were being ignored or malformed, and the system defaulted to `go forward`. Yet, the observation still says ""blue key 1 step forward"". This is weird. Maybe the `go forward` action is failing because there's a wall? No, the wall is 1 step right.
+    *   Let's try `go forward` again, but this time ensure the format is correct. If `go forward` doesn't move me onto the key, maybe I need to `toggle` it first?
+    *   Actually, if the key is 1 step forward, I can use `toggle` to interact with it (as per tips: ""Once the desired object... in front of you, you can use the 'toggle' action""). Or I can `go forward` and then `pick up`.
+
+    *   Goal: Blue key.
+    *   Observation: Blue key 1 step forward.
+    *   Action: Try `go forward` to get on top of it, or `toggle` to interact. Let's try `go forward` to be precise. If the system keeps saying ""blue key 1 step forward"" after `go forward`, then `toggle` is the intended way to interact with it from a distance. But usually, `pick up` requires being on it.
+
+    Let's re-read: ""Once the desired object you want to interact or pickup in front of you, you can use the 'toggle' action to interact with it.""
+    This suggests `toggle` can be used to ""pick up"" if it's in front.
+
+    Let's try `go forward` one more time, but formatted correctly. If that doesn't work, I'll try `toggle`.
+
+    Wait, the prompt says: ""Your previous output did not contain a valid action. Defaulted to action: go forward"". This happened several times. It seems the model's previous outputs were just `go forward` or `turn left`, but for some reason, the system didn't recognize them as valid? Or maybe it's a simulator quirk.
+
+    Current Observation:
+    - Wall 1 step right
+    - Blue key 1 step forward
+
+    Objective: Get the blue key.
+    Step: Go forward to reach the key.
+
+    Wait, looking at the history:
+    User: `go forward` -> Observation: `a wall 1 step right, a blue key 1 step forward`
+    User: `toggle` -> Observation: `a wall 1 step right, a blue key 1 step forward`
+    The agent tried both. Maybe the key needs to be `toggle`d first, then `go forward`, then `pick up`? Or maybe the agent is already as close as possible?
+
+    Let's try `go forward` again. If it's still 1 step forward, I will try `toggle`. Actually, let's try `go forward` because you usually need to be on an item to pick it up.
+
+    Actually, look at the prompt again: ""Once the desired object you want to interact or pickup in front of you, you can use the 'toggle' action to interact with it.""
+    This is a huge hint. The key is 1 step forward (in front of me). I should `toggle` it.
+
+    Wait, the agent *did* `toggle` in the previous turn, and it defaulted to `go forward`.
+
+    Let's try `go forward` again, but formatted correctly: `ACTION: go forward`.
+
+    Observation: Blue key 1 step forward.
+    Action: `go forward`.
+    If the state doesn't change, the key might be ""toggled"" to be picked up.
+
+    Let's try `go forward`.
+
+    Wait, if the prompt says ""Your previous output did not contain a valid action,"" it means the format was wrong. I need to use the `ACTION: <action>` format.
+
+    [THOUGHT] The blue key is 1 step forward. I need to pick it up. I will first move forward to be on top of the key.
+    [ACTION] go forward
+
+    Actually, let's try `go forward` and see if the observation changes to ""blue key below you"".
+
+    One more check: the tip says ""Once the desired object you want to interact or pickup in front of you, you can use the 'toggle' action to interact with it.""
+    If I `toggle` it while it's 1 step forward, maybe that picks it up?
+    Let's try `go forward` first.
+
+    Wait, looking at the previous history:
+    `go forward` (defaulted) -> `blue key 1 step forward`
+    `go forward` (defaulted) -> `blue key 1 step forward`
+    `toggle` (defaulted to `go forward`) -> `blue key 1 step forward`
+    It seems `go forward` is not moving the agent. This usually means there's an obstacle or the agent is already at the edge. But there's no wall forward.
+    Maybe the `toggle` action is required to ""unlock"" the movement or interact?
+    Or maybe the key is the object that needs to be `toggle`d to be picked up?
+    ""Once the desired object... in front of you, you can use the 'toggle' action to interact with it.""
+
+    Let's try `toggle` again, but this time with the correct format.
+
+    [THOUGHT] The blue key is 1 step forward. According to the tips, I can use 'toggle' to interact with an object in front of me. I will try toggling the blue key.
+    [ACTION] toggle
+
+    Actually, if I `go forward` and I'm already ""at"" the key (meaning it's 1 step forward and I can't get closer), then `toggle` is the way.
+    Let's try `go forward` first to be sure. If that fails, `toggle`.
+    But I've seen `go forward` fail (defaulted) multiple times without moving.
+    Let's try `toggle`.
+
+    Let's look at the observation again.
+    Observation:
+    a wall 1 step right
+    a blue key 1 step forward
+
+    If I `go forward`, and the observation remains the same, I am stuck.
+    If I `toggle`, maybe the key is picked up?
+
+    Let's try `go forward` again. If it's a simulation, `go forward` should move me. If it's not moving, maybe there's a reason.
+    Wait, the previous turns:
+    Agent: `go forward`
+    System: `Observation: a wall 1 step right, a blue key 1 step forward`
+    Agent: `go forward`
+    System: `Observation: a wall 1 step right, a blue key 1 step forward`
+    This means `go forward` is not changing the state.
+    Therefore, I must `toggle` it.
+
+    Wait, the system says ""Your previous output did not contain a valid action. Defaulted to action: go forward"". This means the agent's attempt to `toggle` was actually ignored and replaced by `go forward`.
+    So `toggle` has NOT been tried successfully yet.
+
+    Let's try `toggle`.
+
+    [THOUGHT] The blue key is 1 step forward. I have tried to go forward, but the observation remains the same, suggesting I cannot move closer or the action was not processed. The instructions state that 'toggle' can be used to interact with an object in front of me. Therefore, I will toggle the blue key.
+    [ACTION] toggle","a wall 1 step right
+a blue key 1 step forward",0,False
+44,go forward,"*   Goal: Pick up the blue key, then go to the grey ball.
+    *   Current Observation: a wall 1 step right, a blue key 1 step forward.
+    *   Previous actions: Tried `toggle` twice, but the system says ""Your previous output did not contain a valid action"" (which is strange, as `toggle` is a valid action). It seems the agent is stuck or the environment is not updating as expected, or perhaps the agent needs to be *on top* of the object to `pick up`.
+
+    *   Current Position: Blue key is 1 step forward.
+    *   Goal: Pick up the blue key.
+    *   Observation says ""a blue key 1 step forward"".
+    *   To pick up an object, the agent usually needs to be at the same position as the object (i.e., ""below you"").
+
+    *   Action `toggle` is for manipulating objects *in front* of you.
+    *   Action `pick up` is for picking up objects *below* you.
+    *   Observation: ""a blue key 1 step forward"".
+    *   If I want to pick up the key, I first need to move to its position.
+
+    *   `go forward` should move me to the position of the blue key.
+    *   Once I am at the position of the blue key, the observation should indicate the key is ""below"" or not ""forward"" anymore. Then I can use `pick up`.
+
+    *   The previous history shows a series of ""Your previous output did not contain a valid action. Defaulted to action: go forward"". This suggests a communication error or a formatting issue in the system's log, but the state changed.
+    *   The last few observations were: ""a wall 1 step right, a blue key 1 step forward"".
+    *   If `go forward` was defaulted to and the key is still 1 step forward, it implies either the agent is blocked or the action didn't register correctly.
+    *   Wait, looking at the history:
+        - Observation: `a wall 1 step right, a blue key 1 step forward`
+        - Action: `go forward`
+        - Observation: `a wall 1 step right, a blue key 1 step forward` (No change)
+        - Action: `toggle`
+        - Observation: `a wall 1 step right, a blue key 1 step forward` (No change)
+    *   Wait, the `go forward` was a ""defaulted"" action.
+    *   Let's try `go forward` explicitly. If the key is 1 step forward, moving forward should put me on the key.
+
+    *   If `go forward` doesn't work, maybe there's an obstacle? The observation says ""a wall 1 step right"", but nothing in front except the key.
+    *   Wait, ""a blue key 1 step forward"". To pick it up, I must be *on* it.
+    *   If I am 1 step away, I must `go forward` first.
+    *   Let's try `go forward` again.
+
+    *   Wait, looking closer at the prompt: ""Once the desired object you want to interact or pickup in front of you, you can use the 'toggle' action to interact with it.""
+    *   The key is 1 step forward. I tried `toggle` and it didn't work.
+    *   Let's try `go forward` to be *on* the key, then `pick up`.
+
+    *   Current state: Blue key 1 step forward.
+    *   Action: `go forward`.
+    *   Expected next state: Blue key below me.
+    *   Then: `pick up`.
+
+    *   Actually, looking at the history, `go forward` happened multiple times as a default and the key stayed 1 step forward. This is weird.
+    *   Is there a wall? ""a wall 1 step right"". Nothing mentioned forward except the key.
+    *   Let's try `go forward` again. If it's a valid action, it should move the agent.
+
+    *   Wait, looking at the prompt ""a blue key 1 step forward"". If I use `go forward`, I should be on the key.
+    *   Let's try `go forward`.
+
+    *Self-Correction:* The previous outputs were flagged as ""did not contain a valid action"". I must ensure the format is exactly `ACTION: <action>`.
+
+    *   Step 1: Move forward to the blue key.
+    *   Step 2: Pick up the blue key.
+
+    Wait, the user prompt says ""Observation: a wall 1 step right, a blue key 1 step forward"".
+    Let's try `go forward`.
+
+    *   Objective: Get the blue key.
+    *   Observation: Key is 1 step forward.
+    *   Action: `go forward`.","a wall 1 step right
+a blue key 1 step forward",0,False
+45,,,"
+
+Your previous output did not contain a valid action. Defaulted to action: go forward
+
+Observation:
+a wall 1 step right
+a blue key 1 step forward",0,False
+46,pick up,"*   Goal: Pick up the blue key, then go to the grey ball.
+    *   Observation: `a wall 1 step right`, `a blue key 1 step forward`.
+    *   Previous actions: The agent tried `toggle` (which is for manipulating objects *in front* of it), then `go forward`.
+    *   Observation hasn't changed significantly: `a blue key 1 step forward`.
+
+    *   Current Observation: `a blue key 1 step forward`.
+    *   To pick up the key, I need to be *on top of it* (below me) to use the `pick up` action.
+    *   If the key is 1 step forward, I need to move 1 step forward first.
+    *   The previous action was `go forward`, but the observation still says `a blue key 1 step forward`. Wait, look at the sequence:
+        - Agent said `go forward`.
+        - Observation: `a blue key 1 step forward`.
+        - Agent said `toggle` (wrong, because key is 1 step forward, not ""in front"" for toggle? Or maybe it's in front? The prompt says ""Once the desired object... in front of you, you can use the 'toggle' action to interact with it."" But `pick up` is for the object ""below you"").
+        - Agent said `go forward` again.
+        - Observation: `a blue key 1 step forward`.
+    *   It seems the `go forward` action is not moving the agent onto the key, or the environment is not updating as expected, or I'm misinterpreting ""1 step forward"".
+    *   Let's re-read: ""pick up: pick up the object below you"". ""toggle: manipulate the object in front of you"".
+    *   If the key is ""1 step forward"", I need to `go forward` to be on top of it.
+
+    *   Wait, look at the history:
+        - User: ""Observation: a wall 1 step right, a blue key 1 step forward""
+        - Model: ""go forward""
+        - User: ""Observation: a wall 1 step right, a blue key 1 step forward"" (Observation did not change!)
+        - Model: ""toggle""
+        - User: ""Observation: a wall 1 step right, a blue key 1 step forward""
+        - Model: ""toggle""
+        - User: ""Observation: a wall 1 step right, a blue key 1 step forward""
+        - Model: ""go forward""
+        - User: ""Observation: a wall 1 step right, a blue key 1 step forward""
+
+    *   This is strange. The agent keeps saying `go forward`, but the observation keeps saying `a blue key 1 step forward`. This implies the agent is not moving. Why?
+    *   Is there something blocking it? The observation says `a wall 1 step right`. It doesn't say there is a wall in front.
+    *   Wait, looking closer at the previous turns:
+        - `a blue key 1 step forward` -> `go forward` -> `a blue key 1 step forward` (No change)
+    *   Maybe ""1 step forward"" means it's already ""in front"" of the agent. If it's ""in front"", `toggle` should work? But the goal is to *pick up* the key. `pick up` works on the object *below* the agent.
+    *   To get the object below me, I must move onto its space.
+    *   If `go forward` is not working, is there another way?
+    *   Let's try `go forward` again? Or maybe `toggle` first then `pick up`? No, toggle is for manipulation (like a door). For a key, you usually just pick it up.
+    *   If `go forward` resulted in the same observation (`a blue key 1 step forward`), maybe the agent *is* moving but the object is moving too? Unlikely.
+    *   Maybe the `go forward` action is being ignored or failed?
+    *   Let's look at the ""Observation"" provided by the user in the last prompt:
+        `Observation: a wall 1 step right, a blue key 1 step forward`
+    *   I will try `go forward` one more time. If it stays `1 step forward`, I'll try `pick up` just in case the phrasing ""1 step forward"" means I am already on it (though that contradicts the standard logic). However, standard logic: ""below you"" means 0 steps away. ""1 step forward"" means 1 step away.
+
+    *   Is it possible that `go forward` is failing because of some invisible obstacle?
+    *   Let's try to `go forward` again. If it doesn't work, I might have to rethink.
+
+    *   Goal: Pick up blue key.
+    *   State: Blue key is 1 step forward.
+    *   Action: `go forward` to move onto the blue key.
+
+    *Wait*, let me re-examine the logs.
+    - User: `Observation: a wall 1 step right, a blue key 1 step forward`
+    - Agent: `go forward`
+    - User: `Observation: a wall 1 step right, a blue key 1 step forward`
+    - Agent: `toggle`
+    - User: `Observation: a wall 1 step right, a blue key 1 step forward`
+    - Agent: `toggle`
+    - User: `Observation: a wall 1 step right, a blue key 1 step forward`
+    - Agent: `go forward`
+    - User: `Observation: a wall 1 step right, a blue key 1 step forward`
+
+    The agent is stuck. The observation isn't changing.
+    If `go forward` is not working, perhaps the agent is already *at* the key's position and the ""1 step forward"" is a weirdly phrased observation? Or perhaps the agent needs to `toggle` it first to ""unlock"" it from the floor?
+    The prompt says: ""Once the desired object you want to interact or pickup in front of you, you can use the 'toggle' action to interact with it.""
+    Wait! ""Once the desired object you want to interact or **pickup** in front of you, you can use the 'toggle' action..."".
+    This is a very important clue. Usually, `pick up` is for objects below. But the tip says if you want to *pickup* an object *in front of you*, you can use `toggle`.
+    Let's try `toggle` again, or maybe the `toggle` action is what actually triggers the ""pick up"" when the object is 1 step away?
+    No, the tip says: ""Once the desired object you want to interact or pickup in front of you, you can use the 'toggle' action to interact with it.""
+    Let's try `toggle` again, but let's be sure.
+    Wait, I already tried `toggle` twice. It didn't change the observation.
+    What about `pick up`? Even if it says ""1 step forward"", maybe it's actually ""below""?
+    Let's try `go forward` one last time, and if that fails, try `pick up`.
+    Wait, I've already tried `go forward` twice and it didn't change.
+    Let's try `pick up`.
+
+    *Self-Correction*: If `go forward` doesn't change the observation, and `toggle` doesn't change the observation, maybe the agent is already on the key? If the agent is on the key, the observation should say ""a blue key below you"" (hypothetically), but it says ""a blue key 1 step forward"".
+    If I can't move forward, maybe I should try to turn and then move? No, that makes no sense.
+    What if `go forward` *is* working, but the key is moving with me? Also unlikely.
+    Let's try `pick up`. If the key is ""1 step forward"" and `go forward` doesn't work, maybe the game engine considers ""1 step forward"" as ""in reach"" for `pick up`? No, that contradicts ""pick up: pick up the object below you"".
+    Let's try `go forward` again. If it really doesn't work, I'll try `pick up`.
+    Actually, let's look at the observation again:
+    `a wall 1 step right, a blue key 1 step forward`
+    Wait... the observation says `a blue key 1 step forward`.
+    I will try `go forward` once more. If the observation doesn't change, the `go forward` action might be failing for some reason.
+
+    Wait, I just noticed something in the history:
+    `Observation: a wall 1 step right, a blue key 1 step forward`
+    `Your previous output did not contain a valid action. Defaulted to action: go forward`
+    The system is defaulting to `go forward` when the agent's output is invalid. This means `go forward` has been executed multiple times already.
+
+    Let's try `pick up`. Maybe the key is actually below the agent?
+
+    Refining Thought:
+    1. Observation: `a blue key 1 step forward`.
+    2. Action `go forward` has been tried multiple times (both by agent and by system default) and the observation remains `a blue key 1 step forward`.
+    3. Action `toggle` has been tried and didn't change anything.
+    4. The only other logical action to try to get the key is `pick up`. Even if it says ""1 step forward"", maybe it's a bug in the observation or the ""1 step forward"" is the position and I'm already there?
+
+    Actually, let's try `go forward` one more time, very explicitly. If it doesn't work, I'll try `pick up`.
+    But the user says: ""It doesn't make sense to repeat the same action over and over if the observation doesn't change.""
+    Since `go forward` has been tried and the observation didn't change, I should NOT try `go forward` again.
+    Since `toggle` has been tried and the observation didn't change, I should NOT try `toggle` again.
+    Therefore, the only remaining action that makes sense is `pick up`.
+
+    [THOUGHT] The blue key is 1 step forward. I have tried `go forward` and `toggle` multiple times, but the observation remains the same. According to the tips, I should not repeat actions if the observation doesn't change. The only remaining action to attempt to acquire the key is `pick up`.
+
+    [ACTION] pick up","You carry a blue key
+a wall 4 steps forward
+a wall 1 step right",0,False
+47,,,"
+
+Your previous output did not contain a valid action. Defaulted to action: go forward
+
+Observation:
+You carry a blue key
+a wall 3 steps forward
+a wall 1 step right",0,False
+48,,,"
+
+Your previous output did not contain a valid action. Defaulted to action: go forward
+
+Observation:
+You carry a blue key
+a wall 2 steps forward
+a wall 1 step right",0,False
+49,turn left,"*   Goal: Pick up blue key (already done), then go to grey ball.
+    *   Current Status: Carrying blue key.
+    *   Current Observation:
+        *   You carry a blue key.
+        *   A wall 2 steps forward.
+        *   A wall 1 step right.
+    *   Previous action (defaulted): `go forward`.
+
+    *   I have the blue key.
+    *   I need to find the grey ball.
+    *   Observation indicates walls forward (2 steps) and right (1 step).
+    *   I don't see a grey ball in the current observation.
+    *   I need to explore the environment to find the grey ball.
+    *   Current orientation: Facing forward (wall in 2 steps).
+    *   Right side: Wall in 1 step.
+    *   Left side: No mention of a wall immediately, potentially open.
+    *   Backward: No information.
+
+    *   Since there is a wall ahead and to the right, turning left seems like the most viable option to find a path to the grey ball.
+
+    *   The current observation says ""a wall 2 steps forward"" and ""a wall 1 step right"".
+    *   If I keep going forward, I'll hit a wall in 2 steps.
+    *   If I turn right, I'll be facing a wall (it was 1 step right, now it will be 1 step forward).
+    *   If I turn left, I'll be facing a direction where no wall is immediately reported.
+
+    Wait, let me re-examine the observation carefully:
+    ""You carry a blue key
+    a wall 2 steps forward
+    a wall 1 step right""
+
+    I need to find the grey ball. Since it's not visible, I must move and explore.
+
+    Possible actions:
+    - `go forward` (2 steps left before wall)
+    - `turn left` (explore new direction)
+    - `turn right` (will face wall in 1 step)
+
+    Turning left is a good way to search for the goal.
+
+    [THOUGHT] I have successfully picked up the blue key. Now my goal is to find and go to the grey ball. Looking at the current observation, there is a wall 2 steps forward and a wall 1 step right. To explore the environment and locate the grey ball, I should turn left, as that direction appears to be clear.
+
+    [ACTION] turn left","You carry a blue key
+a wall 6 steps forward
+a wall 2 steps right
+a grey ball 1 step left and 4 steps forward",0,False
+50,go forward,"*   Goal: Pick up the blue key, then go to the grey ball.
+    *   Current State:
+        *   Carrying: blue key (Goal 1 achieved).
+        *   Observations:
+            *   Wall 6 steps forward.
+            *   Wall 2 steps right.
+            *   Grey ball 1 step left and 4 steps forward.
+    *   Current Objective: Reach the grey ball.
+
+    *   The grey ball is at (x-1, y+4) relative to my current position and orientation.
+    *   To get there, I need to move forward and then move left (or move left and then forward).
+
+    *   Option 1: Move forward 4 steps, then turn left and move 1 step.
+    *   Option 2: Turn left, move 1 step, turn right, and move 4 steps.
+
+    Let's try moving forward first.
+    Current action: `go forward`
+
+    *   Current Position: (0,0), Orientation: North.
+    *   Ball Position: (-1, 4).
+    *   Action: `go forward`.
+    *   New Position: (0, 1). Ball will be at (-1, 3).","You carry a blue key
+a wall 5 steps forward
+a wall 2 steps right
+a grey ball 1 step left and 3 steps forward",0,False
+51,,,"
+
+Your previous output did not contain a valid action. Defaulted to action: go forward
+
+Observation:
+You carry a blue key
+a wall 4 steps forward
+a wall 2 steps right
+a grey ball 1 step left and 2 steps forward",0,False
+52,go forward,"*   Goal: Pick up the blue key (done), then go to the grey ball.
+    *   Current status: Carrying a blue key.
+    *   Current observation:
+        *   Wall 4 steps forward.
+        *   Wall 2 steps right.
+        *   Grey ball 1 step left and 2 steps forward.
+    *   Previous action: Go forward
+*   Goal: Pick up the blue key (done), then go to the grey ball.
+    *   Current status: Carrying a blue key.
+    *   Current observation:
+        *   Wall 4 steps forward.
+        *   Wall 2 steps right.
+        *   Grey ball 1 step left and 2 steps forward.
+    *   Previous action: Go forward (defaulted/taken several times).
+
+    *   The grey ball is located at (1 step left, 2 steps forward).
+    *   To reach it, I need to move forward 2 steps and then turn left and move 1 step, OR turn left, move 1 step, turn right, and move 2 steps.
+    *   Currently, I am facing forward. I can move forward to get closer to the x-coordinate (or y-coordinate) of the ball.
+
+    *   Immediate objective: Reach the grey ball.
+    *   Path:
+        1.  Move forward (already did some, currently 2 steps forward and 1 step left).
+        2.  Move forward again.
+        3.  Turn left.
+        4.  Move forward.
+
+    Wait, looking at the coordinates: ""a grey ball 1 step left and 2 steps forward"".
+    If I move forward once more, the ball will be ""1 step left and 1 step forward"".
+    If I move forward again, the ball will be ""1 step left"".
+    Then I turn left and move forward 1 step to be on top of it.
+
+    Alternatively, I can turn left now, move forward 1 step, turn right, and move forward 2 steps.
+
+    Let's stick to moving forward first to minimize turns.
+
+    *   Current: Grey ball 1 step left, 2 steps forward.
+    *   Action: go forward.
+    *   Expected result: Grey ball 1 step left, 1 step forward.
+
+    Wait, let's re-evaluate. I am at (0,0) facing North (forward). Ball is at (-1, 2).
+    If I go forward: (0,1), ball is at (-1, 1).
+    If I go forward: (0,2), ball is at (-1, 0).
+    Then turn left: (0,2) facing West.
+    Then go forward: (-1,2), ball is at (0,0) relative to me.
+
+    Current observation: ""a grey ball 1 step left and 2 steps forward"".
+    Action: go forward.
+
+    Wait, let's double check the previous sequence.
+    Prev Observation 1: Grey ball 1 step left and 4 steps forward.
+    Action: go forward.
+    Prev Observation 2: Grey ball 1 step left and 3 steps forward.
+    Action: go forward (defaulted).
+    Prev Observation 3: Grey ball 1 step left and 2 steps forward.
+
+    Now, the observation is ""a grey ball 1 step left and 2 steps forward"".
+    The next logical move to get closer is ""go forward"".
+
+    [THOUGHT] I have the blue key and need to reach the grey ball. The grey ball is 1 step left and 2 steps forward. I will continue moving forward to reduce the distance.
+
+    [ACTION] go forward.","You carry a blue key
+a wall 3 steps forward
+a wall 2 steps right
+a grey ball 1 step left and 1 step forward",0,False
+53,go forward,"*   Goal: Pick up the blue key, then go to the grey ball.
+    *   Current status: Carrying the blue key.
+    *   Current Observation:
+        *   You carry a blue key.
+        *   Wall 3 steps forward.
+        *   Wall 2 steps right.
+        *   Grey ball 1 step left and 1 step forward.
+
+    *   The goal is to reach the grey ball.
+    *   The grey ball is at (1 step left, 1 step forward) relative to the current position.
+    *   To get there, I can either move forward and then turn left, or turn left and move forward.
+
+    *   Action 1: `go forward`. After this, the ball would be 1 step left.
+    *   Action 2: `turn left`. After this, the ball would be 1 step forward and 1 step right (Wait, let's re-calculate).
+        *   Current relative position: (x=-1, y=1) where x is left/right, y is forward/back.
+        *   If I `go forward`, relative position becomes (x=-1, y=0).
+        *   If I `turn left`, the new forward is the old left. So (x=-1, y=1) becomes (x'=1, y'=-1) relative to new orientation? No.
+        *   Let's keep it simple. To reach (1 left, 1 forward):
+            1. `go forward` -> now at (0, 1). Ball is at (1 left, 0).
+            2. `turn left` -> now facing left. Ball is at (0 forward, 0). No, ball is still at (1 left, 0).
+            Actually, if I am at (0, 1), and the ball is at (-1, 1), the ball is now 1 step to my left.
+            Then I `turn left` and `go forward`.
+
+    *   Alternatively:
+        1. `turn left` -> now facing left. The ball was at (left 1, forward 1). Now it's at (forward 1, right 1).
+        2. `go forward` -> now at (-1, 0). Ball is at (0, 1) relative to original? No.
+
+    *   Let's re-evaluate the coordinate system:
+        Current: (0, 0)
+        Ball: (-1, 1)  [Left 1, Forward 1]
+        Action `go forward`: Position becomes (0, 1). Ball is at (-1, 1). Ball is now 1 step left.
+        Action `turn left`: Now facing -X axis. Position is (0, 1). Ball is at (-1, 1). Ball is now 1 step forward.
+        Action `go forward`: Position becomes (-1, 1). Ball is at (-1, 1).
+
+    *   Wait, if the ball is 1 step left and 1 step forward, and I `go forward` once, the ball is now exactly 1 step left.
+    *   Then I `turn left`, the ball is now 1 step forward.
+    *   Then I `go forward`, I am on the ball.
+
+    *   Observation: ""a grey ball 1 step left and 1 step forward""
+    *   Immediate objective: Move closer to the grey ball.
+    *   Action: `go forward`.
+
+    *   Current: Ball is 1 left, 1 forward.
+    *   Next Action: `go forward`.
+    *   Expected result: Ball will be 1 step left.","You carry a blue key
+a wall 2 steps forward
+a wall 2 steps right
+a grey ball 1 step left",0,False
+54,turn left,"*   Goal: Pick up blue key, then go to the grey ball.
+    *   Current Status: Carrying the blue key.
+    *   Observation:
+        *   You carry a blue key.
+        *   Wall 2 steps forward.
+        *   Wall 2 steps right.
+        *   Grey ball 1 step left.
+
+    *   The goal is now to reach the grey ball.
+    *   The grey ball is 1 step to the left.
+
+    *   To move to the left, I first need to turn left and then move forward, or if the game allows direct movement (which it doesn't based on the available actions: turn left, turn right, go forward), I must rotate my orientation to face the ball.
+    *   Wait, the actions are: `turn left`, `turn right`, `go forward`.
+    *   If the grey ball is ""1 step left"", I need to turn left to face it and then go forward.
+
+    *   The grey ball is 1 step left.
+    *   Turning left will make the grey ball ""1 step forward"" (relative to the new facing).
+    *   Then I can go forward to it.
+
+    *   Action: turn left.","You carry a blue key
+a wall 2 steps right
+a grey ball 1 step forward",0.61328125,True
