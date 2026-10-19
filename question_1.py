@@ -41,7 +41,7 @@ models = ["Qwen2.5-0.5B-Instruct", "Qwen2.5-1.5B-Instruct", "Qwen2.5-3B-Instruct
 out += "models & " + " & ".join(benchmarks) + r" \\" + "\n"
 out += r"\hline" + "\n"
 for model in models:
-    results = [str(round(matrix[model][bench.lower()][0], 2)) + "\pm" + str(round(matrix[model][bench.lower()][1], 2)) for bench in benchmarks]
+    results = ["$" + str(round(matrix[model][bench.lower()][0], 2)) + "\pm" + str(round(matrix[model][bench.lower()][1], 2)) + "$" for bench in benchmarks]
     out += model + " & " + " & ".join(results) + r" \\" + "\n"
 out += r"""\hline
 \end{tabular}%
